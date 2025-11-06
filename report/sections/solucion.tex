@@ -40,3 +40,7 @@ Cada tarea de observación contiene la información necesaria para llevar a cabo
 \end{itemize}
 
 Una vez recibida la tarea de observación, la estación programará su ejecución para que comience automáticamente al iniciar la ventana de contacto. Además reporta el estado de la tarea mediante la cola de mensajería.
+
+\subsubsection{Radio definida por software}
+
+La aplicación de la estación terrena se comunica directamente con el dispositivo SDR para configurar los parámetros operativos del enlace, principalmente las frecuencias de transmisión y recepción, el ancho de banda y la tasa de muestreo. Durante la recepción, el SDR entrega un flujo continuo de muestras crudas (IQ samples) que representan la señal capturada en el dominio digital, las cuales son procesadas por las etapas de demodulación. De forma análoga, en transmisión, la aplicación genera las muestras correspondientes a la señal modulada y las envía al SDR para su conversión y emisión en radiofrecuencia.
