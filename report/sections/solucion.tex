@@ -1,1 +1,15 @@
 % Solución implementada
+
+\subsection{Arquitectura general}
+
+La arquitectura clásica del segmento terreno incluye dos componentes principales: el centro de control de misión y una o varias estaciones terrenas. La solución desarrollada se adapta a esta división, separando las tareas en distintos sistemas con responsabilidades bien definidas e interfaces de comunicación transparentes.
+
+La estación terrena es el componente encargado de establecer y mantener la comunicación directa con el satélite, tanto en downlink como en uplink. La aplicación que la controla se despliega físicamente junto a la antena, posiblemente en sitios remotos o con conectividad limitada, lo que demanda un diseño autónomo, confiable y eficiente en cuanto a la gestión de recursos.
+
+El centro de control de misión concentra las funciones de supervisión, planificación y operación. Está compuesto por un servidor que gestiona la comunicación con las estaciones terrena. Incluye una base de datos para persistir información y parámetros de la misión. También incluye una interfaz gráfica que ofrece a los operadores una visión integrada del estado en tiempo real de las estaciones y satélites, visualización de la telemetría recibida y herramientas para planificar observaciones y enviar telecomandos a los satélites.
+
+La comunicación entre estaciones terrenas y servidores se realiza a través de una cola de mensajería accesible por todos los nodos del sistema. Este esquema facilita la integración de múltiples estaciones, centros de control y cualquier otro tipo de aplicación, permitiendo topologías más complejas que se adapten a todo tipo de necesidades.
+
+En conjunto, la solución propuesta se concibe como un ecosistema modular de componentes interoperables, donde las interfaces entre estos son transparentes y estandarizadas. Esta característica central convierte al sistema en un verdadero framework para la implementación del segmento terreno, adaptable a distintos contextos y escalas, desde simulaciones virtuales hasta redes distribuidas de seguimiento satelital.
+
+A continuación, describimos los componentes esenciales del sistema que fueron desarrollados como parte de la solución presentada.
