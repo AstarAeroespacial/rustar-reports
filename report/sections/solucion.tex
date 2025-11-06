@@ -13,3 +13,15 @@ La comunicación entre estaciones terrenas y servidores se realiza a través de 
 En conjunto, la solución propuesta se concibe como un ecosistema modular de componentes interoperables, donde las interfaces entre estos son transparentes y estandarizadas. Esta característica central convierte al sistema en un verdadero framework para la implementación del segmento terreno, adaptable a distintos contextos y escalas, desde simulaciones virtuales hasta redes distribuidas de seguimiento satelital.
 
 A continuación, describimos los componentes esenciales del sistema que fueron desarrollados como parte de la solución presentada.
+
+\subsection{Estación terrena}
+
+Las funciones que lleva a cabo para cumplir con su propósito son:
+\begin{itemize}
+    \item Comunicarse con el dispositivo SDR, encargado de la transmisión y recepción de señales de radiofrecuencia.
+    \item Realizar la demodulación y modulación necesarios para convertir las señales en tramas de bits y viceversa.
+    \item Implementar el protocolo de enlace de datos requerido para el intercambio de información.
+    \item Controlar la orientación de la antena para seguir la trayectoria del satélite.
+\end{itemize}
+
+Estas funciones se ejecutan durante una ventana de observación de un satélite con el cual se quiere establecer contacto. Para programar un contacto u observación, el mecanismo provisto por la estación terrena es mediante el envío de una tarea de observación.
