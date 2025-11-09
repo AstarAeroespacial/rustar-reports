@@ -1,1 +1,84 @@
 % Metodología aplicada
+
+El desarrollo del sistema RUSTAR se llevó a cabo siguiendo principios de metodologías ágiles, con un enfoque iterativo e incremental que permitió validar continuamente los avances técnicos y adaptarse a los cambios que surgieron durante el proyecto. Si bien no se aplicó Scrum de forma estricta, se adoptaron sus prácticas fundamentales para organizar el trabajo de manera eficiente.
+
+\subsection{Gestión del proyecto}
+
+Para la gestión y seguimiento del proyecto se utilizó \textbf{GitHub Projects} con un tablero Kanban, lo que permitió visualizar el estado de las tareas en todo momento y organizar el trabajo de manera colaborativa.
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=\linewidth]{images/github_kanban.png}
+  \caption{Tablero Kanban utilizado en GitHub Projects para la gestión de tareas del proyecto.}
+  \label{fig:github_projects_kanban}
+\end{figure}
+
+El trabajo se organizó en \textbf{sprints de dos semanas} aproximadamente, durante las cuales se planificaban, desarrollaban e integraban funcionalidades específicas. Al final de cada sprint se realizaba una revisión del progreso y se ajustaban las prioridades para el siguiente ciclo.
+
+Además, se definieron tres \textbf{hitos (milestones)} principales para marcar las entregas del proyecto: \textit{Entrega intermedia}, \textit{Demo al equipo de Astar} y \textit{Entrega final}. Estos hitos facilitaron el seguimiento del avance general y aseguraron que el desarrollo se mantuviera alineado con los objetivos y plazos establecidos.
+
+\subsection{Reuniones y comunicación}
+
+Se llevaron a cabo \textbf{reuniones quincenales o mensuales} con los tutores académicos y técnicos, dependiendo de la etapa del proyecto. En estas reuniones se discutían los avances realizados, se identificaban obstáculos y se tomaban decisiones técnicas relevantes.
+
+Todas las reuniones fueron documentadas mediante minutas que incluyen fecha, participantes, temas tratados y decisiones tomadas. Las minutas de todas las reuniones pueden consultarse en los anexos de este documento (ver Sección~\ref{sec:minutas}).
+
+\subsection{Desarrollo de software}
+
+El proceso de desarrollo de software siguió prácticas modernas de ingeniería orientadas a garantizar la calidad del código y facilitar la colaboración en equipo.
+
+\subsubsection{Control de versiones y colaboración}
+
+Se utilizó \textbf{Git} como sistema de control de versiones y \textbf{GitHub} como plataforma de colaboración.
+
+El flujo de trabajo adoptado se basó en los siguientes principios:
+
+\begin{itemize}
+    \item \textbf{Protección de la rama principal:} la rama \texttt{main} fue configurada como protegida, lo que impedía realizar \textit{push} directo sobre ella. Todos los cambios debían pasar por un proceso de revisión mediante \textit{pull requests}.
+    
+    \item \textbf{Ramas para funcionalidades (\textit{feature branches}):} para cada nueva funcionalidad o corrección se creaba una rama específica a partir de \texttt{main}. Esto permitió trabajar en paralelo sin conflictos y facilitar la integración posterior.
+    
+    \item \textbf{\textit{Issues} y discusiones:} las tareas, errores y mejoras se registraban como \textit{issues} en GitHub, surgiendo principalmente de las discusiones en las reuniones de equipo. Cada \textit{issue} incluía una descripción clara del problema o funcionalidad a implementar, facilitando su seguimiento y asignación.
+    
+    \item \textbf{\textit{Pull requests} y revisión de código:} antes de integrar cambios a la rama principal, se creaba un \textit{pull request} que debía ser revisado y aprobado por al menos un miembro del equipo. Este proceso aseguraba que el código cumpliera con los estándares de calidad y que las decisiones técnicas fueran validadas colectivamente.
+\end{itemize}
+
+\subsubsection{Integración continua (CI)}
+
+Para mantener la calidad del código y detectar errores de forma temprana, se implementó un sistema de \textbf{integración continua mediante GitHub Actions}. Cada vez que se realizaba un \textit{push} o se abría un \textit{pull request}, se ejecutaban automáticamente las siguientes verificaciones:
+
+\begin{itemize}
+    \item \textbf{Pruebas automatizadas (\textit{testing}):} se ejecutaba la suite de tests unitarios implementada con el framework de testing de Rust (\texttt{cargo test}), asegurando que las funcionalidades existentes no se rompieran con los nuevos cambios.
+    
+    \item \textbf{Formateo de código:} se verificaba que el código cumpliera con el estilo estándar de Rust mediante \texttt{rustfmt}, garantizando consistencia en todo el proyecto.
+    
+    \item \textbf{Análisis estático (\textit{linting}):} se utilizaba \texttt{clippy}, el \textit{linter} oficial de Rust, para identificar patrones problemáticos, malas prácticas y oportunidades de mejora en el código.
+\end{itemize}
+
+Estas verificaciones automáticas debían pasar exitosamente antes de que un \textit{pull request} pudiera ser fusionado, evitando que código con errores o mal formateado llegara a la rama principal.
+
+\subsection{Documentación}
+
+La documentación del proyecto se mantuvo en dos niveles:
+
+\begin{itemize}
+    \item \textbf{Documentación del código:} se utilizó el sistema de documentación integrado en Rust (\texttt{cargo doc}) para generar documentación automática a partir de comentarios en el código fuente. Esto facilitó la comprensión de las APIs y la reutilización de componentes.
+    
+    \item \textbf{Documentación técnica y académica:} se emplearon \textbf{Markdown} para documentación técnica en el repositorio (como archivos README) y \textbf{LaTeX} para la elaboración de la propuesta formal del proyecto y este informe final.
+\end{itemize}
+
+\subsection{Resumen de herramientas utilizadas}
+
+A continuación se resumen las principales herramientas empleadas durante el desarrollo del proyecto:
+
+\begin{itemize}
+    \item \textbf{Lenguajes de programación:} Rust en su mayoría, con integración de Python para scripts específicos y bindings con GNU Radio.
+    \item \textbf{Control de versiones:} Git y GitHub
+    \item \textbf{Gestión de tareas:} GitHub Projects (tablero Kanban) y GitHub Issues
+    \item \textbf{Integración continua:} GitHub Actions (testing, formateo y linting)
+    \item \textbf{Documentación de código:} \texttt{cargo doc}
+    \item \textbf{Documentación técnica:} Markdown y LaTeX
+    \item \textbf{Procesamiento de señales:} GNU Radio (integración mediante bindings)
+\end{itemize}
+
+Esta combinación de metodologías ágiles, prácticas de desarrollo colaborativo y herramientas de automatización permitió mantener un ritmo de desarrollo sostenible y garantizar la calidad del software producido a lo largo de todo el proyecto.

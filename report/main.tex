@@ -3,6 +3,9 @@
 \usepackage[T1]{fontenc}
 \usepackage{mathptmx} % Times New Roman-like
 
+% Math packages: provide \text, \boxed, and other amsmath features used in sections
+\usepackage{amsmath,amssymb}
+
 \usepackage{geometry}
 \geometry{margin=2.5cm}
 \usepackage{setspace}
@@ -15,13 +18,18 @@
 \usepackage{graphicx}
 
 \usepackage[hyphens]{url}
-\usepackage{hyperref}
+\usepackage[hidelinks]{hyperref}
 
 \usepackage{titlesec}
 \titleformat{\section}
   {\normalfont\fontsize{16}{18}\bfseries}{\thesection}{1em}{}
 \titleformat{\subsection}
   {\normalfont\fontsize{14}{16}\bfseries}{\thesubsection}{1em}{}
+\titleformat{\subsubsection}
+  {\normalfont\fontsize{12}{14}\bfseries}{\thesubsubsection}{1em}{}
+\titleformat{\paragraph}
+  {\normalfont\fontsize{11}{13}\bfseries}{\theparagraph}{1em}{}
+\titlespacing*{\paragraph}{0pt}{1ex plus 0.5ex minus 0.2ex}{0.5ex plus 0.2ex}
 
 \titlespacing*{\section}{0pt}{0pt}{0pt}
 \titlespacing*{\subsection}{0pt}{0pt}{0pt}
@@ -33,6 +41,10 @@
 \fancyhead[C]{\textit{RUSTAR - Software para estación terrena}}
 \fancyfoot[L]{Bohórquez, Davies Leccese, Lazcano, Medone Sabatini}
 \fancyfoot[R]{\thepage}
+
+% Ensure enough headheight for fancyhdr (fixes: "Package fancyhdr: \headheight is too small")
+% Required minimum observed in compilation was ~13.6pt, set to 14pt as a safe value.
+\setlength{\headheight}{14pt}
 
 \begin{document}
 
