@@ -42,3 +42,31 @@ El procesamiento digital de señales involucrado en la modulación y demodulaci�
 \subsubsection{Tracking}
 
 \subsubsection{Controlador de antena}
+
+El módulo Antenna Controller constituye la interfaz de bajo nivel entre el sistema de software y el hardware de orientación de la antena. Su función principal es la traducción de parámetros de apuntado calculados por el módulo de Tracking en comandos compatibles con el protocolo del controlador físico de la antena.
+
+\paragraph{Funcionalidad}
+
+El módulo recibe como entrada los siguientes parámetros de apuntado:
+\begin{itemize}
+    \item Ángulos de azimut y elevación (en grados decimales)
+    \item Identificación del satélite objetivo
+    \item Canal o frecuencia de downlink
+\end{itemize}
+
+Estos datos son procesados y formateados según el protocolo textual esperado por el controlador de antena. La estructura del comando generado responde al siguiente formato:
+
+\begin{verbatim}
+SN=[nombre_satélite],AZ=[azimut],EL=[elevación],DN=[downlink_number]
+\end{verbatim}
+
+donde \texttt{AZ} y \texttt{EL} representan los ángulos de orientación expresados en grados con precisión decimal, \texttt{SN} identifica el satélite objetivo y \texttt{DN} especifica el número de canal de downlink.
+
+\paragraph{Implementación}
+
+La comunicación con el hardware se establece mediante puerto serie, utilizando el crate \texttt{serialport} del ecosistema Rust. Esta biblioteca proporciona una API para:
+\begin{itemize}
+    \item Apertura y configuración de dispositivos serie
+    \item Establecimiento de parámetros de comunicación (baudrate, bits de datos, paridad, bits de parada)
+    \item Operaciones de lectura y escritura sobre el puerto
+\end{itemize}
