@@ -1,2 +1,697 @@
 \subsection{Minutas}
 \label{sec:minutas}
+
+Durante el desarrollo del proyecto se realizaron reuniones periódicas con tutores académicos, el equipo de Astar Aeroespacial y entre los miembros del equipo de desarrollo. A continuación se presenta un resumen de todas las reuniones realizadas y sus minutas completas.
+
+\subsubsection{Resumen de reuniones}
+
+La siguiente tabla resume las 22 reuniones formales documentadas durante el proyecto:
+
+\begin{table}[ht]
+\centering
+\small
+\begin{tabular}{|l|l|p{8cm}|}
+\hline
+\textbf{Fecha} & \textbf{Tipo} & \textbf{Temas principales} \\
+\hline
+09-04 & Equipo - Tutores & Presentación de propuesta, kickoff del proyecto \\
+\hline
+26-05 & Equipo & Arquitectura del sistema, comunicación cliente-servidor, GNU Radio \\
+\hline
+17-06 & Equipo & Framing y deframing, tracking, desarrollo en paralelo \\
+\hline
+23-06 & Equipo & Desarrollo de módulos, estrategias de testing \\
+\hline
+24-06 & ASTAR-UNSAM & Integración con proyecto satelital \\
+\hline
+26-06 & Equipo & Avances en implementación \\
+\hline
+06-07 & Equipo & Estado del desarrollo, próximas tareas \\
+\hline
+14-07 & Equipo & Presentación de avances para entrega intermedia \\
+\hline
+28-07 & Equipo & Revisión post-entrega intermedia \\
+\hline
+31-07 & Equipo - Tutores & Planificación segunda mitad del proyecto \\
+\hline
+02-08 & Equipo & Desarrollo frontend, integración \\
+\hline
+17-08 & Equipo & Avances en frontend y backend \\
+\hline
+24-08 & Equipo & Estado general del proyecto \\
+\hline
+14-09 & Equipo & Preparación demo ASTAR, integración \\
+\hline
+26-09 & Equipo & Post-demo, ajustes y mejoras \\
+\hline
+06-10 & Equipo - Tutores & Avances finales \\
+\hline
+09-10 & Equipo - Tutores & Pruebas con hardware \\
+\hline
+12-10 & Equipo & Integración con antena física \\
+\hline
+23-10 & Equipo - Tutores & Últimas funcionalidades \\
+\hline
+30-10 & Equipo & Cierre de desarrollo \\
+\hline
+02-11 & Equipo & Preparación entrega final, documentación \\
+\hline
+08-11 & Evento & Noche de los Museos - demostración pública \\
+\hline
+\end{tabular}
+\caption{Resumen cronológico de reuniones del proyecto RUSTAR}
+\end{table}
+
+\subsubsection{Minutas completas}
+
+A continuación se presentan las minutas completas de cada reunión, organizadas cronológicamente.
+
+\paragraph{Reunión 09-04-2025}
+
+\textbf{Participantes:} equipo Rustar, Fernando Filippetti y Mariano Méndez.
+
+\textbf{Ubicación:} Google Meet.
+
+\textbf{Temas tratados:} Planteo de la propuesta al tutor con una primera idea del diseño de la arquitectura a gran escala.
+
+\textbf{Conclusiones:}
+\begin{itemize}
+  \item Aprobación y kickoff oficial del proyecto.
+  \item Elaborar el informe de la propuesta.
+\end{itemize}
+
+\vspace{1em}
+
+\paragraph{Reunión 26-05-2025}
+
+\textbf{Participantes:} equipo Rustar.
+
+\textbf{Ubicación:} Google Meet.
+
+\textbf{Temas tratados:}
+
+\textit{Arquitectura general del sistema:} Se discutió la arquitectura general del sistema. Se planteó una arquitectura con los siguientes componentes:
+
+\begin{itemize}
+  \item En la estación terrena, una pequeña computadora (por ejemplo Raspberry Pi) encargada de las tareas de (de)modulación de señales, (de)framing de paquetes de telemetría y control; y control del posicionamiento de la antena.
+  \item En el centro de control de misión (en el Labi), un programa principal con las tareas de control y monitoreo de la misión y persistencia de datos.
+\end{itemize}
+
+Sería una arquitectura cliente-servidor, donde (por ahora) la estación terrena actúa de cliente y el centro de control de misiones actúa de servidor.
+
+Se remarcó la necesidad de una arquitectura asincrónica que desacople las tareas de operación (comunicación con el satélite, control de la antena) con las tareas de control y monitoreo.
+
+\textit{Comunicación cliente-servidor:} Se evaluó el uso de colas de mensajería para comunicar el cliente con el servidor. Por ejemplo utilizando ZeroMQ o similares. Se evaluarían alternativas.
+
+Existiría una cola de mensajería en el servidor, a la cual la estación terrena se suscribe para tomar paquetes de control para el satélite o cambios en la configuración del tracking de la antena.
+
+Se discutió cómo realizar el manejo de errores y confirmación de recepción de los paquetes de control, pero no se llegó a una conclusión.
+
+Un mensaje importante es la actualización del TLE a seguir, ya que esto afecta tanto al trackeo (para el módulo de control de la antena) como a la (de)modulación (por la corrección por Doppler).
+
+\textit{GNU Radio:} Se intentaría hacer andar el flowgraph de GNU Radio que utiliza gr-leo para simular comunicaciones considerando Doppler y ruido ambiente. Se buscaba lograr generar archivos IQ realistas, para utilizar como input para todo el resto del sistema, en forma de testing.
+
+También se intentaría integrar con los bloques de ZMQ para que dichas comunicaciones utilicen como input paquetes generados con un protocolo custom, y no bytes aleatorios.
+
+\textit{Protocolo de comunicación, (de)framing, (de)modulación:} Se evaluarían librerías open source en Rust para el protocolo AX.25 o HDLC y la etapa de (de)modulación con AFSK. Se utiliza esta combinación de modulación AFSK con framing AX.25 o HDLC por ser la más común en satélites amateur.
+
+\textbf{Conclusiones:} Se crearon issues de GitHub para avanzar con estas tareas. Se remarcó la necesidad de paralelizar tareas para avanzar de forma más eficiente.
+
+\vspace{1em}
+
+\paragraph{Reunión 17-06-2025}
+
+\textbf{Participantes:} Luca, Juan Ignacio y Rubén.
+
+\textbf{Ubicación:} FIUBA sede Paseo Colón.
+
+\textbf{Temas tratados:}
+
+\textit{Framing:} Se discutió sobre el tema y se dilucidó la dificultad del proceso, que es mayor a la estimada en un principio. La mayor complejidad radica en el manejo del stream de bits que vendrá del demodulador, y la generación de los frames HDLC a partir de esos bits teniendo en cuenta posibles errores en la transmisión.
+
+\textit{Arquitectura general distribuida:} Se plantea para un futuro que puedan haber varias estaciones terrenas controladas desde una aplicación la cual no necesariamente tenga que estar ejecutándose en una computadora que se encuentre en el mismo lugar físico, sino que se comuniquen via internet. Además, se menciona que la aplicación debe tener conocimiento de a que satélite se encuentra apuntando cada estación terrena y no debería permitir que 2 o más estaciones envíen mensajes al mismo satélite al mismo tiempo, aunque falta pensar más y refinar esta parte.
+
+\textbf{Conclusiones:}
+\begin{itemize}
+  \item Se deberá implementar un módulo dedicado de framing, de tipo \texttt{lib}.
+  \item Seguir investigando sobre los crates existentes de HDLC y relacionados para determinar su utilidad en el proceso de framing.
+  \item Definir ciertos detalles sobre la arquitectura general distribuida.
+\end{itemize}
+
+\vspace{1em}
+
+\paragraph{Reunión 23-06-2025}
+
+\textbf{Participantes:} equipo Rustar.
+
+\textbf{Ubicación:} Google Meet.
+
+\textbf{Temas tratados:}
+
+\textit{Framer/Deframer:}
+\begin{itemize}
+  \item Lógica de separación entre frames crudos HDLC.
+  \item Testear a fondo los casos posibles del deframer, ir encontrando los syncs (flags) y chequear que se generen los frames que corresponden para cada caso.
+  \item Uso de BitVecDequeue?
+\end{itemize}
+
+\textit{Entrega intermedia:}
+\begin{itemize}
+  \item Fecha límite: 15/7.
+  \item Modalidad: video (demo) de 8-10 min.
+  \item Falta terminar de definir el scope y cómo será esa demo.
+\end{itemize}
+
+\textit{Otros:}
+\begin{itemize}
+  \item ¿Cuáles son los mensajes de control?
+  \item Comunicación MQ estación terrena-app web.
+\end{itemize}
+
+\textbf{Conclusiones:}
+\begin{itemize}
+  \item Implementar checksum (CRC).
+  \item Implementar los otros campos de HDLC (address, control, payload).
+  \item Preguntar a Filippetti sobre datos de telemetría a mostrar y si le gusta la idea de una app web.
+  \item División de tareas:
+  \begin{itemize}
+    \item Rubén: ZMQ entre estación terrena y app web, API, BBDD.
+    \item Juani: Deframer/framer.
+    \item Luca: Demodulación automática, modulación.
+    \item Alen: Deframer/framer.
+  \end{itemize}
+  \item Hacer weeklys los domingos.
+\end{itemize}
+
+\vspace{1em}
+
+\paragraph{Reunión 24-06-2025 (ASTAR-UNSAM)}
+
+\textbf{Participantes:} equipo Rustar, Fernando Filippetti y docentes de la UNSAM (Gabriel Sanca, Leandro Carmona y Diego Aranda).
+
+\textbf{Ubicación:} Google Meet.
+
+\textbf{Temas tratados:}
+\begin{itemize}
+  \item Colaboración UNSAM - TUB (curso).
+  \item PPT sobre el estado del proyecto y las estaciones terrenas de la UNSAM:
+  \begin{itemize}
+    \item Una en el campus Miguelete.
+    \item Otra en la Antártida (no operativa).
+  \end{itemize}
+  \item \textbf{SpaceComms (de SpaceOps):} similar a Rustar pero con más funcionalidades. Software propietario.
+\end{itemize}
+
+\textbf{Conclusiones:}
+\begin{itemize}
+  \item Crear un drive compartido entre todos para dejar recursos relevantes a los proyectos.
+  \item Averiguar el marco administrativo posible para un convenio entre la FIUBA y la UNSAM.
+\end{itemize}
+
+\vspace{1em}
+
+\paragraph{Reunión 26-06-2025}
+
+\textbf{Participantes:} Alen, Luca y Juan Ignacio.
+
+\textbf{Ubicación:} Discord.
+
+\textbf{Temas tratados:}
+
+\textit{Framer:} Sesión de pair programming con Live Share.
+
+\textbf{Conclusiones:}
+\begin{itemize}
+  \item PR listo para review.
+\end{itemize}
+
+\vspace{1em}
+
+\paragraph{Reunión 06-07-2025}
+
+\textbf{Participantes:} equipo Rustar.
+
+\textbf{Ubicación:} Discord.
+
+\textbf{Temas tratados:}
+
+\textit{Tracking:} Ya está casi terminado, muy parecido a Gpredict.
+
+\textit{Modulador / Demodulador:} Desde el binario generado en Rust se va a levantar un proceso Python (conda) que corra GNU Radio en la Raspberry Pi.
+
+\textit{Framer / Deframer:}
+\begin{itemize}
+  \item PR del framer mergeada.
+  \item Falta terminar con algunas cosas del deframer.
+  \item Integrar ambos en un sólo módulo \texttt{hdlc}.
+\end{itemize}
+
+\textit{Diagramas (para la PPT):}
+\begin{itemize}
+  \item Arquitectura general (las 2 aplicaciones, estación terrena, satélite, etc).
+  \item Flujo de datos/información.
+  \item Uno de arquitectura de cada aplicación:
+  \begin{itemize}
+    \item App embebida: hdlc, tracking, cli.
+    \item App web: api, bdd, gui.
+  \end{itemize}
+\end{itemize}
+
+\textbf{Conclusiones:}
+\begin{itemize}
+  \item Retocar y documentar lo que queda de tracking para hacer el PR.
+  \item Empezar a hacer los diagramas.
+  \item Mostrarle a Méndez la PPT con los diagramas antes de hacer el video.
+\end{itemize}
+
+\vspace{1em}
+
+\paragraph{Reunión 14-07-2025}
+
+\textbf{Participantes:} equipo Rustar.
+
+\textbf{Ubicación:} Discord.
+
+\textbf{Temas tratados:}
+\begin{itemize}
+  \item Desarrollo del diagrama de la arquitectura.
+  \item Desarrollo de la PPT para el video de la entrega intermedia.
+  \item ZeroMQ vs MQTT.
+\end{itemize}
+
+\textbf{Conclusiones:}
+\begin{itemize}
+  \item División de las slides a explicar por cada uno.
+  \item Cada uno graba su audio, lo manda y después se graba un video uniendo todo con la presentación.
+  \item Utilizar MQTT como message broker.
+\end{itemize}
+
+\vspace{1em}
+
+\paragraph{Reunión 28-07-2025}
+
+\textbf{Participantes:} equipo Rustar.
+
+\textbf{Ubicación:} Discord.
+
+\textbf{Temas tratados:}
+
+\textit{Diagrama de la arquitectura para entender el uso de MQTT:}
+\begin{itemize}
+  \item El centro de comandos se suscribe a un tópico satélite para recibir telemetría, no a una estación terrena específica. Por ejemplo \texttt{sat3/telemetry}.
+  \item Por otro lado, el centro de control publicará en tópicos para controlar cada estación terrena. Por ejemplo \texttt{<gs\_id>/track}.
+\end{itemize}
+
+\textit{Estructura de la aplicación principal de la estación terrena:}
+\begin{itemize}
+  \item struct \texttt{Job}.
+  \item \texttt{init\_}s y \texttt{run} (método principal donde se usan los módulos desarrollados hasta el momento).
+  \item Una estación terrena puede estar suscripta (trackear) a más de un satélite ``a la vez''.
+\end{itemize}
+
+\textbf{Conclusiones:}
+\begin{itemize}
+  \item Terminar de integrar el framer con el deframer $\rightarrow$ hacer lo mínimo indispensable para el \texttt{Job::run}.
+  \item \texttt{AntennaController} $\rightarrow$ la conexión del puerto serie con el Arduino, hacerlo en un módulo.
+  \item Tracking $\rightarrow$ implementar el \texttt{next\_pass}.
+  \begin{itemize}
+    \item Implementar una función que calcule los próximos next passes para los satélites suscriptos y elegir el más próximo.
+  \end{itemize}
+  \item Terminar de dockerizar todo para facilitar la ejecución en cualquier SO.
+  \item Ver el server MQTT.
+  \item Meter un pair programming para definir bien el core: \texttt{Job} y \texttt{run}.
+\end{itemize}
+
+\vspace{1em}
+
+\paragraph{Reunión 31-07-2025}
+
+\textbf{Participantes:} equipo Rustar y Pablo Deymonnaz.
+
+\textbf{Ubicación:} Google Meet.
+
+\textbf{Temas tratados:}
+\begin{itemize}
+  \item Explicación de la presentación utilizada para la entrega intermedia y el proyecto en general.
+  \item Estado actual y siguientes pasos.
+\end{itemize}
+
+\textbf{Conclusiones:}
+\begin{itemize}
+  \item Volver a reunirse dentro de 2 semanas.
+\end{itemize}
+
+\vspace{1em}
+
+\paragraph{Reunión 02-08-2025}
+
+\textbf{Participantes:} equipo Rustar.
+
+\textbf{Ubicación:} Discord.
+
+\textbf{Temas tratados:}
+
+\textit{API:}
+\begin{itemize}
+  \item Uso de Utoipa con Swagger.
+  \item Resource paths.
+  \item Conexión con MQTT: usando mosquitto.
+  \item Conexión con BBDD: por ahora SQLite pero se migrará a PostgreSQL.
+\end{itemize}
+
+\textbf{Conclusiones:}
+\begin{itemize}
+  \item Utilizar un archivo de configuración para setear los tópicos MQTT de las estaciones terrenas a los que la app se tiene que suscribir al iniciarse.
+  \item Utilizar un MQTT Messenger (en principio otro servicio dentro de la app).
+\end{itemize}
+
+\vspace{1em}
+
+\paragraph{Reunión 17-08-2025}
+
+\textbf{Participantes:} Alen, Luca y Juan Ignacio.
+
+\textbf{Ubicación:} Discord.
+
+\textbf{Temas tratados:}
+\begin{itemize}
+  \item Sesión de Live Share para la integración de todos los módulos en la función \texttt{track} de la app principal (crate \texttt{ground\_station}).
+  \item Diseño concurrente de la misma. Por ahora con threads y channels sync.
+  \item Ajustes de otros módulos que surgieron durante la integración, por ejemplo agregarle un \texttt{writer} al \texttt{Deframer}.
+\end{itemize}
+
+\textbf{Conclusiones:}
+\begin{itemize}
+  \item Adaptar los tests del \texttt{Deframer} (Juani).
+  \item Determinar cómo frenar el flujo del tracking al terminar una pasada del satélite. En particular, cómo detener los threads del demodulador y deframer.
+\end{itemize}
+
+\vspace{1em}
+
+\paragraph{Reunión 24-08-2025}
+
+\textbf{Participantes:} equipo Rustar.
+
+\textbf{Ubicación:} Discord.
+
+\textbf{Temas tratados:}
+\begin{itemize}
+  \item Skeleton del main de la ground station.
+  \item Funcionamiento del \texttt{stop}.
+  \item Mockeos para testear el funcionamiento de la estructura.
+  \item Formato de los datos a transmitir por MQTT.
+\end{itemize}
+
+\textbf{Conclusiones:}
+\begin{itemize}
+  \item Integrar la funcionalidad del demodulador y deframer:
+  \begin{itemize}
+    \item Hacer que implementen \texttt{Iterator} (\texttt{next}).
+  \end{itemize}
+  \item Crear un packetizer.
+  \item Implementar una CLI como una app externa.
+  \item Integrar el sdr.
+\end{itemize}
+
+\vspace{1em}
+
+\paragraph{Reunión 14-09-2025}
+
+\textbf{Participantes:} equipo Rustar.
+
+\textbf{Ubicación:} Discord.
+
+\textbf{Temas tratados:}
+\begin{itemize}
+  \item Separación de la api del repo de la gs.
+  \item BBDD adecuada a utilizar: una orientada a timestamps/series de tiempo en vez de una clásica sql estructurada.
+  \item Preparación de una demo en video que sirva como checkpoint:
+  \begin{itemize}
+    \item PPT con arquitectura general (se puede reciclar algo de la entrega intermedia).
+    \item Explicar cómo se corre y poder ver telemetría en vivo con Swagger.
+  \end{itemize}
+  \item Pruebas con hardware:
+  \begin{itemize}
+    \item 1 computadora conectada al bladeRF con una antena emisora.
+    \item 1 computadora conectada al RTL-SDR y a la estación terrena.
+    \item Chequear control de la antena y el envío y correcta recepción (con lectura en pantalla) de datos de telemetría de prueba desde la primera computadora a la segunda.
+  \end{itemize}
+  \item Frontend (en otro repo):
+  \begin{itemize}
+    \item Dashboard de Grafana conectado con sql o mqtt.
+  \end{itemize}
+  \item Informe final.
+\end{itemize}
+
+\textbf{Conclusiones:}
+\begin{itemize}
+  \item (Rubén) Mover la api y la CLI a su propio repo.
+  \begin{itemize}
+    \item Por ahora simplemente copypastear las dependencias de otros crates.
+  \end{itemize}
+  \item (Luca)
+  \begin{itemize}
+    \item Preparar el flowgraph final para la demo.
+    \item Subir los flowgraphs actualizados.
+    \item Ver soapysdr y hacer un programa de prueba para el día que vayamos a la facultad.
+    \item Dockerfile para correr el mock satelital, que publique a un puerto.
+  \end{itemize}
+  \item (Alen) Empezar con el frontend (en un repo aparte).
+  \item (Juani)
+  \begin{itemize}
+    \item Empezar con el informe.
+    \item Crear archivo de configuración (toml) con coordenadas del observer, TLE y ground station id.
+  \end{itemize}
+  \item Comunicarse con Filippetti y arreglar un día para ir a hacer las pruebas de hardware.
+\end{itemize}
+
+\vspace{1em}
+
+\paragraph{Reunión 26-09-2025}
+
+\textbf{Participantes:} equipo Rustar.
+
+\textbf{Ubicación:} LABi FIUBA sede Paseo Colón.
+
+\textbf{Temas tratados:}
+
+\textit{Pruebas de campo con bladeRF:}
+\begin{itemize}
+  \item Instalación de la CLI y el firmware correspondiente.
+  \item Emisión de señales con un meshtastic en 918Mhz.
+  \item Recepción de las samples desde Rust.
+  \item Se observó correctamente lo emitido en gqrx.
+\end{itemize}
+
+\textbf{Conclusiones:}
+\begin{itemize}
+  \item El crate soapy es útil para el proyecto.
+  \item Averiguar a qué tensión debe ir conectado el cable de alimentación de la estación terrena.
+\end{itemize}
+
+\vspace{1em}
+
+\paragraph{Reunión 06-10-2025}
+
+\textbf{Participantes:} equipo Rustar y Mariano Méndez.
+
+\textbf{Ubicación:} Google Meet.
+
+\textbf{Temas tratados:}
+\begin{itemize}
+  \item Arquitectura actual del sistema.
+  \item Estado de avance actual.
+  \item Scope final del proyecto.
+  \item Defensa oral.
+\end{itemize}
+
+\textbf{Conclusiones:}
+\begin{itemize}
+  \item Como requisito mínimo para la entrega que funcione correctamente el downlink y tener simulado/mockeado el uplink.
+  \item Hacer una demo de correcto tracking, recepción y lectura de telemetría de un satélite real.
+  \begin{itemize}
+    \item Grabar un video de la antena moviéndose siendo controlada por el módulo \texttt{antenna-controller}.
+  \end{itemize}
+  \item Volver al LABi lo antes posible para seguir haciendo pruebas con hardware, en particular probar la antena de la estación terrena.
+\end{itemize}
+
+\vspace{1em}
+
+\paragraph{Reunión 09-10-2025}
+
+\textbf{Participantes:} equipo Rustar y Fernando.
+
+\textbf{Ubicación:} LABi FIUBA sede Paseo Colón.
+
+\textbf{Temas tratados:}
+\begin{itemize}
+  \item Pruebas del controlador del motor y brazo de la estación terrena (con y sin la antena puesta).
+  \item Medición del radio de la estación con la antena para la futura construcción de un domo protector.
+\end{itemize}
+
+\textbf{Conclusiones:}
+\begin{itemize}
+  \item Funciona (aunque no siempre) con 12V de tensión y llega a un máximo de 1.4 A.
+  \item Al conectar el cable serial, se parquea (va a 0 azimuth y 0 elevación) automáticamente.
+  \item El primer mensaje que se le envía lo ignora.
+  \item Aparentemente el último campo del mensaje (DN) es innecesario.
+  \item Tiene $\sim$5 seg de delay de respuesta entre que se envía el mensaje y se empieza a mover.
+  \item Si pasan menos de 5 seg entre mensajes, los empieza a droppear.
+  \item Al final la estación terrena dejó completamente de responder a los mensajes, por lo que se necesita ver el código fuente y/o el pdf del manual para acceder a los links donde se encuentra el script para resetear la EEPROM. Probablemente este sea el problema ya que se encuentra mencionado en el manual.
+\end{itemize}
+
+\vspace{1em}
+
+\paragraph{Reunión 12-10-2025}
+
+\textbf{Participantes:} equipo Rustar.
+
+\textbf{Ubicación:} Discord.
+
+\textbf{Temas tratados:}
+\begin{itemize}
+  \item Diseño del frontend.
+  \begin{itemize}
+    \item Por ahora dejarlo como para hacer tracking de un solo satélite, una sola estación terrena y una sola misión.
+  \end{itemize}
+  \item Posibilidad de agregar una nueva aplicación a correr junto con la de la ground station para alivianar sus tareas. Correrían ambas al levantar un docker compose.
+  \item Uso de mqtt o http para comunicación entre centro de control y app de la ground station.
+  \begin{itemize}
+    \item Necesidad de asegurarse que un job enviado desde el centro de control a la ground station efectivamente llegó y fue scheduleado.
+  \end{itemize}
+  \item Estructura del informe final.
+\end{itemize}
+
+\textbf{Conclusiones:}
+\begin{itemize}
+  \item Eliminar tab `Dashboard'.
+  \item En tab `Monitoring' eliminar desplegables `Satellite' y `Ground Station'.
+  \item Agregar en `Tracking' una feature para setear/cambiar el TLE del satélite a trackear.
+  \item Eliminar pestaña `Settings'.
+  \item `Telemetry Control' queda con el esquema de telemetría fijo (no genérico) para la misión satelital de Astar.
+  \item Cambiar api para que devuelva la telemetría en binario, pasar el parseo al front.
+  \item Rutas a agregar en la API:
+  \begin{itemize}
+    \item \textit{Satellite Management:} GET /api/satellites, GET /api/satellites/\{id\}, PUT /api/satellites/\{id\}
+    \item \textit{Ground Station Management:} GET /api/ground-stations, GET /api/ground-stations/\{id\}, POST /api/ground-stations, PUT /api/ground-stations/\{id\}/satellite
+  \end{itemize}
+  \item En `Command Center' eliminar `Predefined Commands' y `Critical Commands'. También eliminar el campo `Response' de `Command History'.
+  \item Comandos a dejar en campo desplegable: `TelemetryDump', `Ping', `BalanceBattery', `Reboot'.
+  \item Branding del front (nombre, favicon, etc).
+\end{itemize}
+
+\vspace{1em}
+
+\paragraph{Reunión 23-10-2025}
+
+\textbf{Participantes:} equipo Rustar y Fernando.
+
+\textbf{Ubicación:} LIM y LABi FIUBA sede Paseo Colón.
+
+\textbf{Temas tratados:}
+\begin{itemize}
+  \item Reinicio de la EEPROM de la estación terrena con el código Arduino.
+  \item Pruebas del controlador del motor y brazo de la estación terrena sin la antena puesta.
+  \item Pruebas utilizando los 2 SDRs en computadoras y con antenas distintas:
+  \begin{itemize}
+    \item La computadora con el bladeRF emite una señal.
+    \item La computadora con el RTL-SDR recibe esa señal.
+  \end{itemize}
+\end{itemize}
+
+\textbf{Conclusiones:}
+\begin{itemize}
+  \item Dejar el código Arduino actual de la estación terrena tal como está.
+  \item Para la entrega del informe, lograr hacer un downlink punta a punta (antena/sdr$\rightarrow$GNU-Radio$\rightarrow$rustar-gs$\rightarrow$rustar-api$\rightarrow$bbdd$\rightarrow$frontend) utilizando otra computadora con otro sdr y antena como emisor. Los datos que manda este emisor son mockeados por nosotros.
+  \item Volver la semana que viene al LABi para seguir debuggeando y lograr esto último.
+  \item Para la demo de la defensa, lograr recibir y mostrar telemetría real de un satélite.
+\end{itemize}
+
+\vspace{1em}
+
+\paragraph{Reunión 30-10-2025}
+
+\textbf{Participantes:} equipo Rustar.
+
+\textbf{Ubicación:} LABi FIUBA sede Paseo Colón.
+
+\textbf{Temas tratados:}
+\begin{itemize}
+  \item Redacción del informe de cumplimiento de la PPS.
+  \item Organización de las secciones del informe final.
+\end{itemize}
+
+\textbf{Conclusiones:}
+\begin{itemize}
+  \item Dentro de la sección ``Solución implementada'', van las siguientes subsecciones:
+  \begin{itemize}
+    \item Arquitectura general
+    \item Estación terrena
+    \begin{itemize}
+      \item Jobs / observaciones
+    \end{itemize}
+    \item Server
+    \begin{itemize}
+      \item Parte que lee del broker MQTT
+      \item Endpoints
+      \item Diseño de la BBDD
+    \end{itemize}
+    \item Frontend
+  \end{itemize}
+  \item Mencionar en el informe algo como: ``La gs es básicamente un store and forward router, capa física/enlace, no mucho más''.
+\end{itemize}
+
+\vspace{1em}
+
+\paragraph{Reunión 02-11-2025}
+
+\textbf{Participantes:} Alen, Luca y Juan Ignacio.
+
+\textbf{Ubicación:} Discord.
+
+\textbf{Temas tratados:}
+\begin{itemize}
+  \item Estado actual del frontend.
+  \item Organización y asignación de las secciones del informe final.
+  \item Sección ``Arquitectura general''.
+\end{itemize}
+
+\textbf{Conclusiones:}
+\begin{itemize}
+  \item Integrar endpoints de la API en el frontend para que use datos de la BBDD.
+  \item Para la sección ``Solución implementada'':
+  \begin{itemize}
+    \item Arquitectura general: agregar diagramas. Jobs/observaciones (similar a satnogs), telemetría, telecomandos.
+    \item Estación terrena: descripción general (partes, responsabilidades, scheduler). Tracking, Mod/demod (GNU Radio, AFSK1200), Framing/deframing (HDLC), SDR, antenna controller.
+    \item Broker MQTT: hablar de los QoS.
+    \item Server: parte que lee del broker, tracking, API/endpoints, base de datos.
+    \item Interfaz de usuario.
+  \end{itemize}
+  \item Agregar apéndice de módulo tracking.
+  \item Para la sección ``Desarrollos futuros'': encriptación, comandos más completos, test uplink, más protocolos de framing y demod, serializer/deserializer en la base de datos.
+  \item Para la sección ``Experimentación y validación'': visitas al LABi, pruebas con antena, simulación con GNU Radio.
+  \item Para la sección ``Metodología'': Github projects (Kanban), weeklys/bi-weeklys, issues/branches/PRs/reviews, iteraciones cada 2 semanas, CI, Agile/scrum.
+  \item Para la sección ``Riesgos materializados / lecciones'': integración con antena, documentación de estación terrena.
+  \item Para la sección ``Referencias'': Introduction to satellite ground segment systems engineering, SatNOGS, etc.
+  \item Para la sección ``Cronograma'': diagrama de Gantt con investigación, propuesta, implementación (gs, server, front), entrega intermedia, pruebas de integración (sin/con hardware), entrega final.
+  \item Cronograma para el informe: apuntar a tener todo listo para el domingo 9/11, crear PRs en rustar-reports, mandar el informe al tutor el lunes/martes posterior.
+\end{itemize}
+
+\vspace{1em}
+
+\paragraph{Reunión 08-11-2025 (Noche de los Museos)}
+
+\textbf{Participantes:} Alen, Luca, Juan Ignacio y equipo ASTAR.
+
+\textbf{Ubicación:} FIUBA sede Las Heras.
+
+\textbf{Temas tratados:}
+\begin{itemize}
+  \item Muestra de la interfaz gráfica del proyecto en el stand de Astar.
+  \item Explicación del funcionamiento y los detalles del proyecto.
+\end{itemize}
+
+\textbf{Conclusiones:}
+\begin{itemize}
+  \item Hay un gran interés del público en general sobre proyectos relacionados al ámbito aeroespacial.
+\end{itemize}
