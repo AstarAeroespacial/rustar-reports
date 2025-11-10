@@ -1,1 +1,87 @@
 % Riesgos materializados y lecciones aprendidas
+
+A lo largo del desarrollo del proyecto se materializaron diversos riesgos, algunos de los cuales habían sido identificados durante la etapa de planificación inicial, mientras que otros surgieron de manera imprevista a medida que avanzaba la implementación. Esta sección describe los principales riesgos que afectaron el desarrollo y las lecciones aprendidas derivadas de su gestión.
+
+\subsection{Riesgos previstos materializados}
+
+\subsubsection{Disponibilidad y acceso a documentación de hardware}
+
+Uno de los riesgos identificados inicialmente fue la disponibilidad limitada de hardware para pruebas. Sin embargo, la materialización más significativa en este aspecto no fue la falta de acceso físico al equipamiento, sino la ausencia de documentación técnica pública y completa sobre la estación terrena física construida previamente por otro equipo.
+
+Al momento de iniciar las pruebas de integración con la antena, nos encontramos con que la documentación disponible era insuficiente para comprender completamente el funcionamiento interno del sistema de control de la antena. Esto nos obligó a contactar directamente a los miembros del equipo que había desarrollado la estación terrena para solicitar información técnica detallada y documentación adicional.
+
+El proceso de localizar a estos miembros para obtener la información necesaria resultó más complejo de lo esperado, generando demoras en el cronograma de pruebas de integración con hardware. Durante unas semanas, el avance en esta área quedó parcialmente bloqueado mientras esperábamos respuestas y documentación técnica específica.
+
+\textbf{Lección aprendida:} la importancia de documentar exhaustivamente todos los componentes de un sistema, especialmente aquellos que serán utilizados o integrados por equipos futuros. La documentación técnica debe estar centralizada, versionada y fácilmente accesible para garantizar la continuidad de proyectos que dependan de componentes preexistentes.
+
+\subsubsection{Complejidad del software interno de la estación terrena}
+
+Durante las pruebas de integración con la estación terrena física, descubrimos que el software interno del sistema de control de la antena (basado en Arduino) presentaba varios errores y podía fallar bajo ciertas circunstancias específicas. Estos problemas no estaban debidamente documentados y solo se manifestaron durante las pruebas en condiciones reales.
+
+La interacción con el controlador de la antena requirió especial cuidado y atención a múltiples factores:
+
+\begin{itemize}
+  \item \textbf{Demoras de comunicación extendidas:} el sistema no siempre respondía de manera inmediata o predecible.
+  \item \textbf{Problemas físicos:} durante las pruebas realizadas, el enredamiento de cables de la antena ante movimientos específicos generaba situaciones de fallo no contempladas en el software de control.
+  \item \textbf{Estados inconsistentes:} en ocasiones, el controlador interno de la estación terrena quedaba en estados inválidos que requerían reinicio manual de la memoria del sistema (\textit{EEPROM}).
+\end{itemize}
+
+\textbf{Lección aprendida:} al integrar con hardware de terceros, es fundamental realizar pruebas exhaustivas en etapas tempranas y contemplar escenarios de fallo no documentados. Además, se identificó como oportunidad de mejora futura la revisión y optimización del código Arduino del controlador de antena, que podría beneficiarse de refactorización y mejor manejo de errores.
+
+\subsection{Riesgos no previstos}
+
+\subsubsection{Extensión de la fase de investigación}
+
+Uno de los desvíos más significativos respecto a la planificación inicial fue la duración de la fase de investigación y aprendizaje. Inicialmente, se había estimado que esta etapa tomaría aproximadamente tres meses (marzo, abril y mayo). Sin embargo, en la práctica se extendió hasta junio, requiriendo mucho tiempo adicional a lo previsto.
+
+Esta extensión se debió a la complejidad inherente del dominio de conocimiento involucrado en el desarrollo de software para estaciones terrenas satelitales. El proyecto requirió la comprensión profunda de múltiples áreas técnicas especializadas:
+
+\begin{itemize}
+  \item Mecánica orbital y modelos de propagación (SGP4/SDP4)
+  \item Procesamiento digital de señales y técnicas de modulación/demodulación
+  \item Protocolos de comunicación satelital y estándares de la industria
+  \item Manejo de hardware SDR y procesamiento en GNU Radio
+\end{itemize}
+
+Cada una de estas áreas representa un campo de estudio complejo que requiere tiempo significativo para ser comprendido con la profundidad necesaria para implementar soluciones confiables y correctas.
+
+\textbf{Lección aprendida:} invertir tiempo adecuado en la fase de investigación y comprensión del dominio es fundamental para el éxito del proyecto. Aunque inicialmente puede parecer una demora, entender profundamente qué se va a construir y por qué permite tomar decisiones de diseño más acertadas, evitar retrabajos costosos y desarrollar soluciones más robustas. En proyectos que involucran dominios técnicos especializados, es preferible extender la fase de investigación antes que avanzar con implementaciones basadas en conocimiento superficial.
+
+\subsubsection{Desafíos de integración con GNU Radio}
+
+Si bien se había identificado como riesgo la limitación de bibliotecas nativas de procesamiento de señales en Rust, la materialización de este riesgo tomó una forma diferente a la prevista. En lugar de desarrollar bindings propios o usar FFI directamente desde Rust, la solución adoptada fue integrar con GNU Radio como componente externo del sistema.
+
+Esta decisión arquitectónica, aunque efectiva, introdujo complejidades no previstas en términos de:
+
+\begin{itemize}
+  \item Coordinación entre procesos independientes
+  \item Sincronización de datos entre componentes heterogéneos
+  \item Debugging de problemas que involucraban múltiples tecnologías (Rust, Python, GNU Radio)
+  \item Gestión de dependencias y configuración de entornos de desarrollo
+\end{itemize}
+
+\textbf{Lección aprendida:} en arquitecturas heterogéneas que integran múltiples tecnologías y lenguajes, es fundamental diseñar interfaces claras y mecanismos robustos de comunicación entre componentes. La modularidad y separación de responsabilidades demostró ser clave para poder desarrollar, probar y depurar cada componente de manera independiente antes de integrarlos.
+
+\subsection{Lecciones positivas}
+
+A pesar de los desafíos enfrentados, el proyecto también generó aprendizajes valiosos y experiencias positivas:
+
+\subsubsection{Metodología ágil y adaptabilidad}
+
+La adopción de metodologías ágiles permitió al equipo adaptarse de manera efectiva a los cambios y desafíos que surgieron durante el desarrollo. La capacidad de ajustar prioridades, redistribuir esfuerzos y modificar el alcance de manera controlada fue fundamental para mantener el proyecto en curso a pesar de los obstáculos.
+
+Las revisiones periódicas con tutores y con el equipo de Astar Aeroespacial proporcionaron feedback valioso que permitió corregir el rumbo cuando fue necesario y validar las decisiones técnicas tomadas.
+
+\subsubsection{Desarrollo en paralelo e integración temprana}
+
+La decisión de desarrollar múltiples componentes del sistema (aplicación de estación terrena, servidor backend, frontend) en paralelo, con integraciones frecuentes, permitió detectar problemas de compatibilidad y comunicación en etapas tempranas. Esto evitó el escenario de ``integración big bang'' donde todos los problemas se descubren al final del proyecto.
+
+\subsubsection{Importancia de las pruebas progresivas}
+
+El enfoque de realizar pruebas de integración progresivas, comenzando con datos simulados antes de avanzar a hardware real, resultó fundamental para construir confianza en el sistema y detectar problemas de manera incremental. Este enfoque facilitó el debugging y permitió aislar problemas de manera más efectiva.
+
+\subsection{Reflexiones finales}
+
+Los riesgos materializados y las lecciones aprendidas durante el desarrollo de RUSTAR subrayan la importancia de la planificación flexible, la comunicación efectiva entre equipos, la documentación exhaustiva y la necesidad de dedicar tiempo suficiente a comprender profundamente el dominio del problema antes de implementar soluciones.
+
+Aunque algunos desvíos en la planificación inicial fueron inevitables, la capacidad del equipo para adaptarse, aprender y ajustar el enfoque en función de los desafíos encontrados fue determinante para llevar el proyecto a una conclusión exitosa.

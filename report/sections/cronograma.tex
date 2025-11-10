@@ -1,1 +1,165 @@
 % Cronograma de las actividades realizadas
+
+El desarrollo del proyecto RUSTAR se extendió desde marzo hasta noviembre de 2025, abarcando un período aproximado de 9 meses. Durante este tiempo se realizaron diversas actividades organizadas en fases, desde la investigación inicial hasta la entrega final del presente informe.
+
+A continuación se presenta un diagrama de Gantt que ilustra la distribución temporal de las principales actividades del proyecto:
+
+\begin{figure}[ht]
+  \centering
+  \begin{ganttchart}[
+    hgrid,
+    vgrid={dotted},
+    x unit=0.85cm,
+    y unit title=0.6cm,
+    y unit chart=0.5cm,
+    time slot format=isodate,
+    time slot unit=month,
+    title/.append style={fill=gray!20},
+    title label font=\small,
+    bar label font=\footnotesize,
+    group label font=\footnotesize\bfseries,
+    milestone label font=\footnotesize\itshape,
+    bar/.append style={fill=blue!50},
+    group/.append style={fill=orange!30},
+    milestone/.append style={fill=red!50}
+  ]{2025-03-01}{2025-11-30}
+    \gantttitle{2025}{9} \\
+    \gantttitle{Mar}{1}
+    \gantttitle{Abr}{1}
+    \gantttitle{May}{1}
+    \gantttitle{Jun}{1}
+    \gantttitle{Jul}{1}
+    \gantttitle{Ago}{1}
+    \gantttitle{Sep}{1}
+    \gantttitle{Oct}{1}
+    \gantttitle{Nov}{1} \\
+    
+    \ganttbar{Investigación y aprendizaje}{2025-03-01}{2025-06-30} \\
+    
+    \ganttmilestone{Presentación propuesta}{2025-04-28} \\
+    
+    \ganttbar{Desarrollo aplicación GS}{2025-05-01}{2025-10-31} \\
+    
+    \ganttbar{Desarrollo server/API}{2025-06-01}{2025-11-15} \\
+    
+    \ganttmilestone{Entrega intermedia}{2025-07-15} \\
+    
+    \ganttmilestone{Demo ASTAR}{2025-09-07} \\
+    
+    \ganttbar{Desarrollo frontend}{2025-09-01}{2025-11-15} \\
+    
+    \ganttbar{Pruebas integración (sin HW)}{2025-08-01}{2025-10-15} \\
+    
+    \ganttbar{Pruebas integración (con HW)}{2025-10-01}{2025-11-15} \\
+    
+    \ganttbar{Redacción informe final}{2025-10-15}{2025-11-15} \\
+    
+    \ganttmilestone{Entrega final}{2025-11-15}
+  \end{ganttchart}
+  \caption{Diagrama de Gantt con las actividades principales del proyecto RUSTAR.}
+  \label{fig:gantt}
+\end{figure}
+
+\subsection{Etapas del proyecto}
+
+El proyecto se organizó en las siguientes etapas principales, alineadas con los hitos establecidos en la propuesta:
+
+\subsubsection{Investigación y aprendizaje inicial (marzo -- junio)}
+
+Durante los primeros meses del proyecto, el equipo se dedicó a la investigación de tecnologías clave, el estudio del estado del arte en estaciones terrenas y sistemas de telemetría satelital, y la familiarización con las herramientas necesarias para el desarrollo.
+
+Esta fase incluyó:
+\begin{itemize}
+  \item Estudio de protocolos de comunicación satelital y estándares relevantes.
+  \item Aprendizaje de GNU Radio para el procesamiento de señales.
+  \item Investigación sobre propagación orbital y el modelo SGP4.
+  \item Experimentación inicial en el LABi con SDR.
+  \item Definición de una arquitectura general inicial del sistema.
+\end{itemize}
+
+\subsubsection{Presentación de la propuesta (28 de abril)}
+
+Al finalizar la fase de investigación inicial, se formalizó y presentó la propuesta del trabajo profesional ante los tutores académicos y el equipo de Astar Aeroespacial. En esta instancia se definieron los objetivos, alcance, metodología y planificación general del proyecto.
+
+\subsubsection{Implementación de la solución (mayo -- noviembre)}
+
+La fase de implementación constituyó el núcleo del desarrollo del proyecto y se organizó de manera iterativa, priorizando los componentes más críticos del sistema.
+
+\paragraph{Desarrollo de la aplicación de estación terrena (mayo -- octubre)}
+
+El desarrollo comenzó con la implementación de la aplicación principal de la estación terrena (\textit{gs}), que incluye los módulos de:
+\begin{itemize}
+  \item \textbf{Tracking:} cálculo de posición, acimut, elevación y corrección Doppler.
+  \item \textbf{Modulación y demodulación:} integración con GNU Radio para el procesamiento de señales.
+  \item \textbf{Framing y deframing:} parseo de frames y validación de la estructura de los mismos.
+  \item \textbf{Comunicación MQTT:} publicación y suscripción a topics para intercambio de datos.
+\end{itemize}
+
+\paragraph{Desarrollo del servidor y API (junio -- noviembre)}
+
+En paralelo al desarrollo de la aplicación de la estación terrena, se inició el desarrollo del servidor backend y la API REST. Este componente gestiona:
+\begin{itemize}
+  \item Almacenamiento y recuperación de datos de telemetría.
+  \item Gestión de configuraciones de misión y parámetros orbitales.
+  \item Exposición de endpoints para consulta de información histórica y en tiempo real.
+  \item Coordinación entre múltiples componentes del sistema mediante MQTT.
+\end{itemize}
+
+\paragraph{Desarrollo del frontend (septiembre -- noviembre)}
+
+Durante las últimas semanas del proyecto se implementó la interfaz web, que permite:
+\begin{itemize}
+  \item Visualización en tiempo real de la posición del satélite y la estación terrena.
+  \item Monitoreo de telemetría y parámetros de la misión.
+  \item Configuración de mensajes a enviar al satélite.
+  \item Visibilidad de próximos pases satelitales para las estaciones terrenas cargadas.
+\end{itemize}
+
+\subsubsection{Entrega intermedia (15 de julio)}
+
+Este hito marcó la primera entrega formal del proyecto e incluyó la presentación de un video demostrativo con diapositivas explicativas. En esta instancia se mostraron los avances logrados hasta el momento, principalmente relacionados con los módulos de tracking y framing y las capacidades básicas de recepción y procesamiento de señales.
+
+\subsubsection{Demostración a Astar Aeroespacial (7 de septiembre)}
+
+Se realizó una demostración completa del sistema ante el equipo de Astar Aeroespacial, mostrando la integración de los componentes desarrollados hasta ese momento. Esta instancia permitió recibir retroalimentación valiosa del usuario final y validar la dirección técnica del proyecto.
+
+\subsubsection{Pruebas de integración (agosto -- noviembre)}
+
+A lo largo del desarrollo se realizaron pruebas de integración progresivas, tanto con datos simulados como con hardware real, para validar el correcto funcionamiento del sistema completo.
+
+\paragraph{Pruebas sin hardware (agosto -- octubre)}
+
+Se realizaron pruebas de integración para validar la comunicación entre componentes sin depender de hardware específico:
+
+\begin{enumerate}
+  \item \textbf{Integración gs + GNU Radio:} validación del procesamiento de señales y la demodulación de datos mediante flujos simulados.
+  \item \textbf{Integración gs + backend:} verificación del intercambio de mensajes y la correcta publicación/suscripción a tópicos MQTT.
+  \item \textbf{Integración frontend + backend:} pruebas de la API REST y la visualización de datos en la interfaz web.
+  \item \textbf{Integración completa (gs + backend + frontend):} validación del sistema completo con flujos de datos simulados de extremo a extremo.
+\end{enumerate}
+
+\paragraph{Pruebas con hardware (octubre -- noviembre)}
+
+Una vez validado el funcionamiento del sistema con datos simulados, se procedió a realizar pruebas con hardware real:
+
+\begin{enumerate}
+  \item \textbf{Pruebas con SDR:} recepción de señales reales utilizando dispositivos SDR y validación del procesamiento de señales.
+  \item \textbf{Pruebas con antena:} integración completa con la antena de la estación terrena física y validación del correcto funcionamiento del controlador de la misma.
+\end{enumerate}
+
+\subsubsection{Entrega final (15 de noviembre)}
+
+El último hito del proyecto consistió en la redacción y entrega del informe final, que documenta de manera exhaustiva el trabajo realizado, incluyendo:
+\begin{itemize}
+  \item Documentación técnica completa del sistema.
+  \item Descripción detallada de la arquitectura y los módulos implementados.
+  \item Resultados de las pruebas y validaciones realizadas.
+  \item Análisis de impactos y lecciones aprendidas.
+  \item Propuestas de desarrollos futuros.
+\end{itemize}
+
+\subsection{Observaciones sobre la planificación}
+
+Las metodologías ágiles adoptadas permitieron ajustar las prioridades de desarrollo de manera dinámica en función de los desafíos técnicos encontrados y la retroalimentación recibida. El desarrollo en paralelo de diferentes componentes del sistema (gs, servidor, frontend) facilitó la integración temprana y la detección de problemas de compatibilidad.
+
+Los hitos establecidos (entrega intermedia, demostración a Astar y entrega final) sirvieron como puntos de control que aseguraron el avance sostenido del proyecto y la alineación con los objetivos planteados en la propuesta inicial.
