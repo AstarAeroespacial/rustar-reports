@@ -1,6 +1,37 @@
 % Solución implementada
 \section{Solución implementada}
 
+\subsection{Estación Terrena}
+
+\subsubsection{Antenna Controller}
+
+El módulo Antenna Controller constituye la interfaz de bajo nivel entre el sistema de software y el hardware de orientación de la antena. Su función principal es la traducción de parámetros de apuntado calculados por el módulo de Tracking en comandos compatibles con el protocolo del controlador físico de la antena.
+
+\paragraph{Funcionalidad}
+
+El módulo recibe como entrada los siguientes parámetros de apuntado:
+\begin{itemize}
+    \item Ángulos de azimut y elevación (en grados decimales)
+    \item Identificación del satélite objetivo
+    \item Canal o frecuencia de downlink
+\end{itemize}
+
+Estos datos son procesados y formateados según el protocolo textual esperado por el controlador de antena. La estructura del comando generado responde al siguiente formato:
+
+\begin{verbatim}
+SN=[nombre_satélite],AZ=[azimut],EL=[elevación],DN=[downlink_number]
+\end{verbatim}
+
+donde \texttt{AZ} y \texttt{EL} representan los ángulos de orientación expresados en grados con precisión decimal, \texttt{SN} identifica el satélite objetivo y \texttt{DN} especifica el número de canal de downlink.
+
+\paragraph{Implementación}
+
+La comunicación con el hardware se establece mediante puerto serie, utilizando el crate \texttt{serialport} del ecosistema Rust. Esta biblioteca proporciona una API para:
+\begin{itemize}
+    \item Apertura y configuración de dispositivos serie
+    \item Establecimiento de parámetros de comunicación (baudrate, bits de datos, paridad, bits de parada)
+    \item Operaciones de lectura y escritura sobre el puerto
+\end{itemize}
 \subsection{Servidor}
 
 Como parte de la solución, se implementó un servidor con una REST API que funciona como interfaz entre el usuario y las estaciones terrenas. Entre las funciones del servidor se encuentran:
@@ -102,35 +133,3 @@ El esquema modela los elementos principales del sistema. La tabla \texttt{ground
 Cada \texttt{job} puede incluir múltiples comandos a ejecutar sobre la estación, almacenados en \texttt{job\_commands}. La ejecución de una misión se monitorea mediante \texttt{jobs\_status\_updates}, donde se conservan los cambios de estado más recientes asociados al identificador del job. Finalmente, la tabla \texttt{telemetry} archiva los paquetes de telemetría recibidos, manteniendo la referencia al satélite y a la estación que capturó el dato.
 
 Las claves foráneas garantizan la integridad referencial entre las entidades: los jobs sólo pueden asociarse a satélites y estaciones existentes, los comandos y actualizaciones de estado dependen de un job válido, y los registros de telemetría se vinculan con las mismas entidades que participaron en la captura. Este diseño permite consultar el historial de operaciones y telemetría de forma consistente y auditable.
-
-\subsection{Estación Terrena}
-
-\subsubsection{Antenna Controller}
-
-El módulo Antenna Controller constituye la interfaz de bajo nivel entre el sistema de software y el hardware de orientación de la antena. Su función principal es la traducción de parámetros de apuntado calculados por el módulo de Tracking en comandos compatibles con el protocolo del controlador físico de la antena.
-
-\paragraph{Funcionalidad}
-
-El módulo recibe como entrada los siguientes parámetros de apuntado:
-\begin{itemize}
-    \item Ángulos de azimut y elevación (en grados decimales)
-    \item Identificación del satélite objetivo
-    \item Canal o frecuencia de downlink
-\end{itemize}
-
-Estos datos son procesados y formateados según el protocolo textual esperado por el controlador de antena. La estructura del comando generado responde al siguiente formato:
-
-\begin{verbatim}
-SN=[nombre_satélite],AZ=[azimut],EL=[elevación],DN=[downlink_number]
-\end{verbatim}
-
-donde \texttt{AZ} y \texttt{EL} representan los ángulos de orientación expresados en grados con precisión decimal, \texttt{SN} identifica el satélite objetivo y \texttt{DN} especifica el número de canal de downlink.
-
-\paragraph{Implementación}
-
-La comunicación con el hardware se establece mediante puerto serie, utilizando el crate \texttt{serialport} del ecosistema Rust. Esta biblioteca proporciona una API para:
-\begin{itemize}
-    \item Apertura y configuración de dispositivos serie
-    \item Establecimiento de parámetros de comunicación (baudrate, bits de datos, paridad, bits de parada)
-    \item Operaciones de lectura y escritura sobre el puerto
-\end{itemize}
