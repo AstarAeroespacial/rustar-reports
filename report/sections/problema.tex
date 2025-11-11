@@ -1,1 +1,39 @@
-% Problema detectado y/o faltante
+\subsection{Limitaciones de las soluciones actuales}
+
+A partir del análisis del estado del arte, se identificó la necesidad de contar con un \textit{framework} de código abierto que combine las capacidades de procesamiento de señales, seguimiento orbital y gestión de telemetría en una plataforma unificada y extensible. Las soluciones existentes presentan diversas limitaciones que dificultan su uso en entornos académicos dedicados al desarrollo de misiones satelitales.
+
+El proyecto Astar contaba, al inicio de este trabajo, con una estación terrena basada en una antena direccionable controlada por un brazo robótico y dispositivos de \textit{SDR}, específicamente un \textit{RTL-SDR} para recepción y un \textit{bladeRF} a estrenar, para transmisión. Sin embargo, la operación del sistema dependía de un conjunto fragmentado de programas externos para el control de la antena, la recepción y demodulación de señales, y el manejo de datos.
+
+Esta arquitectura presentaba importantes limitaciones:
+
+\begin{itemize}
+    \item \textbf{Complejidad operativa:} el uso de múltiples herramientas no integradas (GNU Radio para procesamiento de señales, Orbitron para seguimiento orbital, scripts personalizados para control de antena) obligaba a los operadores a realizar tareas manuales y descoordinadas, incrementando significativamente la carga cognitiva y dificultando la operación fluida de la estación.
+    
+    \item \textbf{Falta de automatización e integración:} las aplicaciones utilizadas no compartían información entre sí, lo que impedía acciones coordinadas como la sincronización automática entre el posicionamiento de la antena y la adquisición de datos. Cada ventana de paso orbital requería configuración manual y coordinación entre múltiples programas.
+    
+    \item \textbf{Curva de aprendizaje elevada:} la necesidad de dominar múltiples herramientas especializadas, cada una con su propia interfaz y paradigma de operación, dificultaba el entrenamiento de nuevos operadores en el contexto académico. Los estudiantes debían invertir considerable tiempo en aprender el funcionamiento de cada componente antes de poder realizar operaciones satelitales efectivas.
+    
+    \item \textbf{Limitada escalabilidad:} la arquitectura fragmentada dificultaba la incorporación de nuevas funcionalidades o la adaptación del sistema a diferentes configuraciones de hardware y protocolos de comunicación. Cada modificación requería intervenciones en múltiples componentes sin garantías de compatibilidad.
+    
+    \item \textbf{Ausencia de gestión unificada de telemetría:} no existía una plataforma centralizada para visualizar, almacenar y analizar los datos de telemetría recibidos, lo que dificultaba el monitoreo del estado del satélite y la toma de decisiones durante las operaciones.
+\end{itemize}
+
+Estas restricciones no solo dificultaban el uso cotidiano de la estación, sino que también limitaban el potencial del proyecto Astar para operar satélites propios de forma eficiente. El enfoque fragmentado ralentizaba la toma de decisiones operativas, reducía la eficiencia de las ventanas de contacto y representaba una barrera significativa para la formación de nuevos usuarios en el entorno académico.
+
+\subsection{Oportunidad de mejora}
+
+El análisis de las limitaciones descritas reveló una oportunidad significativa para el desarrollo de un \textit{framework} de código abierto que integre de manera coherente todas las funcionalidades necesarias para operar estaciones terrenas dedicadas. Si bien existían herramientas especializadas para cada tarea individual, se identificó la ausencia de una solución unificada, modular y extensible, diseñada específicamente para entornos académicos y de desarrollo de misiones satelitales.
+
+La oportunidad de mejora se centró en desarrollar una plataforma que pudiera:
+
+\begin{itemize}
+    \item Unificar el procesamiento de señales, seguimiento orbital y gestión de telemetría en una única plataforma integrada.
+    \item Proporcionar automatización del flujo completo de operaciones satelitales, desde el seguimiento hasta la decodificación de datos.
+    \item Ofrecer una interfaz gráfica intuitiva orientada específicamente a tareas de \textit{TT\&C}.
+    \item Garantizar extensibilidad y adaptación a diferentes configuraciones de hardware y protocolos de comunicación.
+    \item Facilitar la integración directa con dispositivos \textit{SDR} y sistemas de control de antenas.
+    \item Mantener la filosofía de código abierto para fomentar el aprendizaje, la experimentación y la colaboración académica.
+    \item Proporcionar documentación accesible y facilidad de despliegue, adaptándose a las necesidades de instituciones educativas.
+\end{itemize}
+
+Esta brecha en el ecosistema de herramientas para estaciones terrenas representaba una oportunidad para desarrollar RUSTAR, una solución que no solo resolviera las necesidades específicas del proyecto Astar, sino que también pudiera beneficiar a otros proyectos académicos y de investigación en el ámbito aeroespacial. Este \textit{framework} busca posicionarse dentro del estado del arte de las herramientas para estaciones terrenas, aportando una solución innovadora tanto por su enfoque de integración como por su adecuación al contexto académico y de investigación aplicada.
