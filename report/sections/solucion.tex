@@ -1,4 +1,3 @@
-% Solución implementada
 \section{Solución implementada}
 
 \subsection{Estación Terrena}
@@ -136,9 +135,9 @@ Las claves foráneas garantizan la integridad referencial entre las entidades: l
 
 \subsection{Interfaz de Usuario}
 
-La interfaz de usuario del sistema proporciona una plataforma web moderna e intuitiva para la gestión y monitoreo de satélites y estaciones terrenas. Desarrollada con tecnologías web modernas (Next.js, React y TypeScript), la interfaz ofrece una experiencia fluida, responsiva y accesible desde cualquier navegador web, adaptándose automáticamente a diferentes dispositivos desde teléfonos móviles hasta monitores de escritorio.
+La interfaz de usuario del sistema proporciona una plataforma web moderna e intuitiva para la gestión y monitoreo de satélites y estaciones terrenas. Desarrollada con tecnologías web modernas (\textit{Next.js}, \textit{React} y \textit{TypeScript}), la interfaz ofrece una experiencia fluida, responsiva y accesible desde cualquier navegador web, adaptándose automáticamente a diferentes dispositivos desde teléfonos móviles hasta monitores de escritorio.
 
-La aplicación se estructura en dos módulos principales: Satélites y Estaciones Terrenas. El usuario puede alternar entre estos módulos mediante una barra de navegación superior. La interfaz se comunica con la API del sistema backend para obtener y enviar datos en tiempo real, garantizando que la información presentada esté siempre actualizada.
+La aplicación se estructura en dos módulos principales: Satélites y Estaciones Terrenas. El usuario puede alternar entre estos módulos mediante una barra de navegación superior. La interfaz se comunica con la API del servidor para obtener y enviar datos en tiempo real, garantizando que la información presentada esté siempre actualizada.
 
 \subsubsection{Módulo de Satélites}
 
@@ -146,9 +145,9 @@ Al acceder al módulo de satélites, el usuario visualiza todos los satélites d
 
 \paragraph{Seguimiento Orbital}
 
-El usuario puede visualizar en tiempo real la posición de cualquier satélite sobre un mapa interactivo de la Tierra. El sistema calcula y actualiza continuamente la trayectoria orbital, mostrando la ubicación actual del satélite segundo a segundo. Junto al mapa, se presenta información precisa en tiempo real: coordenadas geográficas exactas (latitud y longitud) y altitud sobre el nivel del mar en kilómetros.
+El usuario puede visualizar en tiempo real la posición de cualquier satélite sobre un mapa interactivo de la Tierra. El sistema calcula y actualiza continuamente la trayectoria orbital, mostrando la ubicación actual del satélite segundo a segundo. Junto al mapa, se presenta información precisa en tiempo real: coordenadas geográficas exactas (latitud y longitud) y altitud sobre el nivel del mar en metros.
 
-Una funcionalidad importante es la capacidad de actualizar los parámetros orbitales del satélite. Cuando se obtienen datos TLE (elementos orbitales) más recientes y precisos, el usuario puede ingresarlos directamente en el sistema, mejorando inmediatamente la exactitud del seguimiento orbital.
+Una funcionalidad importante es la capacidad de actualizar los parámetros orbitales del satélite. Cuando se obtienen datos TLE más recientes y precisos, el usuario puede ingresarlos directamente en el sistema, mejorando inmediatamente la exactitud del seguimiento orbital.
 
 \paragraph{Monitoreo de Telemetría}
 
@@ -180,7 +179,7 @@ Al seleccionar una estación terrena, el usuario accede a un mapa centrado en su
 
 Una de las funcionalidades más importantes para las operaciones diarias es la visualización de pases satelitales. El sistema calcula automáticamente todos los momentos en que diferentes satélites serán visibles desde la estación terrena seleccionada, proyectando las próximas 48 horas.
 
-El usuario puede consultar esta información de dos maneras complementarias. Un timeline visual horizontal representa gráficamente la distribución temporal de todos los pases, permitiendo identificar períodos de máxima actividad, detectar solapamientos entre pases de diferentes satélites y localizar ventanas de oportunidad libres para programar comunicaciones específicas.
+El usuario puede consultar esta información de dos maneras complementarias. Un \textit{timeline} visual horizontal representa gráficamente la distribución temporal de todos los pases, permitiendo identificar períodos de máxima actividad, detectar solapamientos entre pases de diferentes satélites y localizar ventanas de oportunidad libres para programar comunicaciones específicas.
 
 Complementariamente, una tabla detallada lista cada pase con información específica: satélite correspondiente, hora exacta de AOS (inicio de visibilidad), hora de LOS (fin de visibilidad), duración total del pase en minutos, y elevación máxima que alcanzará el satélite sobre el horizonte. Esta elevación máxima es un dato crítico, ya que pases con mayor elevación generalmente ofrecen mejor calidad de comunicación.
 
