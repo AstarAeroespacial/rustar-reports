@@ -39,6 +39,8 @@ Para el intercambio de información entre las estaciones terrenas y los satélit
 
 El procesamiento digital de señales involucrado en la modulación y demodulación, incluyendo operaciones como correlación, filtrado, sincronización y detección, se implementa utilizando GNU Radio. La aplicación de la estación terrena utiliza una interfaz que permite instanciar, configurar y ejecutar los flujos de GNU Radio, los cuales realizan el procesamiento correspondiente durante la recepción o la transmisión. Este enfoque integra las etapas de procesamiento digital dentro del ciclo de ejecución de cada observación, manteniendo una separación clara entre la lógica de control y el procesamiento de señales, y permitiendo reutilizar o adaptar fácilmente los flujos de GNU Radio para diferentes misiones o esquemas de modulación.
 
+La integración con GNU Radio se realiza ejecutando los flowgraphs definidos en Python como procesos externos. La aplicación inicializa y controla la ejecución de estos procesos, permitiendo elegir de forma dinámica el flujo a utilizar en función del esquema de modulación implementado por la misión. La comunicación entre la aplicación y el flowgraph se realiza mediante ZeroMQ.
+
 \subsubsection{Protocolo de enlace}
 
 \subsubsection{Seguimiento}
