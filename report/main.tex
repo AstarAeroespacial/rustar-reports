@@ -39,9 +39,9 @@
 \usepackage{fancyhdr}
 \pagestyle{fancy}
 \fancyhf{}
-\fancyhead[C]{\textit{RUSTAR - Software para estación terrena}}
-\fancyfoot[L]{Bohórquez, Davies Leccese, Lazcano, Medone Sabatini}
-\fancyfoot[R]{\thepage}
+\renewcommand{\sectionmark}[1]{\markboth{\thesection~~~~#1}{}}
+\fancyhead[L]{\nouppercase{\leftmark}}
+\fancyhead[R]{\thepage}
 
 % Ensure enough headheight for fancyhdr (fixes: "Package fancyhdr: \headheight is too small")
 % Required minimum observed in compilation was ~13.6pt, set to 14pt as a safe value.
