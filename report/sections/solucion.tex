@@ -39,7 +39,7 @@ Como parte de la solución, se implementó un servidor con una REST API que func
 \begin{itemize}
     \item Control remoto de la estación terrena mediante la asignación de tareas de seguimiento.
     \item Recolección de datos de telemetría provenientes del satélite.
-    \item Llevar registro de las distintas estaciones terrenas y trabajos asignados. 
+    \item Llevar registro de las distintas estaciones terrenas y trabajos asignados.
 \end{itemize}
 
 \subsubsection{Comunicación con Estaciones Terrenas}
@@ -133,3 +133,55 @@ El esquema modela los elementos principales del sistema. La tabla \texttt{ground
 Cada \texttt{job} puede incluir múltiples comandos a ejecutar sobre la estación, almacenados en \texttt{job\_commands}. La ejecución de una misión se monitorea mediante \texttt{jobs\_status\_updates}, donde se conservan los cambios de estado más recientes asociados al identificador del job. Finalmente, la tabla \texttt{telemetry} archiva los paquetes de telemetría recibidos, manteniendo la referencia al satélite y a la estación que capturó el dato.
 
 Las claves foráneas garantizan la integridad referencial entre las entidades: los jobs sólo pueden asociarse a satélites y estaciones existentes, los comandos y actualizaciones de estado dependen de un job válido, y los registros de telemetría se vinculan con las mismas entidades que participaron en la captura. Este diseño permite consultar el historial de operaciones y telemetría de forma consistente y auditable.
+
+\subsection{Interfaz de Usuario}
+
+La interfaz de usuario del sistema proporciona una plataforma web moderna e intuitiva para la gestión y monitoreo de satélites y estaciones terrenas. Desarrollada con tecnologías web modernas (Next.js, React y TypeScript), la interfaz ofrece una experiencia fluida, responsiva y accesible desde cualquier navegador web, adaptándose automáticamente a diferentes dispositivos desde teléfonos móviles hasta monitores de escritorio.
+
+La aplicación se estructura en dos módulos principales: Satélites y Estaciones Terrenas. El usuario puede alternar entre estos módulos mediante una barra de navegación superior. La interfaz se comunica con la API del sistema backend para obtener y enviar datos en tiempo real, garantizando que la información presentada esté siempre actualizada.
+
+\subsubsection{Módulo de Satélites}
+
+Al acceder al módulo de satélites, el usuario visualiza todos los satélites disponibles en el sistema. Esta vista permite identificar rápidamente cada satélite bajo control y acceder a sus funcionalidades específicas de monitoreo y control.
+
+\paragraph{Seguimiento Orbital}
+
+El usuario puede visualizar en tiempo real la posición de cualquier satélite sobre un mapa interactivo de la Tierra. El sistema calcula y actualiza continuamente la trayectoria orbital, mostrando la ubicación actual del satélite segundo a segundo. Junto al mapa, se presenta información precisa en tiempo real: coordenadas geográficas exactas (latitud y longitud) y altitud sobre el nivel del mar en kilómetros.
+
+Una funcionalidad importante es la capacidad de actualizar los parámetros orbitales del satélite. Cuando se obtienen datos TLE (elementos orbitales) más recientes y precisos, el usuario puede ingresarlos directamente en el sistema, mejorando inmediatamente la exactitud del seguimiento orbital.
+
+\paragraph{Monitoreo de Telemetría}
+
+Esta sección permite supervisar en tiempo real el estado de salud y funcionamiento del satélite. Los datos de telemetría se obtienen continuamente desde la API y se presentan mediante gráficos que muestran la evolución temporal de parámetros críticos como temperatura interna y voltaje del sistema eléctrico.
+
+La interfaz presenta tres perspectivas complementarias: gráficos visuales para identificar tendencias y anomalías, un visor de datos en formato crudo que muestra el flujo de paquetes tal como llegan del satélite, y una tabla estructurada que lista los paquetes recibidos con su hora exacta de recepción, identificador, tamaño y estado.
+
+\paragraph{Centro de Comandos}
+
+El centro de comandos proporciona la capacidad de enviar instrucciones al satélite de forma controlada y segura. El sistema presenta una lista de comandos predefinidos. Los comandos seleccionados se transmiten a través de la API hacia el sistema de control del satélite.
+
+Un historial completo registra todos los comandos enviados, mostrando para cada uno su estado actual: pendiente (en espera de transmisión), enviado (transmitido exitosamente) o fallido (error en la transmisión). Este registro permite rastrear todas las operaciones realizadas y verificar que los comandos fueron enviados al satélite según lo previsto.
+
+\paragraph{Predicción de Pases}
+
+Esta funcionalidad permite visualizar los próximos pases del satélite seleccionado sobre las estaciones terrenas disponibles. El sistema calcula y presenta las ventanas de visibilidad para las próximas 48 horas, mostrando cuándo y desde qué estación terrena será posible establecer comunicación con el satélite.
+
+La información se presenta en formato de timeline visual y tabla detallada, indicando para cada pase la estación terrena correspondiente, hora de inicio y fin de visibilidad, duración del pase y elevación máxima alcanzada.
+
+\subsubsection{Módulo de Estaciones Terrenas}
+
+El módulo de estaciones terrenas presenta todas las instalaciones disponibles en el sistema, permitiendo acceder rápidamente a la información y funcionalidades de cada estación.
+
+\paragraph{Ubicación y Detalles}
+
+Al seleccionar una estación terrena, el usuario accede a un mapa centrado en su ubicación exacta. La vista proporciona información precisa de posicionamiento: latitud y longitud con cuatro decimales de precisión, y altitud sobre el nivel del mar expresada en metros.
+
+\paragraph{Planificación de Pases}
+
+Una de las funcionalidades más importantes para las operaciones diarias es la visualización de pases satelitales. El sistema calcula automáticamente todos los momentos en que diferentes satélites serán visibles desde la estación terrena seleccionada, proyectando las próximas 48 horas.
+
+El usuario puede consultar esta información de dos maneras complementarias. Un timeline visual horizontal representa gráficamente la distribución temporal de todos los pases, permitiendo identificar períodos de máxima actividad, detectar solapamientos entre pases de diferentes satélites y localizar ventanas de oportunidad libres para programar comunicaciones específicas.
+
+Complementariamente, una tabla detallada lista cada pase con información específica: satélite correspondiente, hora exacta de AOS (inicio de visibilidad), hora de LOS (fin de visibilidad), duración total del pase en minutos, y elevación máxima que alcanzará el satélite sobre el horizonte. Esta elevación máxima es un dato crítico, ya que pases con mayor elevación generalmente ofrecen mejor calidad de comunicación.
+
+Ambas visualizaciones están sincronizadas: cuando el usuario desplaza el cursor sobre un pase en la tabla, el mismo pase se resalta visualmente en el timeline, y viceversa, facilitando la correlación entre la información tabular precisa y la representación temporal gráfica.
