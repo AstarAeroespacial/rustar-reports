@@ -11,7 +11,7 @@ El servidor se encuentra integrado con una base de datos relacional para llevar 
 \begin{figure}
     \centering
     \includegraphics[width=1.0\linewidth]{images/bdd_schema.png}
-    \caption{Esquema de la base de datos de Rustar}
+    \caption{Esquema de la base de datos de RUSTAR}
 \end{figure}
 
 El esquema modela los elementos principales del sistema. La tabla \texttt{ground\_stations} registra las estaciones terrenas con su identificador y posición geográfica (latitud, longitud y altitud). La tabla \texttt{satellites} conserva los satélites disponibles junto con su nombre, el TLE vigente y las frecuencias de comunicación. Ambas tablas se enlazan con las distintas misiones programadas en la tabla \texttt{jobs}, que representa una asignación de seguimiento entre una estación y un satélite dentro de un intervalo temporal definido.
