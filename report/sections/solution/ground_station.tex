@@ -45,6 +45,20 @@ La integración con GNU Radio se realiza ejecutando los flowgraphs definidos en 
 
 \subsubsection{Seguimiento}
 
+El módulo de Tracking es fundamental para el funcionamiento de la estación terrena, ya que permite seguir la trayectoria de los satélites durante las ventanas de observación. Su propósito principal es calcular, en tiempo real, los parámetros necesarios para mantener el enlace con el satélite a medida que este se desplaza en su órbita.
+
+Durante la ejecución de una tarea de observación, el módulo de Tracking utiliza los parámetros orbitales del satélite (proporcionados en la tarea mediante el TLE) para determinar continuamente:
+
+\begin{itemize}
+    \item Los ángulos de azimut y elevación necesarios para orientar la antena y mantenerla apuntando al satélite.
+    \item La corrección de frecuencia por efecto Doppler, tanto para la transmisión (uplink) como para la recepción (downlink), compensando el desplazamiento de frecuencia causado por el movimiento relativo entre la estación y el satélite.
+    \item La posición y velocidad del satélite en cada instante, permitiendo predecir su trayectoria durante el pase.
+\end{itemize}
+
+Estos valores se actualizan periódicamente durante toda la ventana de observación. Los ángulos calculados se envían al controlador de antena para ejecutar el seguimiento físico del satélite, mientras que las correcciones de frecuencia se aplican al dispositivo SDR para mantener sintonizadas las frecuencias de comunicación a pesar del efecto Doppler.
+
+La implementación del módulo de Tracking se describe en detalle en el Anexo~\ref{sec:tracking}.
+
 \subsubsection{Controlador de antena}
 
 El módulo Antenna Controller constituye la interfaz de bajo nivel entre el sistema de software y el hardware de orientación de la antena. Su función principal es la traducción de parámetros de apuntado calculados por el módulo de Tracking en comandos compatibles con el protocolo del controlador físico de la antena.
