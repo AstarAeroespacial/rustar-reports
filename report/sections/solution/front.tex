@@ -32,6 +32,12 @@ Esta sección permite supervisar en tiempo real el estado de salud y funcionamie
 
 La interfaz presenta tres perspectivas complementarias: gráficos visuales para identificar tendencias y anomalías, un visor de datos en formato crudo que muestra el flujo de paquetes tal como llegan del satélite, y una tabla estructurada que lista los paquetes recibidos con su hora exacta de recepción, identificador, tamaño y estado.
 
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.85\linewidth]{images/telemetry.png}
+  \caption{Vista de monitoreo de telemetría del satélite.}
+  \label{fig:telemetry}
+\end{figure}
 
 \paragraph{Centro de Comandos}
 
@@ -55,7 +61,7 @@ La información se presenta en formato de timeline visual y tabla detallada, ind
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.85\linewidth]{images/sat-passes.png}
-  \caption{Interfaz de predicción de pases y seguimiento orbital del satélite.}
+  \caption{Interfaz de predicción de pases satelitales.}
   \label{fig:sat_tracking}
 \end{figure}
 
@@ -90,3 +96,10 @@ El usuario puede consultar esta información de dos maneras complementarias. Un 
 Complementariamente, una tabla detallada lista cada pase con información específica: satélite correspondiente, hora exacta de AOS (inicio de visibilidad), hora de LOS (fin de visibilidad), duración total del pase en minutos, y elevación máxima que alcanzará el satélite sobre el horizonte. Esta elevación máxima es un dato crítico, ya que pases con mayor elevación generalmente ofrecen mejor calidad de comunicación.
 
 Ambas visualizaciones están sincronizadas: cuando el usuario desplaza el cursor sobre un pase en la tabla, el mismo pase se resalta visualmente en el timeline, y viceversa, facilitando la correlación entre la información tabular precisa y la representación temporal gráfica.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.85\linewidth]{images/gs-passes.png}
+  \caption{Vista de planificación de pases satelitales desde una estación terrena.}
+  \label{fig:gs_passes}
+\end{figure}
