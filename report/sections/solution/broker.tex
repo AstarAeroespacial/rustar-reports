@@ -1,0 +1,21 @@
+Para la comunicación entre las estaciones terrenas y el servidor, se decidió utilizar un \textit{Message Oriented Middleware} (MOM) para manejar el ruteo y delivery de mensajes. En concreto, se optó por utilizar \textbf{MQTT}, que es es estándar para aplicaciones de IoT y circuitos integrados, por lo que resulta adecuado para cualquier hardware que eventualmente utilicen las estaciones terrenas.
+
+El protocolo MQTT soporta una gran variedad de configuraciones para distintos casos de uso. Una de estas configuraciones es la \textbf{calidad de servicio} (QoS), que controla qué garantías de entrega tiene cada mensaje. Como nuestra aplicación tiene poco \textit{throughput} de mensajes y la entrega de varios es crítica, se decidió usar el nivel de QoS más alto, que es QoS 2 (\textit{exactly once}). Con este nivel de QoS el protocolo MQTT garantiza que cada mensaje será entregado una única vez a un receptor. Como en nuestro sistema todos los mensajes son punto a punto, QoS 2 garantiza que todos los mensajes van a llegar al receptor indicado sin duplicación, asegurando que ningún job quede sin asignar y que ninguna actualización del satélite se pierda.
+
+El protocolo MQTT también permite configurar la autenticaión de los participantes por medio de TLS. Esta opción permite añadir una capa de seguridad adicional para garantizar la autenticidad de las estaciones terrenas y mejorar la robustez del sistema en general.
+
+\subsection{Base de Datos}
+
+El servidor se encuentra integrado con una base de datos relacional para llevar registro de las entidades relevantes (estaciones terrenas, satélites, jobs, etc.) así como de la información recibida de las distintas misiones. El esquema actual de la base de datos es el siguiente:
+
+\begin{figure}
+    \centering
+    \includegraphics[width=1.0\linewidth]{images/bdd_schema.png}
+    \caption{Esquema de la base de datos de RUSTAR}
+\end{figure}
+
+El esquema modela los elementos principales del sistema. La tabla \texttt{ground\_stations} registra las estaciones terrenas con su identificador y posición geográfica (latitud, longitud y altitud). La tabla \texttt{satellites} conserva los satélites disponibles junto con su nombre, el TLE vigente y las frecuencias de comunicación. Ambas tablas se enlazan con las distintas misiones programadas en la tabla \texttt{jobs}, que representa una asignación de seguimiento entre una estación y un satélite dentro de un intervalo temporal definido.
+
+Cada \texttt{job} puede incluir múltiples comandos a ejecutar sobre la estación, almacenados en \texttt{job\_commands}. La ejecución de una misión se monitorea mediante \texttt{jobs\_status\_updates}, donde se conservan los cambios de estado más recientes asociados al identificador del job. Finalmente, la tabla \texttt{telemetry} archiva los paquetes de telemetría recibidos, manteniendo la referencia al satélite y a la estación que capturó el dato.
+
+Las claves foráneas garantizan la integridad referencial entre las entidades: los jobs sólo pueden asociarse a satélites y estaciones existentes, los comandos y actualizaciones de estado dependen de un job válido, y los registros de telemetría se vinculan con las mismas entidades que participaron en la captura. Este diseño permite consultar el historial de operaciones y telemetría de forma consistente y auditable.
