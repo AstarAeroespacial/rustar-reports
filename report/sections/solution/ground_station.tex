@@ -1,7 +1,7 @@
 Las funciones que lleva a cabo para cumplir con su propósito son:
 \begin{itemize}
     \item Comunicarse con el dispositivo \gls{SDR}, encargado de la transmisión y recepción de señales de radiofrecuencia.
-    \item Realizar la demodulación y modulación necesarios para convertir las señales en tramas de bits y viceversa.
+    \item Realizar la demodulación y modulación necesarios para convertir las señales en frames de bits y viceversa.
     \item Implementar el protocolo de enlace de datos requerido para el intercambio de información.
     \item Controlar la orientación de la antena para seguir la trayectoria del satélite.
 \end{itemize}
@@ -35,13 +35,20 @@ La capa de abstracción para interactuar con el dispositivo \gls{SDR} se impleme
 
 \subsubsection{Modulación y demodulación}
 
-Para el intercambio de información entre las estaciones terrenas y los satélites, la estación terrena implementa la modulación y demodulación digital responsable de transformar los datos en una forma de onda adecuada para la transmisión y de recuperar la información recibida a partir de las muestras capturadas. En transmisión, se genera secuencias de muestras digitales según el esquema de modulación definido para la misión, mientras que en recepción se realiza el proceso inverso, decodificando las muestras provenientes del \gls{SDR} para reconstruir el flujo original de bits. Estas operaciones constituyen la base de la capa física del enlace y permiten establecer el intercambio de información entre ambos extremos de la comunicación.
+Para el intercambio de información entre las estaciones terrenas y los satélites, la estación terrena implementa la modulación y demodulación digital responsable de transformar los datos en una forma de onda adecuada para la transmisión y de recuperar la información recibida a partir de las muestras capturadas. En transmisión, se generan secuencias de muestras digitales según el esquema de modulación definido para la misión, mientras que en recepción se realiza el proceso inverso, decodificando las muestras provenientes del \gls{SDR} para reconstruir el flujo original de bits. Estas operaciones constituyen la base de la capa física del enlace y permiten establecer el intercambio de información entre ambos extremos de la comunicación.
 
 El procesamiento digital de señales involucrado en la modulación y demodulación, incluyendo operaciones como correlación, filtrado, sincronización y detección, se implementa utilizando \gls{gnuradio}. La aplicación de la estación terrena utiliza una interfaz que permite instanciar, configurar y ejecutar los flujos de \gls{gnuradio}, los cuales realizan el procesamiento correspondiente durante la recepción o la transmisión. Este enfoque integra las etapas de procesamiento digital dentro del ciclo de ejecución de cada observación, manteniendo una separación clara entre la lógica de control y el procesamiento de señales, y permitiendo reutilizar o adaptar fácilmente los flujos de \gls{gnuradio} para diferentes misiones o esquemas de modulación.
 
 La integración con \gls{gnuradio} se realiza ejecutando los flowgraphs definidos en Python como procesos externos. La aplicación inicializa y controla la ejecución de estos procesos, permitiendo elegir de forma dinámica el flujo a utilizar en función del esquema de modulación implementado por la misión. El intercambio de muestras y bits entre la aplicación y el flowgraph se realiza mediante \gls{zeromq}.
 
 \subsubsection{Protocolo de enlace}
+
+Una vez que las etapas de modulación y demodulación convierten las señales entre el dominio analógico y digital, es necesario implementar un protocolo de capa de enlace de datos que estructure el flujo de bits en unidades significativas de información. La arquitectura de la aplicación de la estación terrena está diseñada para permitir la integración de distintos protocolos de enlace según los requerimientos de cada misión. Para el presente desarrollo se implementó el protocolo \gls{HDLC} (High-Level Data Link Control), el cual constituye el estándar de facto en comunicaciones satelitales de órbita baja y es ampliamente utilizado en proyectos de CubeSats y satélites de radioaficionados. Una descripción detallada del protocolo \gls{HDLC}, su estructura de frames y mecanismos de transparencia se encuentra en el anexo correspondiente.
+
+La implementación del protocolo se organiza en dos componentes principales: el \textit{framer} y el \textit{deframer}. El \textit{framer} es responsable de estructurar los datos para la transmisión, mientras que el \textit{deframer} realiza el proceso inverso en recepción. Durante la transmisión, los datos son encapsulados en frames que incluyen delimitadores de sincronización y campos de verificación de integridad. En recepción, el flujo de bits es analizado para identificar los límites de cada frame, extraer su contenido y validar su correcta recepción antes de entregar los datos a las capas superiores del sistema.
+
+El sistema está diseñado para operar de manera robusta en condiciones adversas del canal de comunicación, características típicas de los enlaces satelitales. Esto incluye la capacidad de resincronizarse automáticamente ante pérdida de señal, descartar datos corruptos o inválidos, y procesar el flujo de información de manera continua sin pérdida de frames válidos.
+
 
 \subsubsection{Seguimiento}
 
