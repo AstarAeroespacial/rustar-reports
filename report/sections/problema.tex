@@ -2,12 +2,12 @@
 
 A partir del análisis del estado del arte, se identificó la necesidad de contar con un \textit{framework} de código abierto que combine las capacidades de procesamiento de señales, seguimiento orbital y gestión de telemetría en una plataforma unificada y extensible. Las soluciones existentes presentan diversas limitaciones que dificultan su uso en entornos académicos dedicados al desarrollo de misiones satelitales.
 
-El proyecto Astar contaba, al inicio de este trabajo, con una estación terrena basada en una antena direccionable controlada por un brazo robótico y dispositivos de \textit{SDR}, específicamente un \textit{RTL-SDR} para recepción y un \textit{bladeRF} a estrenar, para transmisión. Sin embargo, la operación del sistema dependía de un conjunto fragmentado de programas externos para el control de la antena, la recepción y demodulación de señales, y el manejo de datos.
+El proyecto Astar contaba, al inicio de este trabajo, con una estación terrena basada en una antena direccionable controlada por un brazo robótico y dispositivos de \gls{SDR}, específicamente un \textit{RTL-SDR} para recepción y un \textit{bladeRF} a estrenar, para transmisión y recepción. Sin embargo, la operación del sistema dependía de un conjunto fragmentado de programas externos para el control de la antena, la recepción y demodulación de señales, y el manejo de datos.
 
 Esta arquitectura presentaba importantes limitaciones:
 
 \begin{itemize}
-    \item \textbf{Complejidad operativa:} el uso de múltiples herramientas no integradas (GNU Radio para procesamiento de señales, Orbitron para seguimiento orbital, scripts personalizados para control de antena) obligaba a los operadores a realizar tareas manuales y descoordinadas, incrementando significativamente la carga cognitiva y dificultando la operación fluida de la estación.
+    \item \textbf{Complejidad operativa:} el uso de múltiples herramientas no integradas (\gls{gnuradio} para procesamiento de señales, \gls{orbitron} para seguimiento orbital, scripts personalizados para control de antena) obligaba a los operadores a realizar tareas manuales y descoordinadas, incrementando significativamente la carga cognitiva y dificultando la operación fluida de la estación.
     
     \item \textbf{Falta de automatización e integración:} las aplicaciones utilizadas no compartían información entre sí, lo que impedía acciones coordinadas como la sincronización automática entre el posicionamiento de la antena y la adquisición de datos. Cada ventana de paso orbital requería configuración manual y coordinación entre múltiples programas.
     
@@ -29,9 +29,9 @@ La oportunidad de mejora se centró en desarrollar una plataforma que pudiera:
 \begin{itemize}
     \item Unificar el procesamiento de señales, seguimiento orbital y gestión de telemetría en una única plataforma integrada.
     \item Proporcionar automatización del flujo completo de operaciones satelitales, desde el seguimiento hasta la decodificación de datos.
-    \item Ofrecer una interfaz gráfica intuitiva orientada específicamente a tareas de \textit{TT\&C}.
+    \item Ofrecer una interfaz gráfica intuitiva orientada específicamente a tareas de \gls{ttc}.
     \item Garantizar extensibilidad y adaptación a diferentes configuraciones de hardware y protocolos de comunicación.
-    \item Facilitar la integración directa con dispositivos \textit{SDR} y sistemas de control de antenas.
+    \item Facilitar la integración directa con dispositivos \gls{SDR} y sistemas de control de antenas.
     \item Mantener la filosofía de código abierto para fomentar el aprendizaje, la experimentación y la colaboración académica.
     \item Proporcionar documentación accesible y facilidad de despliegue, adaptándose a las necesidades de instituciones educativas.
 \end{itemize}

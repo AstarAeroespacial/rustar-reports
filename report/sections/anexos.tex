@@ -4,7 +4,11 @@
 \input{sections/annexes/repositorios}
 \newpage
 
-\input{sections/annexes/glosario}
-\newpage
+\subsection{Glosario}
+{
+    \renewcommand{\glossarysection}[2][]{}%
+    \printglossary[title={}]
+}
 
 \input{sections/annexes/minutas}
+\newpage
