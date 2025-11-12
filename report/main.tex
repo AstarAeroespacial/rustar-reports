@@ -21,6 +21,10 @@
 \usepackage[hyphens]{url}
 \usepackage[hidelinks]{hyperref}
 
+\usepackage[automake]{glossaries-extra}
+\makeglossaries
+
+
 \usepackage{titlesec}
 \titleformat{\section}
   {\normalfont\fontsize{16}{18}\bfseries}{\thesection}{1em}{}
@@ -48,6 +52,9 @@
 \setlength{\headheight}{14pt}
 
 \begin{document}
+
+% Carga el glosario.
+\input{glosario}
 
 \input{sections/caratula}
 
@@ -124,6 +131,9 @@
 
 \section{Anexos}
 \input{sections/anexos}
+\newpage
+
+\printglossary
 \newpage
 
 \end{document}
