@@ -5,7 +5,7 @@ Como parte de la solución, se implementó un servidor con una REST API que func
 \begin{itemize}
     \item Control remoto de la estación terrena mediante la asignación de tareas de seguimiento.
     \item Recolección de datos de telemetría provenientes del satélite.
-    \item Llevar registro de las distintas estaciones terrenas y trabajos asignados. 
+    \item Llevar registro de las distintas estaciones terrenas y trabajos asignados.
 \end{itemize}
 
 \subsubsection{Comunicación con estaciones terrenas}
@@ -56,7 +56,7 @@ La API permite consultar la telemetría decodificada con paginación y administr
 
 \paragraph{Seguimiento}
 
-Estos recursos calculan oportunidades de observación futuras, tanto desde la perspectiva de un satélite como de una estación terrena, permitiendo filtrar por satélites o estaciones terrenas de interés.
+Estos recursos utilizan el módulo de Tracking (descrito en detalle en el Anexo~\ref{sec:tracking}) para calcular oportunidades de observación futuras, tanto desde la perspectiva de un satélite como de una estación terrena. A partir de los parámetros orbitales (TLE) y la ubicación de las estaciones, se predicen las ventanas de visibilidad con sus tiempos de adquisición y pérdida de señal, permitiendo filtrar por satélites o estaciones terrenas de interés.
 
 \begin{itemize}
     \item \texttt{GET /api/satellites/\{id\}/passes}: Obtener los próximos pases del satélite sobre las estaciones terrenas disponibles.
