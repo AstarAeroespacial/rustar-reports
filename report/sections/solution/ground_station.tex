@@ -1,0 +1,76 @@
+Las funciones que lleva a cabo para cumplir con su propósito son:
+\begin{itemize}
+    \item Comunicarse con el dispositivo SDR, encargado de la transmisión y recepción de señales de radiofrecuencia.
+    \item Realizar la demodulación y modulación necesarios para convertir las señales en tramas de bits y viceversa.
+    \item Implementar el protocolo de enlace de datos requerido para el intercambio de información.
+    \item Controlar la orientación de la antena para seguir la trayectoria del satélite.
+\end{itemize}
+
+Estas funciones se ejecutan durante una ventana de observación de un satélite con el cual se quiere establecer contacto. Para programar un contacto u observación, el mecanismo provisto por la estación terrena es mediante el envío de una tarea de observación.
+
+\subsubsection{Tareas de observación}
+
+Las tareas de observación se envían a las estaciones terrenas a través de la cola de mensajería.
+
+Cada tarea de observación contiene la información necesaria para llevar a cabo la operación:
+\begin{itemize}
+    \item Identificador del satélite, necesario para correlacionar la telemetría e información obtenida.
+    \item Los parámetros orbitales para calcular la posición y velocidad relativa del satélite.
+    \item Las frecuencias de transmisión y recepción para configurar el radioenlace.
+    \item La ventana temporal de observación, con la adquisición y pérdida de señal.
+    \item Opcionalmente, información para transmitir al satélite en caso de ser necesario.
+\end{itemize}
+
+Una vez recibida la tarea de observación, la estación programará su ejecución para que comience automáticamente al iniciar la ventana de contacto. Además, reporta el estado de la tarea mediante la cola de mensajería.
+
+Durante la ejecución de la observación, se obtiene la telemetría transmitida por el satélite y se envían a la cola de mensajería. Si hubiere, se envían al satélite los comandos contenidos en la tarea de observación, asegurando su correcta recepción.
+
+\subsubsection{Radio definida por software}
+
+La aplicación de la estación terrena se comunica directamente con el dispositivo SDR para configurar los parámetros operativos del enlace, principalmente las frecuencias de transmisión y recepción, el ancho de banda y la tasa de muestreo. Durante la recepción, el SDR entrega un flujo continuo de muestras crudas que representan la señal capturada en el dominio digital, las cuales son procesadas por las etapas de demodulación. De forma análoga, en transmisión, la aplicación genera las muestras correspondientes a la señal modulada y las envía al SDR para su conversión y emisión en radiofrecuencia.
+
+La comunicación con el SDR se realiza a través de una capa de abstracción que define una interfaz común para los distintos dispositivos. Esto permite utilizar diferentes dispositivos SDR o fuentes de muestras sin modificar la lógica principal del sistema. Gracias a esta separación, la estación puede adaptarse a diversos entornos de hardware y esquemas de modulación, manteniendo una arquitectura flexible y fácilmente extensible.
+
+La capa de abstracción para interactuar con el dispositivo SDR se implementa utilizando SoapySDR. A través de su interfaz, se puede inicializar y configurar una gran variedad de dispositivos SDR, para luego enviar y recibir muestras de la señal digitalizada.
+
+\subsubsection{Modulación y demodulación}
+
+Para el intercambio de información entre las estaciones terrenas y los satélites, la estación terrena implementa un módulo de modulación y demodulación digital responsable de transformar los datos en una forma de onda adecuada para la transmisión y de recuperar la información recibida a partir de las muestras capturadas. En transmisión, el módulo genera secuencias de muestras digitales según el esquema de modulación definido para la misión, mientras que en recepción realiza el proceso inverso, decodificando las muestras provenientes del SDR para reconstruir el flujo original de bits. Estas operaciones constituyen la base de la capa física del enlace y permiten establecer el intercambio de información entre ambos extremos de la comunicación.
+
+El procesamiento digital de señales involucrado en la modulación y demodulación, incluyendo operaciones como correlación, filtrado, sincronización y detección, se implementa utilizando GNU Radio. La aplicación de la estación terrena utiliza una interfaz que permite instanciar, configurar y ejecutar los flujos de GNU Radio, los cuales realizan el procesamiento correspondiente durante la recepción o la transmisión. Este enfoque integra las etapas de procesamiento digital dentro del ciclo de ejecución de cada observación, manteniendo una separación clara entre la lógica de control y el procesamiento de señales, y permitiendo reutilizar o adaptar fácilmente los flujos de GNU Radio para diferentes misiones o esquemas de modulación.
+
+La integración con GNU Radio se realiza ejecutando los flowgraphs definidos en Python como procesos externos. La aplicación inicializa y controla la ejecución de estos procesos, permitiendo elegir de forma dinámica el flujo a utilizar en función del esquema de modulación implementado por la misión. La comunicación entre la aplicación y el flowgraph se realiza mediante ZeroMQ.
+
+\subsubsection{Protocolo de enlace}
+
+\subsubsection{Seguimiento}
+
+\subsubsection{Controlador de antena}
+
+El módulo Antenna Controller constituye la interfaz de bajo nivel entre el sistema de software y el hardware de orientación de la antena. Su función principal es la traducción de parámetros de apuntado calculados por el módulo de Tracking en comandos compatibles con el protocolo del controlador físico de la antena.
+
+\paragraph{Funcionalidad}
+
+El módulo recibe como entrada los siguientes parámetros de apuntado:
+\begin{itemize}
+    \item Ángulos de azimut y elevación (en grados decimales)
+    \item Identificación del satélite objetivo
+    \item Canal o frecuencia de downlink
+\end{itemize}
+
+Estos datos son procesados y formateados según el protocolo textual esperado por el controlador de antena. La estructura del comando generado responde al siguiente formato:
+
+\begin{verbatim}
+SN=[nombre_satélite],AZ=[azimut],EL=[elevación],DN=[downlink_number]
+\end{verbatim}
+
+donde \texttt{AZ} y \texttt{EL} representan los ángulos de orientación expresados en grados con precisión decimal, \texttt{SN} identifica el satélite objetivo y \texttt{DN} especifica el número de canal de downlink.
+
+\paragraph{Implementación}
+
+La comunicación con el hardware se establece mediante puerto serie, utilizando el crate \texttt{serialport} del ecosistema Rust. Esta biblioteca proporciona una API para:
+\begin{itemize}
+    \item Apertura y configuración de dispositivos serie
+    \item Establecimiento de parámetros de comunicación (baudrate, bits de datos, paridad, bits de parada)
+    \item Operaciones de lectura y escritura sobre el puerto
+\end{itemize}
