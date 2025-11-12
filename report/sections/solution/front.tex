@@ -6,11 +6,25 @@ La aplicación se estructura en dos módulos principales: Satélites y Estacione
 
 Al acceder al módulo de satélites, el usuario visualiza todos los satélites disponibles en el sistema. Esta vista permite identificar rápidamente cada satélite bajo control y acceder a sus funcionalidades específicas de monitoreo y control.
 
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.85\linewidth]{images/sats.png}
+  \caption{Vista general del módulo de satélites.}
+  \label{fig:sats}
+\end{figure}
+
 \paragraph{Seguimiento Orbital}
 
 El usuario puede visualizar en tiempo real la posición de cualquier satélite sobre un mapa interactivo de la Tierra. El sistema calcula y actualiza continuamente la trayectoria orbital, mostrando la ubicación actual del satélite segundo a segundo. Junto al mapa, se presenta información precisa en tiempo real: coordenadas geográficas exactas (latitud y longitud) y altitud sobre el nivel del mar en metros.
 
 Una funcionalidad importante es la capacidad de actualizar los parámetros orbitales del satélite. Cuando se obtienen datos TLE más recientes y precisos, el usuario puede ingresarlos directamente en el sistema, mejorando inmediatamente la exactitud del seguimiento orbital.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.85\linewidth]{images/overview.png}
+  \caption{Vista de seguimiento orbital en tiempo real.}
+  \label{fig:overview}
+\end{figure}
 
 \paragraph{Monitoreo de Telemetría}
 
@@ -18,11 +32,19 @@ Esta sección permite supervisar en tiempo real el estado de salud y funcionamie
 
 La interfaz presenta tres perspectivas complementarias: gráficos visuales para identificar tendencias y anomalías, un visor de datos en formato crudo que muestra el flujo de paquetes tal como llegan del satélite, y una tabla estructurada que lista los paquetes recibidos con su hora exacta de recepción, identificador, tamaño y estado.
 
+
 \paragraph{Centro de Comandos}
 
 El centro de comandos proporciona la capacidad de enviar instrucciones al satélite de forma controlada y segura. El sistema presenta una lista de comandos predefinidos. Los comandos seleccionados se transmiten a través de la API hacia el sistema de control del satélite.
 
 Un historial completo registra todos los comandos enviados, mostrando para cada uno su estado actual: pendiente (en espera de transmisión), enviado (transmitido exitosamente) o fallido (error en la transmisión). Este registro permite rastrear todas las operaciones realizadas y verificar que los comandos fueron enviados al satélite según lo previsto.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.85\linewidth]{images/commands.png}
+  \caption{Centro de comandos con historial de comandos enviados.}
+  \label{fig:commands}
+\end{figure}
 
 \paragraph{Predicción de Pases}
 
@@ -30,13 +52,34 @@ Esta funcionalidad permite visualizar los próximos pases del satélite seleccio
 
 La información se presenta en formato de timeline visual y tabla detallada, indicando para cada pase la estación terrena correspondiente, hora de inicio y fin de visibilidad, duración del pase y elevación máxima alcanzada.
 
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.85\linewidth]{images/sat-passes.png}
+  \caption{Interfaz de predicción de pases y seguimiento orbital del satélite.}
+  \label{fig:sat_tracking}
+\end{figure}
+
 \subsubsection{Módulo de Estaciones Terrenas}
 
 El módulo de estaciones terrenas presenta todas las instalaciones disponibles en el sistema, permitiendo acceder rápidamente a la información y funcionalidades de cada estación.
 
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.85\linewidth]{images/gs.png}
+  \caption{Vista general del módulo de estaciones terrenas.}
+  \label{fig:gs}
+\end{figure}
+
 \paragraph{Ubicación y Detalles}
 
 Al seleccionar una estación terrena, el usuario accede a un mapa centrado en su ubicación exacta. La vista proporciona información precisa de posicionamiento: latitud y longitud con cuatro decimales de precisión, y altitud sobre el nivel del mar expresada en metros.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.85\linewidth]{images/location.png}
+  \caption{Vista de ubicación y detalles de una estación terrena.}
+  \label{fig:location_gs}
+\end{figure}
 
 \paragraph{Planificación de Pases}
 
