@@ -32,7 +32,7 @@ Cada frame contiene los siguientes campos:
 
 El mecanismo de FCS garantiza que los datos recibidos correspondan exactamente a los transmitidos. Cuando se detecta una discrepancia en el CRC, el frame se descarta como corrupto, permitiendo al sistema de capas superiores implementar mecanismos de retransmisión cuando sea necesario.
 
-\subsubsection{Transparencia: Bit stuffing y bit destuffing}
+\subsubsection{Transparencia: Bit stuffing y destuffing}
 
 Un desafío fundamental en el diseño de \gls{HDLC} es evitar que el contenido del frame se confunda con las secuencias de sincronización (\textit{flags}). Para resolver este problema, el protocolo emplea una técnica denominada \textit{bit stuffing}.
 
