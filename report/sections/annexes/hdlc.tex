@@ -1,0 +1,66 @@
+\subsection{Protocolo HDLC}
+
+El protocolo \gls{HDLC} (High-Level Data Link Control) es un protocolo de capa de enlace de datos ampliamente utilizado en comunicaciones satelitales, especialmente en misiones de órbita baja y proyectos de CubeSats. Constituye el estándar de facto para el intercambio de información entre estaciones terrenas y satélites de radioaficionados debido a su robustez, eficiencia y capacidad de operar en entornos con alta tasa de errores.
+
+\subsubsection{Estructura de frame}
+
+El protocolo \gls{HDLC} organiza los datos en frames delimitados por secuencias de sincronización denominadas \textit{flags}. Estos \textit{flags} marcan el inicio y fin de cada paquete, permitiendo al receptor identificar los límites de las unidades de información en el flujo continuo de bits.
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline
+\textbf{\textit{Flag}} & \textbf{Address} & \textbf{Control} & \textbf{Info.} & \textbf{FCS} & \textbf{\textit{Flag}} \\
+\hline
+01111110 & 8 bits & 8 bits & * & 16 bits & 01111110 \\
+\hline
+\end{tabular}
+\caption{Estructura del frame HDLC}
+\label{tab:hdlc-frame}
+\end{table}
+
+Cada frame contiene los siguientes campos:
+
+\begin{itemize}
+    \item \textbf{\textit{Flag} de apertura}: Secuencia de sincronización que marca el inicio del frame (típicamente el patrón binario \texttt{01111110}).
+    \item \textbf{Dirección}: Campo de dirección de 8 bits que identifica la estación destinataria del frame. En configuraciones punto a punto, este campo puede utilizarse con un valor fijo.
+    \item \textbf{Control}: Campo de control de 8 bits que especifica el tipo de frame (información, supervisión o no numerado) y contiene números de secuencia para el control de flujo y la detección de frames duplicados o perdidos.
+    \item \textbf{Campo de información}: Contiene la carga útil de datos, que puede ser telemetría recibida del satélite o comandos a transmitir. Su longitud es variable.
+    \item \textbf{Secuencia de verificación de frame (FCS)}: Campo de 16 bits que contiene un código de redundancia cíclica (CRC-16) calculado sobre el contenido del frame, permitiendo detectar errores de transmisión.
+    \item \textbf{\textit{Flag} de cierre}: Secuencia de sincronización que marca el fin del frame (idéntica al \textit{flag} de apertura).
+\end{itemize}
+
+El mecanismo de FCS garantiza que los datos recibidos correspondan exactamente a los transmitidos. Cuando se detecta una discrepancia en el CRC, el frame se descarta como corrupto, permitiendo al sistema de capas superiores implementar mecanismos de retransmisión cuando sea necesario.
+
+\subsubsection{Transparencia: Bit stuffing y destuffing}
+
+Un desafío fundamental en el diseño de \gls{HDLC} es evitar que el contenido del frame se confunda con las secuencias de sincronización (\textit{flags}). Para resolver este problema, el protocolo emplea una técnica denominada \textit{bit stuffing}.
+
+El proceso de bit stuffing opera de la siguiente manera:
+
+\begin{itemize}
+    \item Durante la transmisión, cuando en el flujo de datos aparecen cinco bits consecutivos en 1, el \textit{framer} inserta automáticamente un 0 adicional después de la quinta posición.
+    \item Durante la recepción, el \textit{deframer} realiza el proceso inverso (bit destuffing), eliminando estos ceros insertados para recuperar la secuencia original de datos.
+    \item Esta técnica garantiza que la única secuencia de seis unos consecutivos que puede aparecer en la transmisión es la correspondiente a los \textit{flags} de sincronización.
+\end{itemize}
+
+Esta técnica asegura la transparencia del protocolo, es decir, la capacidad de transmitir cualquier patrón arbitrario de bits sin ambigüedades respecto a los delimitadores de frame. El contenido de información puede contener cualquier secuencia de bits sin interferir con el mecanismo de sincronización.
+
+\subsubsection{Optimización: \textit{Flags} compartidos}
+
+El protocolo \gls{HDLC} soporta el concepto de \textit{flags} compartidos, una optimización que mejora la eficiencia en transmisiones continuas de múltiples paquetes. En este esquema, el \textit{flag} de cierre de un frame puede actuar simultáneamente como \textit{flag} de apertura del siguiente frame.
+
+Esta característica optimiza el uso del ancho de banda al eliminar la necesidad de transmitir \textit{flags} redundantes entre frames consecutivos, reduciendo el overhead del protocolo en comunicaciones de alta velocidad donde se transmiten múltiples paquetes de forma continua.
+
+\subsubsection{Operación robusta en canales adversos}
+
+El diseño del protocolo \gls{HDLC} lo hace especialmente adecuado para operar en condiciones adversas del canal de comunicación, características típicas de los enlaces satelitales:
+
+\begin{itemize}
+    \item \textbf{Resincronización}: El receptor busca patrones de \textit{flag} de forma incremental en el flujo de bits entrante, permitiendo recuperar la sincronización incluso después de períodos de pérdida de señal.
+    \item \textbf{Descarte de basura}: Cuando se detectan datos inválidos entre frames (basura o ruido del canal), el protocolo los descarta automáticamente y continúa buscando el siguiente \textit{flag} válido.
+    \item \textbf{Validación por CRC}: Solo los frames con FCS válido son aceptados y entregados a las capas superiores, garantizando la integridad de los datos en presencia de errores de transmisión.
+    \item \textbf{Buffer circular}: Los implementaciones típicas utilizan un búfer circular que acumula bits entrantes, permitiendo procesar el flujo de forma continua sin pérdida de información.
+\end{itemize}
+
+Estas características hacen de \gls{HDLC} un protocolo robusto y confiable para comunicaciones satelitales, capaz de mantener la integridad de los datos incluso en presencia de alta tasa de errores, desvanecimientos y condiciones variables del enlace de radiofrecuencia.
