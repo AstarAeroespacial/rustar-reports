@@ -1,1 +1,25 @@
 % Experimentación y validación
+
+\section{Expereminentación y validación}
+
+Parte central del desarrollo de la solución fue la validación continua con el hardware real que va a utilizar la misión. La experimentación se centró en la integración con 2 componentes principales: el controlador de la antena y el \textit{Software defined radio} (SDR). Las pruebas se llevaron a cabo en el Laboratorio Abierto (LaBi) del departamento de electrónica de la facultad, en colaboración con el equipo de Astar, y con ayuda del personal del LaBi y el club de RF.
+
+El equipo de Astar contaba con 2 dispositivos de SDR que pusieron a nuestra disposición para probar, y la estación terrena había sido desarrollada como parte de un Trabajo Profesional y se encontraba en el LaBi. Durante el desarrollo del proyecto, nos juntamos en las premisas de la facultad a realizar distintas pruebas de integración y validación con los mismos.
+
+\subsection{Pruebas del SDR}
+
+La validación contra el SDR consistió en hacer pruebas de emisión y recepción de señales, para validar que el flujo de procesamiento que habíamos planteado funcionara en la realidad.
+
+Al inicio del proyecto, realizamos unas primeras pruebas con el software que Astar había estado utilizando hasta el momento, como GQRX. Estas pruebas sirvieron como un primer análisis exploratorio para conocer el comportamiento esperado del sistema y familiarizarnos con las características de las señales de radiofrecuencia con las que íbamos a trabajar. Durante estas pruebas generamos archivos de muestra para poder simular el flujo de recepción sin necesidad de ir de nuevo al laboratorio.
+
+Durante el desarrollo, utilizamos herramientas como \textit{GNU radio} para en conjunto con las lecturas iniciales para simular pasadas del satélite. Estas simulaciones nos permitían correr nuestras propias pruebas para validar la lógica de negocio sin necesidad de ajustarnos a particularidades de equipamiento ya existente. Con esa estrategia simulamos la interfaz con el dispositivo receptor para poder realizar el desarrollo de nuestra solución
+
+Ya avanzado el proyecto, volvimos al laboratorio para realizar pruebas de flujo completo con el hardware. Como el laboratorio contaba con 2 equipos de SDR, pudimos simular una \textit{vuelta completa} del flujo de datos. En una computadora se hacía el framing y modulación, y de la otra se hacía el deframing y la demodulación para recuperar los datos enviados. También validamos con el software existente para comprobar que el comportamiento seguía siendo el esperado. 
+
+\subsection{Pruebas del controlador de la antena}
+
+La mayor parte de las pruebas en la facultad consistieron en la integración con la estación terrena existente. La misma consiste de una antena motorizada que se controla por puerto serial. Estas pruebas fueron las más difíciles, ya que el hardware contaba con documentación escasa, y nadie del equipo de Astar o del Labi la habían usado de forma extensiva.
+
+Si bien contábamos con el manual de uso de la estación terrena en físico, el mismo estaba diseñado para ser consultado de forma digital ya que tenía links embebidos en texto, sin ninguna alternativa para acceder a los mismos. Estos links contenían código necesario para el correcto funcionamiento de la estación, por lo que varias pruebas se retrasaron hasta que conseguimos acceso a los archivos necesarios.
+
+Las pruebas de integración con la estación terrena fueron de gran valor no sólo para este proyecto sino para la misión de Astar en general. Al ser los primeros usuarios de la antena, pudimos dejar registro del modo de uso real y consideraciones prácticas de la antena para complementar la documentación existente. También identificamos algunos errores en la programación y construcción de la antena, así como algunas mejoras posibles para ser añadidas en una versión futura de la estación terrena. Por último, a pedido del equipo del Laboratorio realizamos algunas mediciones con la antena para recopilar datos para proyectos futuros como la construcción de un radomo.
