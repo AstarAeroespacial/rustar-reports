@@ -1,1 +1,41 @@
-% Conclusiones
+El desarrollo de RUSTAR permitió materializar un \textit{framework} integral y de código abierto para el segmento terreno de misiones satelitales, consolidando en una única plataforma modular las funciones de comunicación, seguimiento y control que casi en la totalidad de los casos se encontraban distribuidas entre múltiples herramientas. La solución logró integrar con éxito tecnologías de procesamiento digital de señales, seguimiento orbital y gestión de telemetría, bajo una arquitectura escalable y extensible que facilita su adaptación a diferentes configuraciones de hardware y tipos de misiones.
+
+\subsection{Resultados principales}
+
+Desde el punto de vista técnico, el proyecto demostró la viabilidad de construir una infraestructura completa de operaciones satelitales basada exclusivamente en software libre, utilizando tecnologías modernas como Rust, GNU Radio, MQTT y SoapySDR. La arquitectura implementada separó claramente las responsabilidades entre estaciones terrenas, centro de control y cola de mensajería, permitiendo configuraciones distribuidas y escalables que van desde una estación individual hasta redes complejas de múltiples estaciones terrestres.
+
+El \textit{framework} desarrollado resolvió exitosamente las limitaciones identificadas en el proyecto Astar: eliminó la fragmentación operativa al unificar todas las funcionalidades necesarias en un ecosistema coherente, automatizó el flujo completo de operaciones satelitales desde el seguimiento hasta la decodificación de datos, y proporcionó una interfaz gráfica intuitiva que reduce significativamente la curva de aprendizaje para nuevos operadores. La implementación del protocolo HDLC para la capa de enlace, junto con la integración transparente de dispositivos SDR y sistemas de control de antenas, garantizó la comunicación confiable con satélites en órbita.
+
+Una contribución destacable del proyecto es su diseño modular que permite la extensión del sistema sin modificar componentes existentes. Las interfaces bien definidas entre módulos facilitan la integración de nuevos protocolos de comunicación, esquemas de modulación y configuraciones de hardware, mientras que el uso de una cola de mensajería como espina dorsal del sistema garantiza la interoperabilidad entre componentes desarrollados de forma independiente.
+
+\subsection{Innovación y valor agregado}
+
+El carácter innovador de RUSTAR reside en su enfoque integrador y su adaptación específica al contexto académico y de investigación. A diferencia de las soluciones comerciales cerradas o las herramientas especializadas existentes que abordan problemas puntuales, RUSTAR constituye la primera plataforma de código abierto que unifica de manera coherente todas las capacidades necesarias para operar estaciones terrenas, manteniendo al mismo tiempo la flexibilidad para adaptarse a diferentes misiones y configuraciones.
+
+La elección de Rust como lenguaje principal de implementación representa una innovación tecnológica que aporta garantías de seguridad de memoria y concurrencia sin sacrificar rendimiento, aspectos críticos en sistemas de tiempo real como los requeridos para operaciones satelitales. Esta decisión técnica, poco común en el dominio aeroespacial tradicional, demuestra la aplicabilidad de tecnologías modernas a problemas de ingeniería espacial.
+
+El proyecto también innova en su modelo de desarrollo y distribución: al ser completamente de código abierto y estar diseñado desde sus fundamentos para facilitar el aprendizaje y la experimentación, RUSTAR se posiciona como una herramienta educativa que trasciende su función operativa. La documentación técnica completa, la arquitectura modular y la integración de buenas prácticas de ingeniería de software lo convierten en un caso de estudio valioso para estudiantes e investigadores.
+
+\subsection{Contribución a la formación profesional}
+
+A nivel académico, el trabajo fortaleció significativamente la formación práctica de los integrantes del equipo en múltiples disciplinas de la ingeniería en informática. El proyecto demandó la aplicación integrada de conocimientos de comunicaciones digitales, sistemas distribuidos, procesamiento de señales, desarrollo de software embebido y metodologías ágiles de trabajo colaborativo, reflejando la complejidad real de los sistemas aeroespaciales modernos.
+
+La experiencia adquirida en el diseño de arquitecturas de software robustas, la integración de sistemas heterogéneos, la gestión de un proyecto técnico complejo y la toma de decisiones fundamentadas constituyó un complemento invaluable a la formación teórica recibida en la universidad. El trabajo en un proyecto real, con usuarios finales concretos y restricciones operativas tangibles, proporcionó una perspectiva que trasciende el ámbito académico tradicional y prepara para desafíos profesionales futuros.
+
+La interacción continua con el equipo de Astar Aeroespacial enriqueció la experiencia de aprendizaje, exponiendo al equipo al funcionamiento real de un proyecto aeroespacial, la colaboración interdisciplinaria y la necesidad de comunicar decisiones técnicas complejas a diferentes audiencias. La adopción de metodologías ágiles, sistemas de control de versiones, integración continua y documentación técnica formal consolidó competencias profesionales esenciales en el desarrollo de software moderno.
+
+\subsection{Impacto en el ecosistema aeroespacial}
+
+Para el proyecto Astar, RUSTAR representa un salto cualitativo en sus capacidades operativas. La plataforma desarrollada no solo resuelve las necesidades inmediatas de comunicación con satélites, sino que establece una base sólida y extensible sobre la cual el proyecto puede continuar creciendo. La reducción de la complejidad operativa y la mejora en la experiencia de usuario facilitarán la incorporación de nuevos estudiantes e investigadores al proyecto, fortaleciendo su continuidad a largo plazo.
+
+El carácter abierto del \textit{framework} garantiza su continuidad y evolución más allá de la finalización de este Trabajo Profesional. Al estar disponible libremente, RUSTAR puede ser adoptado, adaptado y mejorado por otros proyectos académicos y de investigación en el ámbito aeroespacial argentino e internacional. Esto contribuye al desarrollo de capacidades tecnológicas nacionales en un sector estratégico como el espacial, donde las soluciones de código abierto pueden democratizar el acceso a tecnologías que tradicionalmente han estado limitadas a grandes organizaciones con presupuestos significativos.
+
+La documentación técnica completa, el código bien estructurado y la arquitectura modular del proyecto lo posicionan como un recurso educativo valioso que puede servir como base para trabajos futuros, tanto en el contexto de nuevos trabajos profesionales como en proyectos de investigación más amplios. La experiencia acumulada durante el desarrollo puede además aportar conocimiento valioso a la comunidad aeroespacial nacional sobre tecnologías modernas aplicables al sector.
+
+\subsection{Reflexión final}
+
+El proyecto cumplió satisfactoriamente con los objetivos propuestos, entregando una herramienta funcional, versátil y de libre acceso que potencia las capacidades operativas del segmento terreno y promueve el desarrollo tecnológico colaborativo en el ámbito universitario. RUSTAR demuestra que es posible desarrollar soluciones de calidad profesional para aplicaciones aeroespaciales utilizando exclusivamente herramientas de código abierto y prácticas modernas de ingeniería de software.
+
+La culminación exitosa de este trabajo profesional no representa un punto final sino el comienzo de un ecosistema de software que puede continuar evolucionando. Las bases establecidas son sólidas, la arquitectura es extensible y la comunidad potencial de usuarios y contribuyentes está presente tanto en el proyecto Astar como en otros ámbitos académicos. El compromiso del equipo de continuar apoyando el desarrollo del proyecto más allá de la entrega formal refleja la convicción en el valor de la propuesta y el potencial de impacto que puede generar.
+
+En síntesis, RUSTAR constituye una contribución concreta al fortalecimiento de las capacidades tecnológicas en el sector aeroespacial argentino, una herramienta educativa valiosa para la formación de futuros ingenieros, y una demostración del nivel de desarrollo que puede alcanzarse cuando se combinan formación universitaria de excelencia, metodologías de trabajo profesionales y compromiso con el conocimiento abierto y colaborativo.
