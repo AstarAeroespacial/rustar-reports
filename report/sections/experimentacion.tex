@@ -1,25 +1,136 @@
-% Experimentación y validación
+La validación del sistema RUSTAR constituyó una parte fundamental del proceso de desarrollo, permitiendo verificar el correcto funcionamiento de los componentes implementados y su integración en un entorno real. La estrategia de validación se organizó en dos fases complementarias: pruebas sin hardware, centradas en la integración lógica entre componentes mediante simulaciones y datos sintéticos, y pruebas con hardware real, enfocadas en la validación con dispositivos SDR y el controlador de la antena física de la estación terrena.
 
-\section{Expereminentación y validación}
+Todas las pruebas con hardware se llevaron a cabo en el LABi, en colaboración con el equipo de Astar y con el apoyo del personal del laboratorio y el club de radiofrecuencia.
 
-Parte central del desarrollo de la solución fue la validación continua con el hardware real que va a utilizar la misión. La experimentación se centró en la integración con 2 componentes principales: el controlador de la antena y el \textit{Software defined radio} (SDR). Las pruebas se llevaron a cabo en el Laboratorio Abierto (LaBi) del departamento de electrónica de la facultad, en colaboración con el equipo de Astar, y con ayuda del personal del LaBi y el club de RF.
+\subsection{Pruebas sin hardware}
 
-El equipo de Astar contaba con 2 dispositivos de SDR que pusieron a nuestra disposición para probar, y la estación terrena había sido desarrollada como parte de un Trabajo Profesional y se encontraba en el LaBi. Durante el desarrollo del proyecto, nos juntamos en las premisas de la facultad a realizar distintas pruebas de integración y validación con los mismos.
+Durante la mayor parte del desarrollo, las pruebas de integración se realizaron sin depender de hardware específico, utilizando simulaciones y datos sintéticos. Esta estrategia permitió validar la lógica del sistema de forma continua e independiente de la disponibilidad de equipamiento físico, acelerando el ciclo de desarrollo y facilitando la detección temprana de problemas de integración.
 
-\subsection{Pruebas del SDR}
+\subsubsection{Integración entre aplicación de estación terrena y GNU Radio}
 
-La validación contra el SDR consistió en hacer pruebas de emisión y recepción de señales, para validar que el flujo de procesamiento que habíamos planteado funcionara en la realidad.
+La primera etapa de validación se centró en verificar el correcto funcionamiento de la integración entre la aplicación de la estación terrena y los flujos de procesamiento de señales de GNU Radio. Para ello se utilizaron:
 
-Al inicio del proyecto, realizamos unas primeras pruebas con el software que Astar había estado utilizando hasta el momento, como GQRX. Estas pruebas sirvieron como un primer análisis exploratorio para conocer el comportamiento esperado del sistema y familiarizarnos con las características de las señales de radiofrecuencia con las que íbamos a trabajar. Durante estas pruebas generamos archivos de muestra para poder simular el flujo de recepción sin necesidad de ir de nuevo al laboratorio.
+\begin{itemize}
+    \item \textbf{Archivos de muestras IQ capturadas}: durante las primeras visitas al laboratorio, se generaron grabaciones de señales reales recibidas mediante dispositivos SDR utilizando herramientas como GQRX. Estos archivos sirvieron como entrada para simular el flujo de recepción sin necesidad de acceso continuo al hardware.
+    
+    \item \textbf{Generadores de señales sintéticas}: se desarrollaron flujos de GNU Radio capaces de generar señales moduladas artificialmente, permitiendo simular pases satelitales completos con características controladas y reproducibles.
+    
+    \item \textbf{Flujos bidireccionales}: se validó la comunicación mediante ZeroMQ entre la aplicación de estación terrena y los \textit{flowgraphs} de GNU Radio, tanto para transmisión como para recepción, verificando el correcto intercambio de muestras digitales y bits demodulados.
+\end{itemize}
 
-Durante el desarrollo, utilizamos herramientas como \textit{GNU radio} para en conjunto con las lecturas iniciales para simular pasadas del satélite. Estas simulaciones nos permitían correr nuestras propias pruebas para validar la lógica de negocio sin necesidad de ajustarnos a particularidades de equipamiento ya existente. Con esa estrategia simulamos la interfaz con el dispositivo receptor para poder realizar el desarrollo de nuestra solución
+Esta fase permitió validar la correcta demodulación de señales y la extracción de frames sin depender de equipamiento físico.
 
-Ya avanzado el proyecto, volvimos al laboratorio para realizar pruebas de flujo completo con el hardware. Como el laboratorio contaba con 2 equipos de SDR, pudimos simular una \textit{vuelta completa} del flujo de datos. En una computadora se hacía el framing y modulación, y de la otra se hacía el deframing y la demodulación para recuperar los datos enviados. También validamos con el software existente para comprobar que el comportamiento seguía siendo el esperado. 
+\subsubsection{Integración entre estación terrena y servidor}
 
-\subsection{Pruebas del controlador de la antena}
+Se realizaron pruebas exhaustivas de la comunicación entre la aplicación de la estación terrena y el servidor backend mediante el \textit{broker} MQTT. Las validaciones incluyeron:
 
-La mayor parte de las pruebas en la facultad consistieron en la integración con la estación terrena existente. La misma consiste de una antena motorizada que se controla por puerto serial. Estas pruebas fueron las más difíciles, ya que el hardware contaba con documentación escasa, y nadie del equipo de Astar o del Labi la habían usado de forma extensiva.
+\begin{itemize}
+    \item \textbf{Publicación y suscripción a tópicos}: verificación del correcto envío de telemetría desde la estación terrena al servidor y la recepción de tareas de observación desde el servidor hacia la estación.
+    
+    \item \textbf{Serialización y deserialización de mensajes}: comprobación de que los formatos de mensaje definidos se respetaban en ambas direcciones de comunicación.
+        
+    \item \textbf{Persistencia de datos}: verificación del correcto almacenamiento de telemetría en la base de datos y su posterior recuperación mediante la API REST.
+\end{itemize}
 
-Si bien contábamos con el manual de uso de la estación terrena en físico, el mismo estaba diseñado para ser consultado de forma digital ya que tenía links embebidos en texto, sin ninguna alternativa para acceder a los mismos. Estos links contenían código necesario para el correcto funcionamiento de la estación, por lo que varias pruebas se retrasaron hasta que conseguimos acceso a los archivos necesarios.
+\subsubsection{Integración entre frontend y backend}
 
-Las pruebas de integración con la estación terrena fueron de gran valor no sólo para este proyecto sino para la misión de Astar en general. Al ser los primeros usuarios de la antena, pudimos dejar registro del modo de uso real y consideraciones prácticas de la antena para complementar la documentación existente. También identificamos algunos errores en la programación y construcción de la antena, así como algunas mejoras posibles para ser añadidas en una versión futura de la estación terrena. Por último, a pedido del equipo del Laboratorio realizamos algunas mediciones con la antena para recopilar datos para proyectos futuros como la construcción de un radomo.
+Se validó la interfaz web desarrollada contra el servidor backend, verificando:
+
+\begin{itemize}
+    \item \textbf{Consumo de la API REST}: pruebas de todos los endpoints definidos para consulta de satélites, estaciones terrenas, telemetría histórica y configuración de observaciones.
+    
+    \item \textbf{Actualización en tiempo real}: validación de la recepción de mensajes MQTT en el navegador mediante WebSocket, permitiendo la visualización en vivo de telemetría y estados de las estaciones.
+    
+    \item \textbf{Visualización de trayectorias satelitales}: comprobación del correcto cálculo y representación de órbitas y posiciones en el mapa interactivo.    
+\end{itemize}
+
+\subsection{Pruebas con hardware}
+
+En paralelo a las pruebas de integración sin hardware, se realizaron validaciones con hardware real para verificar la integración con dispositivos SDR y la estación terrena física. El equipo de Astar puso a disposición del proyecto dos dispositivos SDR (RTL-SDR para recepción y bladeRF para transmisión y recepción) y la estación terrena desarrollada previamente como parte de otro Trabajo Profesional.
+
+\subsubsection{Pruebas con SDR}
+
+La validación con dispositivos SDR constituyó un paso crítico para verificar el correcto funcionamiento del procesamiento de señales con hardware físico.
+
+\paragraph{Exploración inicial y familiarización}
+
+Al inicio del proyecto se realizaron pruebas exploratorias utilizando software existente como GQRX, una aplicación de código abierto para recepción de señales de radiofrecuencia. Estas primeras experiencias sirvieron para:
+
+\begin{itemize}
+    \item Familiarizarse con las características de las señales de radiofrecuencia y el comportamiento de los dispositivos SDR.
+    \item Comprender el espectro de frecuencias de interés y los parámetros de configuración necesarios.
+    \item Capturar archivos de muestras IQ reales que posteriormente se utilizaron para pruebas de desarrollo sin necesidad de acceso continuo al laboratorio.
+    \item Identificar fuentes de ruido y condiciones del entorno de radiofrecuencia del laboratorio.
+\end{itemize}
+
+\paragraph{Validación de recepción}
+
+Con los dispositivos SDR disponibles se validó el flujo completo de recepción implementado:
+
+\begin{itemize}
+    \item \textbf{Configuración de parámetros SDR}: verificación de que la aplicación de estación terrena podía configurar correctamente frecuencia, tasa de muestreo y ganancia de los dispositivos mediante SoapySDR.
+    
+    \item \textbf{Captura de muestras}: comprobación del flujo continuo de muestras IQ desde el dispositivo hacia los flujos de GNU Radio.
+    
+    \item \textbf{Procesamiento de señales reales}: validación de la demodulación de señales transmitidas localmente y capturadas por el receptor.
+    
+    \item \textbf{Extracción de frames}: verificación del correcto funcionamiento del \textit{deframer} HDLC con señales reales afectadas por ruido y condiciones del canal.
+\end{itemize}
+
+\paragraph{Validación de transmisión y recepción bidireccional}
+
+Aprovechando la disponibilidad de dos dispositivos SDR en el laboratorio, se realizó una validación completa del flujo bidireccional:
+
+\begin{itemize}
+    \item En una computadora se ejecutó la aplicación de estación terrena en modo transmisión, generando frames HDLC, aplicando el esquema de modulación y enviando las muestras al SDR transmisor.
+    
+    \item En otra computadora se ejecutó la aplicación en modo recepción, capturando las señales transmitidas, demodulándolas y extrayendo los frames originales.
+    
+    \item Se verificó que los datos recuperados en recepción coincidieran exactamente con los transmitidos, validando la integridad del flujo completo.
+    
+    \item Se comprobó la compatibilidad con software existente, transmitiendo con RUSTAR y recibiendo con herramientas tradicionales, y viceversa.
+\end{itemize}
+
+Esta validación fue crucial para confirmar que el sistema implementado era capaz de operar correctamente en condiciones reales de radiofrecuencia y que mantenía compatibilidad con herramientas estándar del ecosistema de radioaficionados.
+
+\subsubsection{Pruebas del controlador de la antena}
+
+La integración con la estación terrena física constituyó el aspecto más desafiante de la validación, debido a la complejidad del hardware y la escasa documentación disponible.
+
+\paragraph{Características de la estación terrena}
+
+La estación terrena disponible en el LABi consiste en una antena direccional montada sobre un brazo robótico motorizado controlado mediante puerto serie. El sistema permite apuntar la antena hacia posiciones específicas de acimut y elevación, una capacidad fundamental para el seguimiento de satélites en órbita.
+
+\paragraph{Proceso de validación}
+
+A pesar de los desafíos iniciales relacionados con la falta de documentación, se logró completar exitosamente la validación de la integración con el controlador de la antena:
+
+\begin{itemize}
+    \item \textbf{Establecimiento de comunicación serie}: configuración correcta de los parámetros del puerto serie (\textit{baudrate}, bits de datos, paridad) para el intercambio de comandos con el controlador.
+    
+    \item \textbf{Envío de comandos de apuntado}: verificación de que los comandos generados por el módulo de seguimiento orbital se transmitían correctamente y la antena respondía moviendo hacia las posiciones especificadas.
+    
+    \item \textbf{Seguimiento en tiempo real}: pruebas de seguimiento continuo simulando el paso de un satélite, con actualización periódica de la posición de la antena.
+    
+    \item \textbf{Manejo de límites mecánicos}: validación del comportamiento del sistema ante límites de movimiento de la antena.
+\end{itemize}
+
+\paragraph{Contribuciones al proyecto Astar}
+
+Las pruebas realizadas con la estación terrena generaron valor más allá de la validación del proyecto RUSTAR:
+
+\begin{itemize}    
+    \item \textbf{Detección de errores}: se identificaron problemas en la programación del controlador y aspectos de construcción de la antena que requieren corrección futura.
+    
+    \item \textbf{Propuestas de mejora}: se discutieron mejoras posibles para versiones futuras de la estación terrena, tanto en software como en hardware.
+    
+    \item \textbf{Mediciones para proyectos relacionados}: a pedido del equipo del laboratorio, se realizaron mediciones de la antena para recopilar datos útiles para proyectos futuros, como la construcción de un radomo protector.
+\end{itemize}
+
+\subsection{Resultados de la experimentación}
+
+El proceso de experimentación y validación permitió verificar que el sistema RUSTAR funciona correctamente tanto en condiciones simuladas como con hardware real. Las pruebas progresivas, desde componentes individuales hasta la integración completa, facilitaron la detección temprana de problemas y garantizaron la robustez de la solución final.
+
+La estrategia de validación en dos fases (sin hardware y con hardware) en paralelo demostró ser efectiva, permitiendo un desarrollo ágil sin depender continuamente del acceso a equipamiento físico, al tiempo que aseguró la compatibilidad con dispositivos reales cuando fue necesario.
+
+Las dificultades encontradas durante las pruebas, especialmente en la integración con la estación terrena física, constituyeron oportunidades de aprendizaje valiosas y generaron conocimiento que beneficiará a futuros desarrollos del proyecto Astar y de la comunidad en general.
