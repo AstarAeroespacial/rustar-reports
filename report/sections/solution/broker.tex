@@ -14,7 +14,7 @@ El servidor se encuentra integrado con una base de datos relacional para llevar 
     \caption{Esquema de la base de datos de RUSTAR}
 \end{figure}
 
-El esquema modela los elementos principales del sistema. La tabla \texttt{ground\_stations} registra las estaciones terrenas con su identificador y posición geográfica (latitud, longitud y altitud). La tabla \texttt{satellites} conserva los satélites disponibles junto con su nombre, el TLE vigente y las frecuencias de comunicación. Ambas tablas se enlazan con las distintas misiones programadas en la tabla \texttt{jobs}, que representa una asignación de seguimiento entre una estación y un satélite dentro de un intervalo temporal definido.
+El esquema modela los elementos principales del sistema. La tabla \texttt{ground\_stations} registra las estaciones terrenas con su identificador y posición geográfica (latitud, longitud y altitud). La tabla \texttt{satellites} conserva los satélites disponibles junto con su nombre, el \gls{tle} vigente y las frecuencias de comunicación. Ambas tablas se enlazan con las distintas misiones programadas en la tabla \texttt{jobs}, que representa una asignación de seguimiento entre una estación y un satélite dentro de un intervalo temporal definido.
 
 Cada \texttt{job} puede incluir múltiples comandos a ejecutar sobre la estación, almacenados en \texttt{job\_commands}. La ejecución de una misión se monitorea mediante \texttt{jobs\_status\_updates}, donde se conservan los cambios de estado más recientes asociados al identificador del job. Finalmente, la tabla \texttt{telemetry} archiva los paquetes de telemetría recibidos, manteniendo la referencia al satélite y a la estación que capturó el dato.
 
