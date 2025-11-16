@@ -6,6 +6,13 @@ El centro de control de misión concentra las funciones de supervisión, planifi
 
 La comunicación entre estaciones terrenas, centros de comandos y otras aplicaciones se realiza a través de una cola de mensajería accesible por todos los nodos del sistema. Este esquema facilita la integración de múltiples estaciones, centros de control y cualquier otro tipo de aplicación, permitiendo topologías más complejas que se adapten a todo tipo de necesidades.
 
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.75\linewidth]{images/arquitectura.png}
+  \caption{Diagrama de los componentes del sistema, incluyendo satélites, estaciones terrenas, cola de mensajería y aplicaciones conectadas.}
+  \label{fig:arquitectura}
+\end{figure}
+
 En conjunto, la solución propuesta se concibe como un ecosistema modular de componentes interoperables, donde las interfaces entre estos son transparentes y estandarizadas. Esta característica central convierte al sistema en un verdadero \textit{framework} para la implementación del segmento terreno, adaptable a distintos contextos y escalas, desde simulaciones virtuales hasta redes distribuidas de seguimiento satelital.
 
 A continuación, describimos los componentes esenciales del sistema que fueron desarrollados como parte de la solución presentada.
