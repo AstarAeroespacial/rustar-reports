@@ -113,7 +113,7 @@ Un mensaje importante es la actualización del \gls{tle} a seguir, ya que esto a
 
 También se intentaría integrar con los bloques de ZMQ para que dichas comunicaciones utilicen como input paquetes generados con un protocolo custom, y no bytes aleatorios.
 
-\textit{Protocolo de comunicación, (de)framing, (de)modulación:} Se evaluarían librerías open source en Rust para el protocolo AX.25 o \gls{HDLC} y la etapa de (de)modulación con AFSK. Se utiliza esta combinación de modulación AFSK con framing AX.25 o \gls{HDLC} por ser la más común en satélites amateur.
+\textit{Protocolo de comunicación, (de)framing, (de)modulación:} Se evaluarían librerías open source en Rust para el protocolo AX.25 o \gls{HDLC} y la etapa de (de)modulación con \gls{afsk}. Se utiliza esta combinación de modulación \gls{afsk} con framing AX.25 o \gls{HDLC} por ser la más común en satélites amateur.
 
 \textbf{Conclusiones:} Se crearon issues de GitHub para avanzar con estas tareas. Se remarcó la necesidad de paralelizar tareas para avanzar de forma más eficiente.
 
@@ -662,14 +662,14 @@ También se intentaría integrar con los bloques de ZMQ para que dichas comunica
   \item Para la sección ``Solución implementada'':
   \begin{itemize}
     \item Arquitectura general: agregar diagramas. Jobs/observaciones (similar a \gls{satnogs}), telemetría, telecomandos.
-    \item Estación terrena: descripción general (partes, responsabilidades, scheduler). Tracking, Mod/demod (GNU Radio, AFSK1200), Framing/deframing (\gls{HDLC}), SDR, antenna controller.
+    \item Estación terrena: descripción general (partes, responsabilidades, scheduler). Tracking, Mod/demod (\gls{gnuradio}, \gls{afsk}1200), Framing/deframing (\gls{HDLC}), SDR, antenna controller.
     \item Broker \gls{mqtt}: hablar de los QoS.
     \item Server: parte que lee del broker, tracking, API/endpoints, base de datos.
     \item Interfaz de usuario.
   \end{itemize}
   \item Agregar apéndice de módulo tracking.
   \item Para la sección ``Desarrollos futuros'': encriptación, comandos más completos, test uplink, más protocolos de framing y demod, serializer/deserializer en la base de datos.
-  \item Para la sección ``Experimentación y validación'': visitas al LABi, pruebas con antena, simulación con GNU Radio.
+  \item Para la sección ``Experimentación y validación'': visitas al LABi, pruebas con antena, simulación con \gls{gnuradio}.
   \item Para la sección ``Metodología'': Github projects (Kanban), weeklys/bi-weeklys, issues/branches/PRs/reviews, iteraciones cada 2 semanas, CI, Agile/scrum.
   \item Para la sección ``Riesgos materializados / lecciones'': integración con antena, documentación de estación terrena.
   \item Para la sección ``Referencias'': Introduction to satellite ground segment systems engineering, \gls{satnogs}, etc.
