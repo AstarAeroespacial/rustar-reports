@@ -113,7 +113,7 @@ Un mensaje importante es la actualización del \gls{tle} a seguir, ya que esto a
 
 También se intentaría integrar con los bloques de ZMQ para que dichas comunicaciones utilicen como input paquetes generados con un protocolo custom, y no bytes aleatorios.
 
-\textit{Protocolo de comunicación, (de)framing, (de)modulación:} Se evaluarían librerías open source en Rust para el protocolo AX.25 o HDLC y la etapa de (de)modulación con AFSK. Se utiliza esta combinación de modulación AFSK con framing AX.25 o HDLC por ser la más común en satélites amateur.
+\textit{Protocolo de comunicación, (de)framing, (de)modulación:} Se evaluarían librerías open source en Rust para el protocolo AX.25 o \gls{HDLC} y la etapa de (de)modulación con AFSK. Se utiliza esta combinación de modulación AFSK con framing AX.25 o \gls{HDLC} por ser la más común en satélites amateur.
 
 \textbf{Conclusiones:} Se crearon issues de GitHub para avanzar con estas tareas. Se remarcó la necesidad de paralelizar tareas para avanzar de forma más eficiente.
 
@@ -127,14 +127,14 @@ También se intentaría integrar con los bloques de ZMQ para que dichas comunica
 
 \textbf{Temas tratados:}
 
-\textit{Framing:} Se discutió sobre el tema y se dilucidó la dificultad del proceso, que es mayor a la estimada en un principio. La mayor complejidad radica en el manejo del stream de bits que vendrá del demodulador, y la generación de los frames HDLC a partir de esos bits teniendo en cuenta posibles errores en la transmisión.
+\textit{Framing:} Se discutió sobre el tema y se dilucidó la dificultad del proceso, que es mayor a la estimada en un principio. La mayor complejidad radica en el manejo del stream de bits que vendrá del demodulador, y la generación de los frames \gls{HDLC} a partir de esos bits teniendo en cuenta posibles errores en la transmisión.
 
 \textit{Arquitectura general distribuida:} Se plantea para un futuro que puedan haber varias estaciones terrenas controladas desde una aplicación la cual no necesariamente tenga que estar ejecutándose en una computadora que se encuentre en el mismo lugar físico, sino que se comuniquen via internet. Además, se menciona que la aplicación debe tener conocimiento de a que satélite se encuentra apuntando cada estación terrena y no debería permitir que 2 o más estaciones envíen mensajes al mismo satélite al mismo tiempo, aunque falta pensar más y refinar esta parte.
 
 \textbf{Conclusiones:}
 \begin{itemize}
   \item Se deberá implementar un módulo dedicado de framing, de tipo \texttt{lib}.
-  \item Seguir investigando sobre los crates existentes de HDLC y relacionados para determinar su utilidad en el proceso de framing.
+  \item Seguir investigando sobre los crates existentes de \gls{HDLC} y relacionados para determinar su utilidad en el proceso de framing.
   \item Definir ciertos detalles sobre la arquitectura general distribuida.
 \end{itemize}
 
@@ -171,7 +171,7 @@ También se intentaría integrar con los bloques de ZMQ para que dichas comunica
 \textbf{Conclusiones:}
 \begin{itemize}
   \item Implementar checksum (CRC).
-  \item Implementar los otros campos de HDLC (address, control, payload).
+  \item Implementar los otros campos de \gls{HDLC} (address, control, payload).
   \item Preguntar a Filippetti sobre datos de telemetría a mostrar y si le gusta la idea de una app web.
   \item División de tareas:
   \begin{itemize}
@@ -243,7 +243,7 @@ También se intentaría integrar con los bloques de ZMQ para que dichas comunica
 \begin{itemize}
   \item PR del framer mergeada.
   \item Falta terminar con algunas cosas del deframer.
-  \item Integrar ambos en un sólo módulo \texttt{hdlc}.
+  \item Integrar ambos en un sólo módulo \texttt{\gls{HDLC}}.
 \end{itemize}
 
 \textit{Diagramas (para la PPT):}
@@ -252,7 +252,7 @@ También se intentaría integrar con los bloques de ZMQ para que dichas comunica
   \item Flujo de datos/información.
   \item Uno de arquitectura de cada aplicación:
   \begin{itemize}
-    \item App embebida: hdlc, tracking, cli.
+    \item App embebida: \gls{HDLC}, tracking, cli.
     \item App web: api, bdd, gui.
   \end{itemize}
 \end{itemize}
@@ -662,7 +662,7 @@ También se intentaría integrar con los bloques de ZMQ para que dichas comunica
   \item Para la sección ``Solución implementada'':
   \begin{itemize}
     \item Arquitectura general: agregar diagramas. Jobs/observaciones (similar a satnogs), telemetría, telecomandos.
-    \item Estación terrena: descripción general (partes, responsabilidades, scheduler). Tracking, Mod/demod (GNU Radio, AFSK1200), Framing/deframing (HDLC), SDR, antenna controller.
+    \item Estación terrena: descripción general (partes, responsabilidades, scheduler). Tracking, Mod/demod (GNU Radio, AFSK1200), Framing/deframing (\gls{HDLC}), SDR, antenna controller.
     \item Broker MQTT: hablar de los QoS.
     \item Server: parte que lee del broker, tracking, API/endpoints, base de datos.
     \item Interfaz de usuario.

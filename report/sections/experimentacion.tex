@@ -74,7 +74,7 @@ Con los dispositivos \gls{SDR} disponibles se validó el flujo completo de recep
 
     \item \textbf{Procesamiento de señales reales}: validación de la demodulación de señales transmitidas localmente y capturadas por el receptor.
 
-    \item \textbf{Extracción de frames}: verificación del correcto funcionamiento del \textit{deframer} HDLC con señales reales afectadas por ruido y condiciones del canal.
+    \item \textbf{Extracción de frames}: verificación del correcto funcionamiento del \textit{deframer} \gls{HDLC} con señales reales afectadas por ruido y condiciones del canal.
 \end{itemize}
 
 \paragraph{Validación de transmisión y recepción bidireccional}
@@ -82,7 +82,7 @@ Con los dispositivos \gls{SDR} disponibles se validó el flujo completo de recep
 Aprovechando la disponibilidad de dos dispositivos \gls{SDR} en el laboratorio, se realizó una validación completa del flujo bidireccional:
 
 \begin{itemize}
-    \item En una computadora se ejecutó la aplicación de estación terrena en modo transmisión, generando frames HDLC, aplicando el esquema de modulación y enviando las muestras al \gls{SDR} transmisor.
+    \item En una computadora se ejecutó la aplicación de estación terrena en modo transmisión, generando frames \gls{HDLC}, aplicando el esquema de modulación y enviando las muestras al \gls{SDR} transmisor.
 
     \item En otra computadora se ejecutó la aplicación en modo recepción, capturando las señales transmitidas, demodulándolas y extrayendo los frames originales.
 
