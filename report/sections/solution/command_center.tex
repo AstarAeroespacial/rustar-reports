@@ -56,7 +56,7 @@ La API permite consultar la telemetría decodificada con paginación y administr
 
 \paragraph{Seguimiento}
 
-Estos recursos utilizan el módulo de Tracking (descrito en detalle en el Anexo~\ref{sec:tracking}) para calcular oportunidades de observación futuras, tanto desde la perspectiva de un satélite como de una estación terrena. A partir de los parámetros orbitales (TLE) y la ubicación de las estaciones, se predicen las ventanas de visibilidad con sus tiempos de adquisición y pérdida de señal, permitiendo filtrar por satélites o estaciones terrenas de interés.
+Estos recursos utilizan el módulo de Tracking (descrito en detalle en el Anexo~\ref{sec:tracking}) para calcular oportunidades de observación futuras, tanto desde la perspectiva de un satélite como de una estación terrena. A partir de los parámetros orbitales (\gls{tle}) y la ubicación de las estaciones, se predicen las ventanas de visibilidad con sus tiempos de adquisición y pérdida de señal, permitiendo filtrar por satélites o estaciones terrenas de interés.
 
 \begin{itemize}
     \item \texttt{GET /api/satellites/\{id\}/passes}: Obtener los próximos pases del satélite sobre las estaciones terrenas disponibles.

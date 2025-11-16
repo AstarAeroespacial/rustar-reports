@@ -107,7 +107,7 @@ Existiría una cola de mensajería en el servidor, a la cual la estación terren
 
 Se discutió cómo realizar el manejo de errores y confirmación de recepción de los paquetes de control, pero no se llegó a una conclusión.
 
-Un mensaje importante es la actualización del TLE a seguir, ya que esto afecta tanto al trackeo (para el módulo de control de la antena) como a la (de)modulación (por la corrección por \hyperref[gls:efectodoppler]{Doppler}).
+Un mensaje importante es la actualización del \gls{tle} a seguir, ya que esto afecta tanto al trackeo (para el módulo de control de la antena) como a la (de)modulación (por la corrección por \hyperref[gls:efectodoppler]{Doppler}).
 
 \textit{GNU Radio:} Se intentaría hacer andar el flowgraph de GNU Radio que utiliza gr-leo para simular comunicaciones considerando \hyperref[gls:efectodoppler]{Doppler} y ruido ambiente. Se buscaba lograr generar archivos IQ realistas, para utilizar como input para todo el resto del sistema, en forma de testing.
 
@@ -460,7 +460,7 @@ También se intentaría integrar con los bloques de ZMQ para que dichas comunica
   \item (Juani)
   \begin{itemize}
     \item Empezar con el informe.
-    \item Crear archivo de configuración (toml) con coordenadas del observer, TLE y ground station id.
+    \item Crear archivo de configuración (toml) con coordenadas del observer, \gls{tle} y ground station id.
   \end{itemize}
   \item Comunicarse con Filippetti y arreglar un día para ir a hacer las pruebas de hardware.
 \end{itemize}
@@ -566,7 +566,7 @@ También se intentaría integrar con los bloques de ZMQ para que dichas comunica
 \begin{itemize}
   \item Eliminar tab `Dashboard'.
   \item En tab `Monitoring' eliminar desplegables `Satellite' y `Ground Station'.
-  \item Agregar en `Tracking' una feature para setear/cambiar el TLE del satélite a trackear.
+  \item Agregar en `Tracking' una feature para setear/cambiar el \gls{tle} del satélite a trackear.
   \item Eliminar pestaña `Settings'.
   \item `Telemetry Control' queda con el esquema de telemetría fijo (no genérico) para la misión satelital de Astar.
   \item Cambiar api para que devuelva la telemetría en binario, pasar el parseo al front.
