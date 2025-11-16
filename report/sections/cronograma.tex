@@ -92,7 +92,7 @@ El desarrollo comenzó con la implementación de la aplicación principal de la 
   \item \textbf{Tracking:} cálculo de posición, acimut, elevación y corrección \gls{efectodoppler}.
   \item \textbf{Modulación y demodulación:} integración con \gls{gnuradio} para el procesamiento de señales.
   \item \textbf{Framing y deframing:} parseo de frames y validación de la estructura de los mismos.
-  \item \textbf{Comunicación MQTT:} publicación y suscripción a topics para intercambio de datos.
+  \item \textbf{Comunicación \gls{mqtt}:} publicación y suscripción a topics para intercambio de datos.
 \end{itemize}
 
 \paragraph{Desarrollo del servidor y API (junio -- noviembre)}
@@ -102,7 +102,7 @@ En paralelo al desarrollo de la aplicación de la estación terrena, se inició 
   \item Almacenamiento y recuperación de datos de telemetría.
   \item Gestión de configuraciones de misión y parámetros orbitales.
   \item Exposición de endpoints para consulta de información histórica y en tiempo real.
-  \item Coordinación entre múltiples componentes del sistema mediante MQTT.
+  \item Coordinación entre múltiples componentes del sistema mediante \gls{mqtt}.
 \end{itemize}
 
 \paragraph{Desarrollo del frontend (septiembre -- noviembre)}
@@ -133,7 +133,7 @@ Se realizaron pruebas de integración para validar la comunicación entre compon
 
 \begin{enumerate}
   \item \textbf{Integración gs + \gls{gnuradio}:} validación del procesamiento de señales y la demodulación de datos mediante flujos simulados.
-  \item \textbf{Integración gs + backend:} verificación del intercambio de mensajes y la correcta publicación/suscripción a tópicos MQTT.
+  \item \textbf{Integración gs + backend:} verificación del intercambio de mensajes y la correcta publicación/suscripción a tópicos \gls{mqtt}.
   \item \textbf{Integración frontend + backend:} pruebas de la API REST y la visualización de datos en la interfaz web.
   \item \textbf{Integración completa (gs + backend + frontend):} validación del sistema completo con flujos de datos simulados de extremo a extremo.
 \end{enumerate}

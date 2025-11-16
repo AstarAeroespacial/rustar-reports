@@ -22,7 +22,7 @@ Esta fase permitió validar la correcta demodulación de señales y la extracci�
 
 \subsubsection{Integración entre estación terrena y servidor}
 
-Se realizaron pruebas exhaustivas de la comunicación entre la aplicación de la estación terrena y el servidor backend mediante el \textit{broker} MQTT. Las validaciones incluyeron:
+Se realizaron pruebas exhaustivas de la comunicación entre la aplicación de la estación terrena y el servidor backend mediante el \textit{broker} \gls{mqtt}. Las validaciones incluyeron:
 
 \begin{itemize}
     \item \textbf{Publicación y suscripción a tópicos}: verificación del correcto envío de telemetría desde la estación terrena al servidor y la recepción de tareas de observación desde el servidor hacia la estación.
@@ -39,7 +39,7 @@ Se validó la interfaz web desarrollada contra el servidor backend, verificando:
 \begin{itemize}
     \item \textbf{Consumo de la API REST}: pruebas de todos los endpoints definidos para consulta de satélites, estaciones terrenas, telemetría histórica y configuración de observaciones.
 
-    \item \textbf{Actualización en tiempo real}: validación de la recepción de mensajes MQTT en el navegador mediante WebSocket, permitiendo la visualización en vivo de telemetría y estados de las estaciones.
+    \item \textbf{Actualización en tiempo real}: validación de la recepción de mensajes \gls{mqtt} en el navegador mediante WebSocket, permitiendo la visualización en vivo de telemetría y estados de las estaciones.
 
     \item \textbf{Visualización de trayectorias satelitales}: comprobación del correcto cálculo y representación de órbitas y posiciones en el mapa interactivo.
 \end{itemize}
