@@ -15,7 +15,7 @@ La primera etapa de validación se centró en verificar el correcto funcionamien
 
     \item \textbf{Generadores de señales sintéticas}: se desarrollaron flujos de \gls{gnuradio} capaces de generar señales moduladas artificialmente, permitiendo simular pases satelitales completos con características controladas y reproducibles.
 
-    \item \textbf{Flujos bidireccionales}: se validó la comunicación mediante ZeroMQ entre la aplicación de estación terrena y los \textit{flowgraphs} de \gls{gnuradio}, tanto para transmisión como para recepción, verificando el correcto intercambio de muestras digitales y bits demodulados.
+    \item \textbf{Flujos bidireccionales}: se validó la comunicación mediante \gls{zeromq} entre la aplicación de estación terrena y los \textit{flowgraphs} de \gls{gnuradio}, tanto para transmisión como para recepción, verificando el correcto intercambio de muestras digitales y bits demodulados.
 \end{itemize}
 
 Esta fase permitió validar la correcta demodulación de señales y la extracción de frames sin depender de equipamiento físico.

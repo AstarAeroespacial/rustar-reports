@@ -101,7 +101,7 @@ Sería una arquitectura cliente-servidor, donde (por ahora) la estación terrena
 
 Se remarcó la necesidad de una arquitectura asincrónica que desacople las tareas de operación (comunicación con el satélite, control de la antena) con las tareas de control y monitoreo.
 
-\textit{Comunicación cliente-servidor:} Se evaluó el uso de colas de mensajería para comunicar el cliente con el servidor. Por ejemplo utilizando ZeroMQ o similares. Se evaluarían alternativas.
+\textit{Comunicación cliente-servidor:} Se evaluó el uso de colas de mensajería para comunicar el cliente con el servidor. Por ejemplo utilizando \gls{zeromq} o similares. Se evaluarían alternativas.
 
 Existiría una cola de mensajería en el servidor, a la cual la estación terrena se suscribe para tomar paquetes de control para el satélite o cambios en la configuración del tracking de la antena.
 
@@ -276,7 +276,7 @@ También se intentaría integrar con los bloques de ZMQ para que dichas comunica
 \begin{itemize}
   \item Desarrollo del diagrama de la arquitectura.
   \item Desarrollo de la PPT para el video de la entrega intermedia.
-  \item ZeroMQ vs \gls{mqtt}.
+  \item \gls{zeromq} vs \gls{mqtt}.
 \end{itemize}
 
 \textbf{Conclusiones:}
