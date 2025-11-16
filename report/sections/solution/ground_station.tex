@@ -41,6 +41,8 @@ El procesamiento digital de señales involucrado en la modulación y demodulaci�
 
 La integración con \gls{gnuradio} se realiza ejecutando los flowgraphs definidos en Python como procesos externos. La aplicación inicializa y controla la ejecución de estos procesos, permitiendo elegir de forma dinámica el flujo a utilizar en función del esquema de modulación implementado por la misión. El intercambio de muestras y bits entre la aplicación y el flowgraph se realiza mediante \gls{zeromq}.
 
+Las implementaciones en \gls{gnuradio} utilizadas para las pruebas durante el desarrollo de este trabajo profesional se detallan en Anexo~\ref{sec:afsk1200}.
+
 \subsubsection{Protocolo de enlace}
 
 Una vez que las etapas de modulación y demodulación convierten las señales entre el dominio analógico y digital, es necesario implementar un protocolo de capa de enlace de datos que estructure el flujo de bits en unidades significativas de información. La arquitectura de la aplicación de la estación terrena está diseñada para permitir la integración de distintos protocolos de enlace según los requerimientos de cada misión. Para el presente desarrollo se implementó el protocolo \gls{HDLC} (High-Level Data Link Control), el cual constituye el estándar de facto en comunicaciones satelitales de órbita baja y es ampliamente utilizado en proyectos de CubeSats y satélites de radioaficionados. Una descripción detallada del protocolo \gls{HDLC}, su estructura de frames y mecanismos de transparencia se encuentra en el anexo correspondiente.
