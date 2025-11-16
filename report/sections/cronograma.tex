@@ -33,27 +33,27 @@ A continuación se presenta un diagrama de Gantt que ilustra la distribución te
     \gantttitle{Sep}{1}
     \gantttitle{Oct}{1}
     \gantttitle{Nov}{1} \\
-    
+
     \ganttbar{Investigación y aprendizaje}{2025-03-01}{2025-06-30} \\
-    
+
     \ganttmilestone{Presentación propuesta}{2025-04-28} \\
-    
+
     \ganttbar{Desarrollo aplicación GS}{2025-05-01}{2025-10-31} \\
-    
+
     \ganttbar{Desarrollo server/API}{2025-06-01}{2025-11-15} \\
-    
+
     \ganttmilestone{Entrega intermedia}{2025-07-15} \\
-    
+
     \ganttmilestone{Demo ASTAR}{2025-09-07} \\
-    
+
     \ganttbar{Desarrollo frontend}{2025-09-01}{2025-11-15} \\
-    
+
     \ganttbar{Pruebas integración (sin HW)}{2025-08-01}{2025-10-15} \\
-    
+
     \ganttbar{Pruebas integración (con HW)}{2025-10-01}{2025-11-15} \\
-    
+
     \ganttbar{Redacción informe final}{2025-10-15}{2025-11-15} \\
-    
+
     \ganttmilestone{Entrega final}{2025-11-15}
   \end{ganttchart}
   \caption{Diagrama de Gantt con las actividades principales del proyecto RUSTAR.}
@@ -89,7 +89,7 @@ La fase de implementación constituyó el núcleo del desarrollo del proyecto y 
 
 El desarrollo comenzó con la implementación de la aplicación principal de la estación terrena (\textit{gs}), que incluye los módulos de:
 \begin{itemize}
-  \item \textbf{Tracking:} cálculo de posición, acimut, elevación y corrección Doppler.
+  \item \textbf{Tracking:} cálculo de posición, acimut, elevación y corrección \hyperref[gls:efectodoppler]{Doppler}.
   \item \textbf{Modulación y demodulación:} integración con GNU Radio para el procesamiento de señales.
   \item \textbf{Framing y deframing:} parseo de frames y validación de la estructura de los mismos.
   \item \textbf{Comunicación MQTT:} publicación y suscripción a topics para intercambio de datos.
