@@ -40,7 +40,7 @@ Esta extensión se debió a la complejidad inherente del dominio de conocimiento
   \item Mecánica orbital y modelos de propagación (SGP4/SDP4)
   \item Procesamiento digital de señales y técnicas de modulación/demodulación
   \item Protocolos de comunicación satelital y estándares de la industria
-  \item Manejo de hardware \gls{SDR} y procesamiento en GNU Radio
+  \item Manejo de hardware \gls{SDR} y procesamiento en \gls{gnuradio}
 \end{itemize}
 
 Cada una de estas áreas representa un campo de estudio complejo que requiere tiempo significativo para ser comprendido con la profundidad necesaria para implementar soluciones confiables y correctas.
@@ -49,14 +49,14 @@ Cada una de estas áreas representa un campo de estudio complejo que requiere ti
 
 \subsubsection{Desafíos de integración con GNU Radio}
 
-Si bien se había identificado como riesgo la limitación de bibliotecas nativas de procesamiento de señales en Rust, la materialización de este riesgo tomó una forma diferente a la prevista. En lugar de desarrollar bindings propios o usar FFI directamente desde Rust, la solución adoptada fue integrar con GNU Radio como componente externo del sistema.
+Si bien se había identificado como riesgo la limitación de bibliotecas nativas de procesamiento de señales en Rust, la materialización de este riesgo tomó una forma diferente a la prevista. En lugar de desarrollar bindings propios o usar FFI directamente desde Rust, la solución adoptada fue integrar con \gls{gnuradio} como componente externo del sistema.
 
 Esta decisión arquitectónica, aunque efectiva, introdujo complejidades no previstas en términos de:
 
 \begin{itemize}
   \item Coordinación entre procesos independientes
   \item Sincronización de datos entre componentes heterogéneos
-  \item Debugging de problemas que involucraban múltiples tecnologías (Rust, Python, GNU Radio)
+  \item Debugging de problemas que involucraban múltiples tecnologías (Rust, Python, \gls{gnuradio})
   \item Gestión de dependencias y configuración de entornos de desarrollo
 \end{itemize}
 

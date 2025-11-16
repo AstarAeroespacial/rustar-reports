@@ -8,14 +8,14 @@ Durante la mayor parte del desarrollo, las pruebas de integración se realizaron
 
 \subsubsection{Integración entre aplicación de estación terrena y GNU Radio}
 
-La primera etapa de validación se centró en verificar el correcto funcionamiento de la integración entre la aplicación de la estación terrena y los flujos de procesamiento de señales de GNU Radio. Para ello se utilizaron:
+La primera etapa de validación se centró en verificar el correcto funcionamiento de la integración entre la aplicación de la estación terrena y los flujos de procesamiento de señales de \gls{gnuradio}. Para ello se utilizaron:
 
 \begin{itemize}
     \item \textbf{Archivos de muestras IQ capturadas}: durante las primeras visitas al laboratorio, se generaron grabaciones de señales reales recibidas mediante dispositivos \gls{SDR} utilizando herramientas como GQRX. Estos archivos sirvieron como entrada para simular el flujo de recepción sin necesidad de acceso continuo al hardware.
 
-    \item \textbf{Generadores de señales sintéticas}: se desarrollaron flujos de GNU Radio capaces de generar señales moduladas artificialmente, permitiendo simular pases satelitales completos con características controladas y reproducibles.
+    \item \textbf{Generadores de señales sintéticas}: se desarrollaron flujos de \gls{gnuradio} capaces de generar señales moduladas artificialmente, permitiendo simular pases satelitales completos con características controladas y reproducibles.
 
-    \item \textbf{Flujos bidireccionales}: se validó la comunicación mediante ZeroMQ entre la aplicación de estación terrena y los \textit{flowgraphs} de GNU Radio, tanto para transmisión como para recepción, verificando el correcto intercambio de muestras digitales y bits demodulados.
+    \item \textbf{Flujos bidireccionales}: se validó la comunicación mediante ZeroMQ entre la aplicación de estación terrena y los \textit{flowgraphs} de \gls{gnuradio}, tanto para transmisión como para recepción, verificando el correcto intercambio de muestras digitales y bits demodulados.
 \end{itemize}
 
 Esta fase permitió validar la correcta demodulación de señales y la extracción de frames sin depender de equipamiento físico.
@@ -70,7 +70,7 @@ Con los dispositivos \gls{SDR} disponibles se validó el flujo completo de recep
 \begin{itemize}
     \item \textbf{Configuración de parámetros \gls{SDR}}: verificación de que la aplicación de estación terrena podía configurar correctamente frecuencia, tasa de muestreo y ganancia de los dispositivos mediante SoapySDR.
 
-    \item \textbf{Captura de muestras}: comprobación del flujo continuo de muestras IQ desde el dispositivo hacia los flujos de GNU Radio.
+    \item \textbf{Captura de muestras}: comprobación del flujo continuo de muestras IQ desde el dispositivo hacia los flujos de \gls{gnuradio}.
 
     \item \textbf{Procesamiento de señales reales}: validación de la demodulación de señales transmitidas localmente y capturadas por el receptor.
 
