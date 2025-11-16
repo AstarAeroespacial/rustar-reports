@@ -107,9 +107,9 @@ Existiría una cola de mensajería en el servidor, a la cual la estación terren
 
 Se discutió cómo realizar el manejo de errores y confirmación de recepción de los paquetes de control, pero no se llegó a una conclusión.
 
-Un mensaje importante es la actualización del \gls{tle} a seguir, ya que esto afecta tanto al trackeo (para el módulo de control de la antena) como a la (de)modulación (por la corrección por \hyperref[gls:efectodoppler]{Doppler}).
+Un mensaje importante es la actualización del \gls{tle} a seguir, ya que esto afecta tanto al trackeo (para el módulo de control de la antena) como a la (de)modulación (por la corrección por \gls{efectodoppler}).
 
-\textit{GNU Radio:} Se intentaría hacer andar el flowgraph de GNU Radio que utiliza gr-leo para simular comunicaciones considerando \hyperref[gls:efectodoppler]{Doppler} y ruido ambiente. Se buscaba lograr generar archivos IQ realistas, para utilizar como input para todo el resto del sistema, en forma de testing.
+\textit{GNU Radio:} Se intentaría hacer andar el flowgraph de GNU Radio que utiliza gr-leo para simular comunicaciones considerando \gls{efectodoppler} y ruido ambiente. Se buscaba lograr generar archivos IQ realistas, para utilizar como input para todo el resto del sistema, en forma de testing.
 
 También se intentaría integrar con los bloques de ZMQ para que dichas comunicaciones utilicen como input paquetes generados con un protocolo custom, y no bytes aleatorios.
 

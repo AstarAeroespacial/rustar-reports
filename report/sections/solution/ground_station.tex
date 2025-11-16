@@ -27,7 +27,7 @@ Durante la ejecución de la observación, se obtiene la telemetría transmitida 
 
 \subsubsection{Radio definida por software}
 
-La aplicación de la estación terrena se comunica directamente con el dispositivo \gls{SDR} para configurar los parámetros operativos del enlace, principalmente las frecuencias de transmisión y recepción, el ancho de banda y la tasa de muestreo. Durante la recepción, el \gls{SDR} entrega un flujo continuo de muestras crudas que representan la señal capturada en el dominio digital, las cuales son procesadas por las etapas de demodulación. De forma análoga, en transmisión, la aplicación genera las muestras correspondientes a la señal modulada y las envía al SDR para su conversión y emisión en radiofrecuencia.
+La aplicación de la estación terrena se comunica directamente con el dispositivo \gls{SDR} para configurar los parámetros operativos del enlace, principalmente las frecuencias de transmisión y recepción, el ancho de banda y la tasa de muestreo. Durante la recepción, el \gls{SDR} entrega un flujo continuo de muestras crudas que representan la señal capturada en el dominio digital, las cuales son procesadas por las etapas de demodulación. De forma análoga, en transmisión, la aplicación genera las muestras correspondientes a la señal modulada y las envía al \gls{SDR} para su conversión y emisión en radiofrecuencia.
 
 La comunicación con el \gls{SDR} se realiza a través de una capa de abstracción que define una interfaz común para los distintos dispositivos. Esto permite utilizar diferentes dispositivos \gls{SDR} o fuentes de muestras sin modificar la lógica principal del sistema. Gracias a esta separación, la estación puede adaptarse a diversos entornos de hardware y esquemas de modulación, manteniendo una arquitectura flexible y fácilmente extensible.
 
@@ -61,7 +61,7 @@ Durante la ejecución de una tarea de observación, se utilizan los parámetros 
     \item La corrección de frecuencia por \gls{efectodoppler}, tanto para la transmisión (\textit{uplink}) como para la recepción (\textit{downlink}), compensando el desplazamiento de frecuencia causado por el movimiento relativo entre la estación y el satélite.
 \end{itemize}
 
-Estos valores se actualizan periódicamente durante toda la ventana de observación. Los ángulos calculados se envían al controlador de antena para ejecutar el seguimiento físico del satélite, mientras que las correcciones de frecuencia se aplican al dispositivo SDR para mantener sintonizadas las frecuencias de comunicación a pesar del \gls{efectodoppler}.
+Estos valores se actualizan periódicamente durante toda la ventana de observación. Los ángulos calculados se envían al controlador de antena para ejecutar el seguimiento físico del satélite, mientras que las correcciones de frecuencia se aplican al dispositivo \gls{SDR} para mantener sintonizadas las frecuencias de comunicación a pesar del \gls{efectodoppler}.
 
 La implementación del módulo de seguimiento se describe en detalle en el Anexo~\ref{sec:tracking}.
 

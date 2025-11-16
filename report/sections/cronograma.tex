@@ -73,7 +73,7 @@ Esta fase incluyó:
   \item Estudio de protocolos de comunicación satelital y estándares relevantes.
   \item Aprendizaje de GNU Radio para el procesamiento de señales.
   \item Investigación sobre propagación orbital y el modelo SGP4.
-  \item Experimentación inicial en el LABi con SDR.
+  \item Experimentación inicial en el LABi con \gls{SDR}.
   \item Definición de una arquitectura general inicial del sistema.
 \end{itemize}
 
@@ -89,7 +89,7 @@ La fase de implementación constituyó el núcleo del desarrollo del proyecto y 
 
 El desarrollo comenzó con la implementación de la aplicación principal de la estación terrena (\textit{gs}), que incluye los módulos de:
 \begin{itemize}
-  \item \textbf{Tracking:} cálculo de posición, acimut, elevación y corrección \hyperref[gls:efectodoppler]{Doppler}.
+  \item \textbf{Tracking:} cálculo de posición, acimut, elevación y corrección \gls{efectodoppler}.
   \item \textbf{Modulación y demodulación:} integración con GNU Radio para el procesamiento de señales.
   \item \textbf{Framing y deframing:} parseo de frames y validación de la estructura de los mismos.
   \item \textbf{Comunicación MQTT:} publicación y suscripción a topics para intercambio de datos.
@@ -143,7 +143,7 @@ Se realizaron pruebas de integración para validar la comunicación entre compon
 Una vez validado el funcionamiento del sistema con datos simulados, se procedió a realizar pruebas con hardware real:
 
 \begin{enumerate}
-  \item \textbf{Pruebas con SDR:} recepción de señales reales utilizando dispositivos SDR y validación del procesamiento de señales.
+  \item \textbf{Pruebas con \gls{SDR}:} recepción de señales reales utilizando dispositivos \gls{SDR} y validación del procesamiento de señales.
   \item \textbf{Pruebas con antena:} integración completa con la antena de la estación terrena física y validación del correcto funcionamiento del controlador de la misma.
 \end{enumerate}
 
