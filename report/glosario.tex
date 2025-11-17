@@ -1,8 +1,7 @@
 % Definiciones del glosario, importar al principio (no imprime nada).
 
-%SDR
 \newglossaryentry{softwaredefinedradio}{
-        name={\textit{software-defined radio}},
+        name={software-defined radio},
         description={Sistema que utiliza procesamiento digital para funciones de radiofrecuencia, en lugar del tradicional procesamiento de señales en hardware.}
 }
 
@@ -16,7 +15,6 @@
         description={Ver \gls{softwaredefinedradio}.}
 }
 
-% GNU Radio
 \newglossaryentry{gnuradio}{
     name={GNU Radio},
     description={Conjunto de herramientas de desarrollo de código abierto que proporciona bloques de procesamiento de señales para implementar radios definidas por software.}
@@ -27,9 +25,8 @@
     description={Interfaz gráfica para el desarrollo y ejecución de aplicaciones de \gls{gnuradio}.}
 }
 
-%TLE
 \newglossaryentry{twolineelement}{
-        name={\textit{two-line element set}},
+        name={two-line element set},
         description={Formato estandarizado que describe los elementos orbitales de un objeto en órbita, mediante dos líneas de datos.}
 }
 
@@ -38,19 +35,18 @@
         description={Ver \gls{twolineelement}.}
 }
 
-% TT&C
 \newglossaryentry{ttc}{
         name={TT\&C},
         description={Ver \gls{telemetrytrackingandcontrol}.}
 }
 
 \newglossaryentry{telemetrytrackingandcontrol}{
-        name={\textit{telemetry, tracking and control}},
+        name={telemetry, tracking and control},
         description={Conjunto de funciones que permite monitorear el estado del satélite (telemetría), calcular y predecir su posición (seguimiento) y enviarle comandos (control).}
 }
 
 \newglossaryentry{telemetrytrackingandcommand}{
-        name={\gls{telemetry, tracking and command}},
+        name={telemetry, tracking and command},
         description={Ver \gls{telemetrytrackingandcontrol}}
 }
 
@@ -59,90 +55,76 @@
         description={Ver \gls{telemetrytrackingandcontrol}}
 }
 
-%Cubesat
 \newglossaryentry{cubesat}{
         name={CubeSat},
         description={Estándar de diseño de nanosatélites, compuesto de unidades cúbicas de 10 cm por lado y masa inferior a 1,33 kg. Definido en el estándar ISO 17770:2017.}
 }
 
-%Orbitron
 \newglossaryentry{orbitron}{
         name={Orbitron},
         description={Software de seguimiento satelital disponible para Windows que, a partir de un \gls{tle}, calcula posiciones, acimut/elevación y ventanas de visibilidad.}
 }
 
-%Gpredict
 \newglossaryentry{gpredict}{
         name={Gpredict},
         description={Software libre de seguimiento satelital multiplataforma que permite predecir y visualizar el paso de satélites, calcular parámetros orbitales y controlar rotores de antenas.}
 }
 
-%Satnogs
 \newglossaryentry{satnogs}{
         name={SatNOGS},
         description={Red global de estaciones terrenas de código abierto para comunicaciones satelitales, que permite a operadores aficionados y profesionales compartir infraestructura de seguimiento y recepción.}
 }
 
-%Hamlib
 \newglossaryentry{hamlib}{
         name={Hamlib},
         description={Biblioteca de código abierto que proporciona una interfaz estándar para controlar equipos de radioaficionados, incluyendo transceptores y rotores de antena.}
 }
 
-% GSaaS
 \newglossaryentry{gsaas}{
         name={GSaaS},
         description={Ver \gls{groundstationasaservice}.}
 }
 
 \newglossaryentry{groundstationasaservice}{
-        name={\textit{Ground Station as a Service}},
+        name={Ground Station as a Service},
         description={Modelo de servicio que permite a operadores satelitales acceder a estaciones terrenas distribuidas geográficamente sin necesidad de poseer infraestructura propia, pagando por tiempo de uso.}
 }
 
-% Soapysdr
 \newglossaryentry{soapysdr}{
         name={SoapySDR},
         description={Biblioteca de código abierto que proporciona una API unificada para interactuar con diferentes dispositivos de radio definida por software, permitiendo abstraer las diferencias entre fabricantes.}
 }
 
-% ZeroMQ
 \newglossaryentry{zeromq}{
         name={ZeroMQ},
         description={Biblioteca de mensajería asincrónica de alto rendimiento que proporciona colas de mensajes sin necesidad de un broker dedicado, facilitando la comunicación entre procesos.}
 }
 
-% MQTT
 \newglossaryentry{mqtt}{
         name={MQTT},
         description={Protocolo de mensajería ligero basado en publicación/suscripción, diseñado para comunicaciones de máquina a máquina (M2M) en redes con ancho de banda limitado o conexiones no confiables.}
 }
 
-% HDLC
 \newglossaryentry{HDLC}{
         name={HDLC},
         description={Protocolo de capa de enlace de datos (High-Level Data Link Control) que estructura el flujo de bits en tramas delimitadas, incluyendo mecanismos de detección de errores mediante CRC y transparencia mediante bit stuffing.}
 }
 
-% SGP4
 \newglossaryentry{sgp4}{
         name={SGP4},
         description={Modelo de propagación orbital simplificado (\textit{Simplified General Perturbations 4}) utilizado para calcular la posición y velocidad de objetos en órbita terrestre baja a partir de elementos orbitales \gls{tle}.}
 }
 
-% Skyfield
 \newglossaryentry{skyfield}{
         name={Skyfield},
         description={Biblioteca de Python para cálculos astronómicos de alta precisión, incluyendo propagación orbital, transformaciones de marcos de referencia y correcciones como el efecto \gls{efectodoppler}.}
 }
 
-% Efecto Doppler
 \newglossaryentry{efectodoppler}{
         name={Doppler},
         description={Cambio aparente en la frecuencia de una onda debido al movimiento relativo entre la fuente emisora y el receptor. En comunicaciones satelitales, requiere corrección para compensar el desplazamiento de frecuencia causado por la velocidad orbital.}
 }
 
-% AFSK
 \newglossaryentry{afsk}{
         name={AFSK},
         description={Modulación por desplazamiento de frecuencia de audio (\textit{Audio Frequency Shift Keying}). Técnica de modulación digital donde los datos binarios se representan mediante dos frecuencias de audio distintas, comúnmente utilizada en comunicaciones satelitales de radioaficionados.}
