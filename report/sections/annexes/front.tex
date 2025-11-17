@@ -6,7 +6,7 @@ La aplicación se estructura en dos módulos principales: Satélites y Estacione
 
 Al acceder al módulo de satélites, el usuario visualiza todos los satélites disponibles en el sistema. Esta vista permite identificar rápidamente cada satélite bajo control y acceder a sus funcionalidades específicas de monitoreo y control.
 
-\begin{figure}[H]
+\begin{figure}[h]
   \centering
   \includegraphics[width=0.85\linewidth]{images/sats.png}
   \caption{Vista general del módulo de satélites.}
@@ -19,7 +19,7 @@ El usuario puede visualizar en tiempo real la posición de cualquier satélite s
 
 Una funcionalidad importante es la capacidad de actualizar los parámetros orbitales del satélite. Cuando se obtienen datos \gls{tle} más recientes y precisos, el usuario puede ingresarlos directamente en el sistema, mejorando inmediatamente la exactitud del seguimiento orbital.
 
-\begin{figure}[H]
+\begin{figure}[h]
   \centering
   \includegraphics[width=0.85\linewidth]{images/overview.png}
   \caption{Vista de seguimiento orbital en tiempo real.}
@@ -45,7 +45,7 @@ El centro de comandos proporciona la capacidad de enviar instrucciones al satél
 
 Un historial completo registra todos los comandos enviados, mostrando para cada uno su estado actual: pendiente (en espera de transmisión), enviado (transmitido exitosamente) o fallido (error en la transmisión). Este registro permite rastrear todas las operaciones realizadas y verificar que los comandos fueron enviados al satélite según lo previsto.
 
-\begin{figure}[H]
+\begin{figure}[h]
   \centering
   \includegraphics[width=0.85\linewidth]{images/commands.png}
   \caption{Centro de comandos con historial de comandos enviados.}
@@ -58,7 +58,7 @@ Esta funcionalidad permite visualizar los próximos pases del satélite seleccio
 
 La información se presenta en formato de timeline visual y tabla detallada, indicando para cada pase la estación terrena correspondiente, hora de inicio y fin de visibilidad, duración del pase y elevación máxima alcanzada.
 
-\begin{figure}[H]
+\begin{figure}[h]
   \centering
   \includegraphics[width=0.85\linewidth]{images/sat-passes.png}
   \caption{Interfaz de predicción de pases satelitales.}
@@ -69,7 +69,7 @@ La información se presenta en formato de timeline visual y tabla detallada, ind
 
 El módulo de estaciones terrenas presenta todas las instalaciones disponibles en el sistema, permitiendo acceder rápidamente a la información y funcionalidades de cada estación.
 
-\begin{figure}[H]
+\begin{figure}[h]
   \centering
   \includegraphics[width=0.85\linewidth]{images/gs.png}
   \caption{Vista general del módulo de estaciones terrenas.}
@@ -80,7 +80,7 @@ El módulo de estaciones terrenas presenta todas las instalaciones disponibles e
 
 Al seleccionar una estación terrena, el usuario accede a un mapa centrado en su ubicación exacta. La vista proporciona información precisa de posicionamiento: latitud y longitud con cuatro decimales de precisión, y altitud sobre el nivel del mar expresada en metros.
 
-\begin{figure}[H]
+\begin{figure}[h]
   \centering
   \includegraphics[width=0.85\linewidth]{images/location.png}
   \caption{Vista de ubicación y detalles de una estación terrena.}
@@ -97,7 +97,7 @@ Complementariamente, una tabla detallada lista cada pase con información espec�
 
 Ambas visualizaciones están sincronizadas: cuando el usuario desplaza el cursor sobre un pase en la tabla, el mismo pase se resalta visualmente en el timeline, y viceversa, facilitando la correlación entre la información tabular precisa y la representación temporal gráfica.
 
-\begin{figure}[H]
+\begin{figure}[h]
   \centering
   \includegraphics[width=0.85\linewidth]{images/gs-passes.png}
   \caption{Vista de planificación de pases satelitales desde una estación terrena.}
