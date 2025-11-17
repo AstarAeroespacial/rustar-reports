@@ -18,7 +18,7 @@ SN=[nombre_satélite],AZ=[azimut],EL=[elevación],DN=[downlink_number]
 
 donde \texttt{AZ} y \texttt{EL} representan los ángulos de orientación expresados en grados con precisión decimal, \texttt{SN} identifica el satélite objetivo y \texttt{DN} especifica el número de canal de downlink.
 
-\paragraph{Implementación}
+\subsubsection{Implementación}
 
 La comunicación con el hardware se establece mediante puerto serie, utilizando el crate \texttt{serialport} del ecosistema Rust. Esta biblioteca proporciona una API para:
 \begin{itemize}
