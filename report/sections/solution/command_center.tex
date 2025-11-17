@@ -1,6 +1,6 @@
 \subsubsection{Servidor}
 
-Como parte de la solución, se implementó un servidor con una REST API que funciona como interfaz entre el usuario y las estaciones terrenas. Entre las funciones del servidor se encuentran:
+Como parte de la solución, se implementó una aplicación que funciona como el \textit{backend} del \gls{centrocontrol}. Es un servidor que funciona como intermediario entre los operadores de la misión y las estaciones terrenas. Entre las funciones del servidor se encuentran:
 
 \begin{itemize}
     \item Control remoto de la estación terrena mediante la asignación de tareas de seguimiento.
@@ -8,69 +8,24 @@ Como parte de la solución, se implementó un servidor con una REST API que func
     \item Llevar registro de las distintas estaciones terrenas y trabajos asignados.
 \end{itemize}
 
-\subsubsection{Comunicación con estaciones terrenas}
+El servidor maneja la comunicación con las estaciones terrenas mediante \gls{mqtt}. Se encuentra continuamente escuchando los tópicos de interés, para extraer y obtener los mensajes, que pueden ser telemetría de algún satélite, actualizaciones de estado de las tareas de observación asignadas, o información de estado de las estaciones terrenas. Una vez obtenida la información, se almacena en la base de datos para ser utilizada posteriormente. Cuando el servidor necesita acceder a los datos recogidos, lo hace directamente por medio de la base de datos.
 
-El servidor tiene un hilo de ejecución dedicado a manejar la comunicación con las estaciones terrenas por medio del \textit{broker} \gls{mqtt}. Por medio del \textit{broker} el servidor puede enviarle tareas de observación a las estaciones terrenas, además de recibir información de control y telemetría de las mismas.
+Además, mediante \gls{mqtt} se envían las tareas de observación a las estaciones terrenas correspondientes.
 
-El hilo se encuentra continuamente escuchando eventos \gls{mqtt} del \textit{broker}. Cuando recibe un evento de mensaje publicado, extrae el contenido del mensaje y el tópico al que fue publicado. En el nombre del tópico se encuentra la estación terrena del cual provino el mensaje. Con esta información, el mensaje es almacenado en una base de datos para su uso posterior. Cuando el servidor necesita acceder a los mensajes, lo hace directamente por medio de la base de datos.
+El servidor se encuentra integrado con una base de datos relacional para llevar registro de las entidades relevantes (estaciones terrenas, satélites, jobs, etc.) así como de la información recibida de las distintas misiones. Los detalles de la base de datos se encuentran en Anexo~\ref{sec:database}.
 
-Para el envío de mensajes, el hilo principal del servidor tiene una copia del cliente que puede usar para enviar mensajes a una estación terrena en particular, especificada por medio del tópico. La librería que utilizamos requiere hacer \textit{polling} constante del cliente para enviar mensajes, el hilo receptor se encarga de eso.
-
-El \textit{broker} de \gls{mqtt} está configurado para garantizar la entrega de mensajes por medio de la \textit{calidad de servicio} (QoS). Utilizamos una calidad de servicio de \textit{exactamente una vez} para asegurarnos de que cada mensaje sea entregado sin duplicación a su destinatario. El \textit{broker} también puede ser configurado para manejar la autenticación de las estaciones terrenas y el servidor por TLS.
-
-\subsubsection{REST API}
-
-La API expone los servicios que permiten operar el sistema desde aplicaciones externas. Cada conjunto de endpoints agrupa responsabilidades específicas para administrar satélites, estaciones, telemetría, planificación de pases y trabajos de seguimiento.
-
-\paragraph{Gestión de satélites}
-
-Estos endpoints permiten mantener el catálogo de satélites y sus parámetros orbitales, así como consultar los comandos disponibles para operar cada plataforma.
+El servidor expone una \gls{api} HTTP que permite a servicios externos operar el sistema. Los "servicios" que provee la API se agrupan de la siguiente forma:
 
 \begin{itemize}
-    \item \texttt{GET /api/satellites}: Obtener todos los satélites con sus \gls{tle}.
-    \item \texttt{GET /api/satellites/\{id\}}: Obtener un satélite específico a partir de su identificador.
-    \item \texttt{PUT /api/satellites/\{id\}}: Actualizar el \gls{tle} registrado para un satélite.
-    \item \texttt{GET /api/satellite/\{id\}/commands}: Consultar los comandos disponibles para el satélite indicado.
+    \item Gestión de satélites: para gestionar el catálogo de satélites, junto a sus atributos, comandos disponibles y otros.
+    \item Gestión de estaciones terrenas: para gestionar las estaciones terrenas que proveen servicios a la misión, sus atributos y su estado.
+    \item Telemetría: para consultar la telemetría histórica y en tiempo real de un satélite.
+    \item Seguimiento: para conocer las oportunidades de observación futuras, tanto desde el punto de vista de un satélite como de una estación terrena.
+    \item Tareas de observación: para crear y monitorear tareas de observación.
 \end{itemize}
 
-\paragraph{Gestión de estaciones terrenas}
+Se detallan los endpoints disponibles al momento de la publicación de este documento en Anexo~\ref{sec:api}.
 
-Provee operaciones para registrar estaciones terrenas, consultarlas y asignar el satélite que deben seguir en un momento dado.
+\subsubsection{Interfaz gráfica de usuario}
 
-\begin{itemize}
-    \item \texttt{GET /api/ground-stations}: Obtener todas las estaciones terrenas registradas.
-    \item \texttt{GET /api/ground-stations/\{id\}}: Obtener una estación terrena específica por su identificador.
-    \item \texttt{POST /api/ground-stations}: Crear una nueva estación terrena.
-    \item \texttt{PUT /api/ground-stations/\{id\}/satellite}: Actualizar el satélite que la estación debe seguir.
-\end{itemize}
-
-\paragraph{Telemetría}
-
-La API permite consultar la telemetría decodificada con paginación y administrar el decodificador asociado a cada satélite para ajustar el procesamiento de los paquetes recibidos.
-
-\begin{itemize}
-    \item \texttt{GET /api/satellite/\{id\}/telemetry}: Obtener los paquetes de telemetría decodificados de un satélite (parámetros \texttt{pageSize} y \texttt{pageNumber}).
-    \item \texttt{GET /api/satellite/\{id\}/telemetry/decoder}: Consultar la configuración del decodificador de telemetría del satélite.
-    \item \texttt{PUT /api/satellite/\{id\}/telemetry/decoder}: Actualizar la configuración del decodificador del satélite.
-\end{itemize}
-
-\paragraph{Seguimiento}
-
-Estos recursos utilizan el módulo de Tracking (descrito en detalle en el Anexo~\ref{sec:tracking}) para calcular oportunidades de observación futuras, tanto desde la perspectiva de un satélite como de una estación terrena. A partir de los parámetros orbitales (TLE) y la ubicación de las estaciones, se predicen las ventanas de visibilidad con sus tiempos de adquisición y pérdida de señal, permitiendo filtrar por satélites o estaciones terrenas de interés.
-
-\begin{itemize}
-    \item \texttt{GET /api/satellites/\{id\}/passes}: Obtener los próximos pases del satélite sobre las estaciones terrenas disponibles.
-    \item \texttt{GET /api/ground-stations/\{id\}/passes}: Obtener los próximos satélites que la estación podrá observar.
-    \item \texttt{POST /api/ground-stations/\{id\}/passes}: Calcular los próximos satélites a observar para la estación considerando la lista \texttt{sat\_ids}.
-\end{itemize}
-
-\paragraph{Tareas de observación}
-
-Los endpoints de trabajos encapsulan la creación y seguimiento de tareas de rastreo, incluyendo la programación de comandos que se ejecutarán sobre la estación terrena.
-
-\begin{itemize}
-    \item \texttt{POST /api/jobs}: Crear un nuevo trabajo indicando \texttt{gs\_id}, \texttt{sat\_id} y la lista de comandos.
-    \item \texttt{GET /api/jobs}: Listar todos los trabajos registrados.
-    \item \texttt{GET /api/jobs/\{id\}}: Obtener la información de un trabajo específico.
-    \item \texttt{GET /jobs/\{id\}/status}: Consultar el estado actual del trabajo.
-\end{itemize}
+\input{sections/solution/front}
