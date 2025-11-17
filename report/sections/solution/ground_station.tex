@@ -41,8 +41,6 @@ El procesamiento digital de señales involucrado en la modulación y demodulaci�
 
 La integración con \gls{gnuradio} se realiza ejecutando los flowgraphs definidos en Python como procesos externos. La aplicación inicializa y controla la ejecución de estos procesos, permitiendo elegir de forma dinámica el flujo a utilizar en función del esquema de modulación implementado por la misión. El intercambio de muestras y bits entre la aplicación y el flowgraph se realiza mediante \gls{zeromq}.
 
-Las implementaciones en \gls{gnuradio} utilizadas para las pruebas durante el desarrollo de este trabajo profesional se detallan en Anexo~\ref{sec:afsk1200}.
-
 \subsubsection{Protocolo de enlace}
 
 Una vez que las etapas de modulación y demodulación convierten las señales entre el dominio analógico y digital, es necesario implementar un protocolo de capa de enlace de datos que estructure el flujo de bits en unidades significativas de información. La arquitectura de la aplicación de la estación terrena está diseñada para permitir la integración de distintos protocolos de enlace según los requerimientos de cada misión. Para el presente desarrollo se implementó el protocolo \gls{HDLC} (High-Level Data Link Control), el cual constituye el estándar de facto en comunicaciones satelitales de órbita baja y es ampliamente utilizado en proyectos de \gls{cubesat} y satélites de radioaficionados. Una descripción detallada del protocolo \gls{HDLC}, su estructura de frames y mecanismos de transparencia se encuentra en el anexo correspondiente.
@@ -69,30 +67,12 @@ La implementación del módulo de seguimiento se describe en detalle en el Anexo
 
 \subsubsection{Controlador de antena}
 
-El módulo Antenna Controller constituye la interfaz de bajo nivel entre el sistema de software y el hardware de orientación de la antena. Su función principal es la traducción de parámetros de apuntado calculados por el módulo de Tracking en comandos compatibles con el protocolo del controlador físico de la antena.
+El módulo de controlador de antena constituye la interfaz entre el sistema de software y el hardware físico responsable de la orientación de la antena. Su función es traducir los ángulos de acimut y elevación, calculados por el módulo de seguimiento, en comandos que el controlador físico de la antena pueda ejecutar.
 
-\paragraph{Funcionalidad}
+Durante una ventana de observación, el módulo de seguimiento calcula continuamente la posición del satélite y determina los ángulos necesarios para mantener la antena apuntando hacia él. Estos valores se envían al controlador de antena para su ejecución.
 
-El módulo recibe como entrada los siguientes parámetros de apuntado:
-\begin{itemize}
-    \item Ángulos de azimut y elevación (en grados decimales)
-    \item Identificación del satélite objetivo
-    \item Canal o frecuencia de downlink
-\end{itemize}
+El controlador formatea esta información según el protocolo específico del hardware de la antena y se la envía. El hardware de la antena procesa estos comandos y ajusta la orientación física de la antena en tiempo real, permitiendo mantener el enlace de comunicación durante todo el pase del satélite.
 
-Estos datos son procesados y formateados según el protocolo textual esperado por el controlador de antena. La estructura del comando generado responde al siguiente formato:
+Esta arquitectura modular permite separar la lógica de cálculo de posición orbital de los detalles específicos del hardware de control de antena, facilitando la integración con diferentes sistemas de orientación sin modificar el resto de los componentes del sistema.
 
-\begin{verbatim}
-SN=[nombre_satélite],AZ=[azimut],EL=[elevación],DN=[downlink_number]
-\end{verbatim}
-
-donde \texttt{AZ} y \texttt{EL} representan los ángulos de orientación expresados en grados con precisión decimal, \texttt{SN} identifica el satélite objetivo y \texttt{DN} especifica el número de canal de downlink.
-
-\paragraph{Implementación}
-
-La comunicación con el hardware se establece mediante puerto serie, utilizando el crate \texttt{serialport} del ecosistema Rust. Esta biblioteca proporciona una API para:
-\begin{itemize}
-    \item Apertura y configuración de dispositivos serie
-    \item Establecimiento de parámetros de comunicación (baudrate, bits de datos, paridad, bits de parada)
-    \item Operaciones de lectura y escritura sobre el puerto
-\end{itemize}
+Los detalles se describen en el Anexo~\ref{sec:antenna_controller}.
