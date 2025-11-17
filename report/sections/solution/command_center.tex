@@ -17,7 +17,7 @@ El servidor se encuentra integrado con una base de datos relacional para llevar 
 El servidor expone una API HTTP que permite a servicios externos operar el sistema. Los "servicios" que provee la API se agrupan de la siguiente forma:
 
 \begin{itemize}
-    \item Gestión de satélites: para gestionar el catálogo de satélites, junto a sus atributos, comandos disponibles y otros.
+    \item Gestión de satélites: para gestionar el catálogo de satélites de la misión, junto a sus atributos, comandos disponibles y otros.
     \item Gestión de estaciones terrenas: para gestionar las estaciones terrenas que proveen servicios a la misión, sus atributos y su estado.
     \item Telemetría: para consultar la telemetría histórica y en tiempo real de un satélite.
     \item Seguimiento: para conocer las oportunidades de observación futuras, tanto desde el punto de vista de un satélite como de una estación terrena.
@@ -28,4 +28,12 @@ Se detallan los endpoints disponibles al momento de la publicación de este docu
 
 \subsubsection{Interfaz gráfica de usuario}
 
-\input{sections/solution/front}
+La interfaz gráfica de usuario permite a los operadores de la misión interactuar con el sistema de forma intuitiva y centralizada. A través de esta aplicación, se accede a las funciones expuestas por el servidor, brindando una visión unificada del estado del segmento terreno y del conjunto de satélites operados.
+
+La interfaz ofrece herramientas para visualizar el estado en tiempo real de las estaciones terrenas, monitorear su disponibilidad y funcionamiento, y consultar la telemetría recibida de cada satélite. También permite explorar las oportunidades de observación futuras mediante representaciones gráficas de las órbitas y las ventanas de visibilidad, facilitando la planificación de tareas de seguimiento.
+
+Además, la interfaz posibilita la creación, asignación y supervisión de tareas de observación. Los operadores pueden seleccionar un satélite, elegir la estación terrena deseada y configurar los parámetros de la operación, delegando luego la ejecución en el centro de control y en la estación correspondiente. La aplicación muestra el progreso de cada tarea y las actualizaciones de estado enviadas por las estaciones a través de la cola de mensajería.
+
+En conjunto, la interfaz gráfica constituye el punto de acceso principal para la operación de la misión, integrando los datos procesados por el servidor con herramientas visuales que simplifican la supervisión, la planificación y el control de las actividades del segmento terreno. Su diseño facilita la interacción con un sistema complejo, reduciendo la carga cognitiva de los operadores y permitiendo una operación más eficiente y confiable.
+
+En el Anexo~\ref{sec:front} se detallan las tecnologías utilizadas y el estado actual del desarrollo de la interfaz de usuario.
