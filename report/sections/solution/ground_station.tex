@@ -27,7 +27,7 @@ Durante la ejecución de la observación, se obtiene la telemetría transmitida 
 
 \subsubsection{Radio definida por software}
 
-La aplicación de la estación terrena se comunica directamente con el dispositivo \gls{SDR} para configurar los parámetros operativos del enlace, principalmente las frecuencias de transmisión y recepción, el ancho de banda y la tasa de muestreo. Durante la recepción, el \gls{SDR} entrega un flujo continuo de muestras crudas que representan la señal capturada en el dominio digital, las cuales son procesadas por las etapas de demodulación. De forma análoga, en transmisión, la aplicación genera las muestras correspondientes a la señal modulada y las envía al SDR para su conversión y emisión en radiofrecuencia.
+La aplicación de la estación terrena se comunica directamente con el dispositivo \gls{SDR} para configurar los parámetros operativos del enlace, principalmente las frecuencias de transmisión y recepción, el ancho de banda y la tasa de muestreo. Durante la recepción, el \gls{SDR} entrega un flujo continuo de muestras crudas que representan la señal capturada en el dominio digital, las cuales son procesadas por las etapas de demodulación. De forma análoga, en transmisión, la aplicación genera las muestras correspondientes a la señal modulada y las envía al \gls{SDR} para su conversión y emisión en radiofrecuencia.
 
 La comunicación con el \gls{SDR} se realiza a través de una capa de abstracción que define una interfaz común para los distintos dispositivos. Esto permite utilizar diferentes dispositivos \gls{SDR} o fuentes de muestras sin modificar la lógica principal del sistema. Gracias a esta separación, la estación puede adaptarse a diversos entornos de hardware y esquemas de modulación, manteniendo una arquitectura flexible y fácilmente extensible.
 
@@ -43,7 +43,7 @@ La integración con \gls{gnuradio} se realiza ejecutando los flowgraphs definido
 
 \subsubsection{Protocolo de enlace}
 
-Una vez que las etapas de modulación y demodulación convierten las señales entre el dominio analógico y digital, es necesario implementar un protocolo de capa de enlace de datos que estructure el flujo de bits en unidades significativas de información. La arquitectura de la aplicación de la estación terrena está diseñada para permitir la integración de distintos protocolos de enlace según los requerimientos de cada misión. Para el presente desarrollo se implementó el protocolo \gls{HDLC} (High-Level Data Link Control), el cual constituye el estándar de facto en comunicaciones satelitales de órbita baja y es ampliamente utilizado en proyectos de CubeSats y satélites de radioaficionados. Una descripción detallada del protocolo \gls{HDLC}, su estructura de frames y mecanismos de transparencia se encuentra en el anexo correspondiente.
+Una vez que las etapas de modulación y demodulación convierten las señales entre el dominio analógico y digital, es necesario implementar un protocolo de capa de enlace de datos que estructure el flujo de bits en unidades significativas de información. La arquitectura de la aplicación de la estación terrena está diseñada para permitir la integración de distintos protocolos de enlace según los requerimientos de cada misión. Para el presente desarrollo se implementó el protocolo \gls{HDLC} (High-Level Data Link Control), el cual constituye el estándar de facto en comunicaciones satelitales de órbita baja y es ampliamente utilizado en proyectos de \gls{cubesat} y satélites de radioaficionados. Una descripción detallada del protocolo \gls{HDLC}, su estructura de frames y mecanismos de transparencia se encuentra en el anexo correspondiente.
 
 La implementación del protocolo se organiza en dos componentes principales: el \textit{framer} y el \textit{deframer}. El \textit{framer} es responsable de estructurar los datos para la transmisión, mientras que el \textit{deframer} realiza el proceso inverso en recepción. Durante la transmisión, los datos son encapsulados en frames que incluyen delimitadores de sincronización y campos de verificación de integridad. En recepción, el flujo de bits es analizado para identificar los límites de cada frame, extraer su contenido y validar su correcta recepción antes de entregar los datos a las capas superiores del sistema.
 
@@ -60,39 +60,21 @@ Durante la ejecución de una tarea de observación, se utilizan los parámetros 
 
 \begin{itemize}
     \item Los ángulos de acimut y elevación necesarios para orientar la antena y mantenerla apuntando al satélite.
-    \item La corrección de frecuencia por efecto Doppler, tanto para la transmisión (\textit{uplink}) como para la recepción (\textit{downlink}), compensando el desplazamiento de frecuencia causado por el movimiento relativo entre la estación y el satélite.
+    \item La corrección de frecuencia por efecto \gls{efectodoppler}, tanto para la transmisión (\textit{uplink}) como para la recepción (\textit{downlink}), compensando el desplazamiento de frecuencia causado por el movimiento relativo entre la estación y el satélite.
 \end{itemize}
 
-Estos valores se actualizan periódicamente durante toda la ventana de observación. Los ángulos calculados se envían al controlador de antena para ejecutar el seguimiento físico del satélite, mientras que las correcciones de frecuencia se aplican al dispositivo SDR para mantener sintonizadas las frecuencias de comunicación a pesar del efecto Doppler.
+Estos valores se actualizan periódicamente durante toda la ventana de observación. Los ángulos calculados se envían al controlador de antena para ejecutar el seguimiento físico del satélite, mientras que las correcciones de frecuencia se aplican al dispositivo \gls{SDR} para mantener sintonizadas las frecuencias de comunicación a pesar del efecto \gls{efectodoppler}.
 
 La implementación del módulo de seguimiento se describe en detalle en el Anexo~\ref{sec:tracking}.
 
 \subsubsection{Controlador de antena}
 
-El módulo Antenna Controller constituye la interfaz de bajo nivel entre el sistema de software y el hardware de orientación de la antena. Su función principal es la traducción de parámetros de apuntado calculados por el módulo de Tracking en comandos compatibles con el protocolo del controlador físico de la antena.
+El módulo de controlador de antena constituye la interfaz entre el sistema de software y el hardware físico responsable de la orientación de la antena. Su función es traducir los ángulos de acimut y elevación, calculados por el módulo de seguimiento, en comandos que el controlador físico de la antena pueda ejecutar.
 
-\paragraph{Funcionalidad}
+Durante una ventana de observación, el módulo de seguimiento calcula continuamente la posición del satélite y determina los ángulos necesarios para mantener la antena apuntando hacia él. Estos valores se envían al controlador de antena para su ejecución.
 
-El módulo recibe como entrada los siguientes parámetros de apuntado:
-\begin{itemize}
-    \item Ángulos de azimut y elevación (en grados decimales)
-    \item Identificación del satélite objetivo
-    \item Canal o frecuencia de downlink
-\end{itemize}
+El controlador formatea esta información según el protocolo específico del hardware de la antena y se la envía. El hardware de la antena procesa estos comandos y ajusta la orientación física de la antena en tiempo real, permitiendo mantener el enlace de comunicación durante todo el pase del satélite.
 
-Estos datos son procesados y formateados según el protocolo textual esperado por el controlador de antena. La estructura del comando generado responde al siguiente formato:
+Esta arquitectura modular permite separar la lógica de cálculo de posición orbital de los detalles específicos del hardware de control de antena, facilitando la integración con diferentes sistemas de orientación sin modificar el resto de los componentes del sistema.
 
-\begin{verbatim}
-SN=[nombre_satélite],AZ=[azimut],EL=[elevación],DN=[downlink_number]
-\end{verbatim}
-
-donde \texttt{AZ} y \texttt{EL} representan los ángulos de orientación expresados en grados con precisión decimal, \texttt{SN} identifica el satélite objetivo y \texttt{DN} especifica el número de canal de downlink.
-
-\paragraph{Implementación}
-
-La comunicación con el hardware se establece mediante puerto serie, utilizando el crate \texttt{serialport} del ecosistema Rust. Esta biblioteca proporciona una API para:
-\begin{itemize}
-    \item Apertura y configuración de dispositivos serie
-    \item Establecimiento de parámetros de comunicación (baudrate, bits de datos, paridad, bits de parada)
-    \item Operaciones de lectura y escritura sobre el puerto
-\end{itemize}
+Los detalles se describen en el Anexo~\ref{sec:antenna_controller}.

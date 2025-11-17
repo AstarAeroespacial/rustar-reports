@@ -1,0 +1,12 @@
+\subsection{Despliegue de la aplicación}
+\label{sec:deploy}
+
+Para poder validar el flujo completo de la solución en un entorno lo más cercano posible a la realidad, se desplegaron tanto el servidor central como la aplicación frontend en servidores cloud. Si bien es posible que para la misión final el despliegue se lleve a cabo de otra forma, el setup actual sirvió como experiencia de aprendizaje y como entorno de pruebas.
+
+El servidor central fue desplegado en \textbf{Heroku}, un proveedor cloud que permite desplegar todo tipo de aplicaciones. Nuestra aplicación está desplegada como un \textit{contenedor de docker}, usando las herramientas que provee heroku para este tipo de deployments. Heroku cuenta con soporte para \textit{despliegue continuo} mediante integración con GitHub, y se encuentra configurado para desplegar automáticamente cualquier cambio subido a la rama principal. Heroku también provee soporte para la asignación de variables de entorno para el deploy, lo que nos permite configurar ciertos parámetros sensibles (p. ej. las credenciales de la base de datos) de forma segura. Por último, heroku también permite configurar un dominio propio para la aplicación. El servidor se encuentra hosteado en \url{https://api.rustar.dev/swagger-ui/}.
+
+La aplicación frontend se encuentra desplegada en \textbf{Vercel}, una plataforma para hostear aplicaciones web especialmente diseñada para el stack que decidimos utilizar (T3). Cuenta con las mismas 3 features mencionadas anteriormente de heroku: despliegue continuo, asignación de variables de entorno, y configuración de un dominio propio. La aplicación frontend se encuentra hosteada en \url{https://app.rustar.dev/}.
+
+El dominio \texttt{rustar.dev} fue provisionado por medio del servicio \textbf{Name.com}, que permite adquirir dominios y configurar los registros de DNS necesarios, en nuestro caso, registros del tipo CNAME para que las url de nuestras aplicaciones apunten a las expuestas por Heroku y Vercel respectivamente.
+
+Por último, cabe aclarar que la aplicación de la estación terrena no se encuentra desplegada porque está pensada para correr en conjunto con el hardware del controlador de antena y SDR, y no en un entorno cloud como las otras. En ese sentido, las pruebas que realizamos en entorno local son lo más parecido al ambiente real de la misión que tenemos a nuestra disposición.

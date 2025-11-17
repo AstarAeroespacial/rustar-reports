@@ -98,19 +98,19 @@ Sería una arquitectura cliente-servidor, donde (por ahora) la estación terrena
 
 Se remarcó la necesidad de una arquitectura asincrónica que desacople las tareas de operación (comunicación con el satélite, control de la antena) con las tareas de control y monitoreo.
 
-\textit{Comunicación cliente-servidor:} Se evaluó el uso de colas de mensajería para comunicar el cliente con el servidor. Por ejemplo utilizando ZeroMQ o similares. Se evaluarían alternativas.
+\textit{Comunicación cliente-servidor:} Se evaluó el uso de colas de mensajería para comunicar el cliente con el servidor. Por ejemplo utilizando \gls{zeromq} o similares. Se evaluarían alternativas.
 
 Existiría una cola de mensajería en el servidor, a la cual la estación terrena se suscribe para tomar paquetes de control para el satélite o cambios en la configuración del tracking de la antena.
 
 Se discutió cómo realizar el manejo de errores y confirmación de recepción de los paquetes de control, pero no se llegó a una conclusión.
 
-Un mensaje importante es la actualización del TLE a seguir, ya que esto afecta tanto al trackeo (para el módulo de control de la antena) como a la (de)modulación (por la corrección por Doppler).
+Un mensaje importante es la actualización del \gls{tle} a seguir, ya que esto afecta tanto al trackeo (para el módulo de control de la antena) como a la (de)modulación (por la corrección por efecto \gls{efectodoppler}).
 
-\textit{GNU Radio:} Se intentaría hacer andar el flowgraph de GNU Radio que utiliza gr-leo para simular comunicaciones considerando Doppler y ruido ambiente. Se buscaba lograr generar archivos IQ realistas, para utilizar como input para todo el resto del sistema, en forma de testing.
+\textit{GNU Radio:} Se intentaría hacer andar el flowgraph de GNU Radio que utiliza gr-leo para simular comunicaciones considerando efecto \gls{efectodoppler} y ruido ambiente. Se buscaba lograr generar archivos IQ realistas, para utilizar como input para todo el resto del sistema, en forma de testing.
 
 También se intentaría integrar con los bloques de ZMQ para que dichas comunicaciones utilicen como input paquetes generados con un protocolo custom, y no bytes aleatorios.
 
-\textit{Protocolo de comunicación, (de)framing, (de)modulación:} Se evaluarían librerías open source en Rust para el protocolo AX.25 o HDLC y la etapa de (de)modulación con AFSK. Se utiliza esta combinación de modulación AFSK con framing AX.25 o HDLC por ser la más común en satélites amateur.
+\textit{Protocolo de comunicación, (de)framing, (de)modulación:} Se evaluarían librerías open source en Rust para el protocolo AX.25 o \gls{HDLC} y la etapa de (de)modulación con \gls{afsk}. Se utiliza esta combinación de modulación \gls{afsk} con framing AX.25 o \gls{HDLC} por ser la más común en satélites amateur.
 
 \textbf{Conclusiones:} Se crearon issues de GitHub para avanzar con estas tareas. Se remarcó la necesidad de paralelizar tareas para avanzar de forma más eficiente.
 
@@ -124,14 +124,14 @@ También se intentaría integrar con los bloques de ZMQ para que dichas comunica
 
 \textbf{Temas tratados:}
 
-\textit{Framing:} Se discutió sobre el tema y se dilucidó la dificultad del proceso, que es mayor a la estimada en un principio. La mayor complejidad radica en el manejo del stream de bits que vendrá del demodulador, y la generación de los frames HDLC a partir de esos bits teniendo en cuenta posibles errores en la transmisión.
+\textit{Framing:} Se discutió sobre el tema y se dilucidó la dificultad del proceso, que es mayor a la estimada en un principio. La mayor complejidad radica en el manejo del stream de bits que vendrá del demodulador, y la generación de los frames \gls{HDLC} a partir de esos bits teniendo en cuenta posibles errores en la transmisión.
 
 \textit{Arquitectura general distribuida:} Se plantea para un futuro que puedan haber varias estaciones terrenas controladas desde una aplicación la cual no necesariamente tenga que estar ejecutándose en una computadora que se encuentre en el mismo lugar físico, sino que se comuniquen via internet. Además, se menciona que la aplicación debe tener conocimiento de a que satélite se encuentra apuntando cada estación terrena y no debería permitir que 2 o más estaciones envíen mensajes al mismo satélite al mismo tiempo, aunque falta pensar más y refinar esta parte.
 
 \textbf{Conclusiones:}
 \begin{itemize}
   \item Se deberá implementar un módulo dedicado de framing, de tipo \texttt{lib}.
-  \item Seguir investigando sobre los crates existentes de HDLC y relacionados para determinar su utilidad en el proceso de framing.
+  \item Seguir investigando sobre los crates existentes de \gls{HDLC} y relacionados para determinar su utilidad en el proceso de framing.
   \item Definir ciertos detalles sobre la arquitectura general distribuida.
 \end{itemize}
 
@@ -168,7 +168,7 @@ También se intentaría integrar con los bloques de ZMQ para que dichas comunica
 \textbf{Conclusiones:}
 \begin{itemize}
   \item Implementar checksum (CRC).
-  \item Implementar los otros campos de HDLC (address, control, payload).
+  \item Implementar los otros campos de \gls{HDLC} (address, control, payload).
   \item Preguntar a Filippetti sobre datos de telemetría a mostrar y si le gusta la idea de una app web.
   \item División de tareas:
   \begin{itemize}
@@ -232,7 +232,7 @@ También se intentaría integrar con los bloques de ZMQ para que dichas comunica
 
 \textbf{Temas tratados:}
 
-\textit{Tracking:} Ya está casi terminado, muy parecido a Gpredict.
+\textit{Tracking:} Ya está casi terminado, muy parecido a \gls{gpredict}.
 
 \textit{Modulador / Demodulador:} Desde el binario generado en Rust se va a levantar un proceso Python (conda) que corra GNU Radio en la Raspberry Pi.
 
@@ -240,7 +240,7 @@ También se intentaría integrar con los bloques de ZMQ para que dichas comunica
 \begin{itemize}
   \item PR del framer mergeada.
   \item Falta terminar con algunas cosas del deframer.
-  \item Integrar ambos en un sólo módulo \texttt{hdlc}.
+  \item Integrar ambos en un sólo módulo \texttt{\gls{HDLC}}.
 \end{itemize}
 
 \textit{Diagramas (para la PPT):}
@@ -249,7 +249,7 @@ También se intentaría integrar con los bloques de ZMQ para que dichas comunica
   \item Flujo de datos/información.
   \item Uno de arquitectura de cada aplicación:
   \begin{itemize}
-    \item App embebida: hdlc, tracking, cli.
+    \item App embebida: \gls{HDLC}, tracking, cli.
     \item App web: api, bdd, gui.
   \end{itemize}
 \end{itemize}
@@ -273,14 +273,14 @@ También se intentaría integrar con los bloques de ZMQ para que dichas comunica
 \begin{itemize}
   \item Desarrollo del diagrama de la arquitectura.
   \item Desarrollo de la PPT para el video de la entrega intermedia.
-  \item ZeroMQ vs MQTT.
+  \item \gls{zeromq} vs \gls{mqtt}.
 \end{itemize}
 
 \textbf{Conclusiones:}
 \begin{itemize}
   \item División de las slides a explicar por cada uno.
   \item Cada uno graba su audio, lo manda y después se graba un video uniendo todo con la presentación.
-  \item Utilizar MQTT como message broker.
+  \item Utilizar \gls{mqtt} como message broker.
 \end{itemize}
 
 \vspace{1em}
@@ -293,7 +293,7 @@ También se intentaría integrar con los bloques de ZMQ para que dichas comunica
 
 \textbf{Temas tratados:}
 
-\textit{Diagrama de la arquitectura para entender el uso de MQTT:}
+\textit{Diagrama de la arquitectura para entender el uso de \gls{mqtt}:}
 \begin{itemize}
   \item El centro de comandos se suscribe a un tópico satélite para recibir telemetría, no a una estación terrena específica. Por ejemplo \texttt{sat3/telemetry}.
   \item Por otro lado, el centro de control publicará en tópicos para controlar cada estación terrena. Por ejemplo \texttt{<gs\_id>/track}.
@@ -352,14 +352,14 @@ También se intentaría integrar con los bloques de ZMQ para que dichas comunica
 \begin{itemize}
   \item Uso de Utoipa con Swagger.
   \item Resource paths.
-  \item Conexión con MQTT: usando mosquitto.
+  \item Conexión con \gls{mqtt}: usando mosquitto.
   \item Conexión con BBDD: por ahora SQLite pero se migrará a PostgreSQL.
 \end{itemize}
 
 \textbf{Conclusiones:}
 \begin{itemize}
-  \item Utilizar un archivo de configuración para setear los tópicos MQTT de las estaciones terrenas a los que la app se tiene que suscribir al iniciarse.
-  \item Utilizar un MQTT Messenger (en principio otro servicio dentro de la app).
+  \item Utilizar un archivo de configuración para setear los tópicos \gls{mqtt} de las estaciones terrenas a los que la app se tiene que suscribir al iniciarse.
+  \item Utilizar un \gls{mqtt} Messenger (en principio otro servicio dentro de la app).
 \end{itemize}
 
 \vspace{1em}
@@ -396,7 +396,7 @@ También se intentaría integrar con los bloques de ZMQ para que dichas comunica
   \item Skeleton del main de la ground station.
   \item Funcionamiento del \texttt{stop}.
   \item Mockeos para testear el funcionamiento de la estructura.
-  \item Formato de los datos a transmitir por MQTT.
+  \item Formato de los datos a transmitir por \gls{mqtt}.
 \end{itemize}
 
 \textbf{Conclusiones:}
@@ -435,7 +435,7 @@ También se intentaría integrar con los bloques de ZMQ para que dichas comunica
   \end{itemize}
   \item Frontend (en otro repo):
   \begin{itemize}
-    \item Dashboard de Grafana conectado con sql o mqtt.
+    \item Dashboard de Grafana conectado con sql o \gls{mqtt}.
   \end{itemize}
   \item Informe final.
 \end{itemize}
@@ -450,14 +450,14 @@ También se intentaría integrar con los bloques de ZMQ para que dichas comunica
   \begin{itemize}
     \item Preparar el flowgraph final para la demo.
     \item Subir los flowgraphs actualizados.
-    \item Ver soapysdr y hacer un programa de prueba para el día que vayamos a la facultad.
+    \item Ver \gls{soapysdr} y hacer un programa de prueba para el día que vayamos a la facultad.
     \item Dockerfile para correr el mock satelital, que publique a un puerto.
   \end{itemize}
   \item (Alen) Empezar con el frontend (en un repo aparte).
   \item (Juani)
   \begin{itemize}
     \item Empezar con el informe.
-    \item Crear archivo de configuración (toml) con coordenadas del observer, TLE y ground station id.
+    \item Crear archivo de configuración (toml) con coordenadas del observer, \gls{tle} y ground station id.
   \end{itemize}
   \item Comunicarse con Filippetti y arreglar un día para ir a hacer las pruebas de hardware.
 \end{itemize}
@@ -552,7 +552,7 @@ También se intentaría integrar con los bloques de ZMQ para que dichas comunica
     \item Por ahora dejarlo como para hacer tracking de un solo satélite, una sola estación terrena y una sola misión.
   \end{itemize}
   \item Posibilidad de agregar una nueva aplicación a correr junto con la de la ground station para alivianar sus tareas. Correrían ambas al levantar un docker compose.
-  \item Uso de mqtt o http para comunicación entre centro de control y app de la ground station.
+  \item Uso de \gls{mqtt} o http para comunicación entre centro de control y app de la ground station.
   \begin{itemize}
     \item Necesidad de asegurarse que un job enviado desde el centro de control a la ground station efectivamente llegó y fue scheduleado.
   \end{itemize}
@@ -563,7 +563,7 @@ También se intentaría integrar con los bloques de ZMQ para que dichas comunica
 \begin{itemize}
   \item Eliminar tab `Dashboard'.
   \item En tab `Monitoring' eliminar desplegables `Satellite' y `Ground Station'.
-  \item Agregar en `Tracking' una feature para setear/cambiar el TLE del satélite a trackear.
+  \item Agregar en `Tracking' una feature para setear/cambiar el \gls{tle} del satélite a trackear.
   \item Eliminar pestaña `Settings'.
   \item `Telemetry Control' queda con el esquema de telemetría fijo (no genérico) para la misión satelital de Astar.
   \item Cambiar api para que devuelva la telemetría en binario, pasar el parseo al front.
@@ -629,7 +629,7 @@ También se intentaría integrar con los bloques de ZMQ para que dichas comunica
     \end{itemize}
     \item Server
     \begin{itemize}
-      \item Parte que lee del broker MQTT
+      \item Parte que lee del broker \gls{mqtt}
       \item Endpoints
       \item Diseño de la BBDD
     \end{itemize}
@@ -658,18 +658,18 @@ También se intentaría integrar con los bloques de ZMQ para que dichas comunica
   \item Integrar endpoints de la API en el frontend para que use datos de la BBDD.
   \item Para la sección ``Solución implementada'':
   \begin{itemize}
-    \item Arquitectura general: agregar diagramas. Jobs/observaciones (similar a satnogs), telemetría, telecomandos.
-    \item Estación terrena: descripción general (partes, responsabilidades, scheduler). Tracking, Mod/demod (GNU Radio, AFSK1200), Framing/deframing (HDLC), SDR, antenna controller.
-    \item Broker MQTT: hablar de los QoS.
+    \item Arquitectura general: agregar diagramas. Jobs/observaciones (similar a \gls{satnogs}), telemetría, telecomandos.
+    \item Estación terrena: descripción general (partes, responsabilidades, scheduler). Tracking, Mod/demod (\gls{gnuradio}, \gls{afsk}1200), Framing/deframing (\gls{HDLC}), SDR, antenna controller.
+    \item Broker \gls{mqtt}: hablar de los QoS.
     \item Server: parte que lee del broker, tracking, API/endpoints, base de datos.
     \item Interfaz de usuario.
   \end{itemize}
   \item Agregar apéndice de módulo tracking.
   \item Para la sección ``Desarrollos futuros'': encriptación, comandos más completos, test uplink, más protocolos de framing y demod, serializer/deserializer en la base de datos.
-  \item Para la sección ``Experimentación y validación'': visitas al LABi, pruebas con antena, simulación con GNU Radio.
+  \item Para la sección ``Experimentación y validación'': visitas al LABi, pruebas con antena, simulación con \gls{gnuradio}.
   \item Para la sección ``Metodología'': Github projects (Kanban), weeklys/bi-weeklys, issues/branches/PRs/reviews, iteraciones cada 2 semanas, CI, Agile/scrum.
   \item Para la sección ``Riesgos materializados / lecciones'': integración con antena, documentación de estación terrena.
-  \item Para la sección ``Referencias'': Introduction to satellite ground segment systems engineering, SatNOGS, etc.
+  \item Para la sección ``Referencias'': Introduction to satellite ground segment systems engineering, \gls{satnogs}, etc.
   \item Para la sección ``Cronograma'': diagrama de Gantt con investigación, propuesta, implementación (gs, server, front), entrega intermedia, pruebas de integración (sin/con hardware), entrega final.
   \item Cronograma para el informe: apuntar a tener todo listo para el domingo 9/11, crear PRs en rustar-reports, mandar el informe al tutor el lunes/martes posterior.
 \end{itemize}

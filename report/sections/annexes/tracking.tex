@@ -4,7 +4,7 @@ El módulo de Tracking proporciona las capacidades necesarias para operar la est
 \item Calcular la posición y velocidad del satélite en un instante dado.
 \item Obtener acimut y elevación para orientar la antena y seguir al satélite durante un pase.
 \item Predecir la próxima ventana de visibilidad para una estación y satelite concretos.
-\item Calcular la corrección por \gls{efectodoppler} para ajustar las frecuencias de transmisión y recepción.
+\item Calcular la corrección por efecto \gls{efectodoppler} para ajustar las frecuencias de transmisión y recepción.
 \end{itemize}
 Esta funcionalidad fue implementada como un módulo de \textit{Tracking} que se encarga de las funcionalidades mencionadas.
 
@@ -15,9 +15,9 @@ Dado un \gls{tle} y un instante, el módulo calcula la posición y la velocidad 
 
 El módulo incluye también una función para calcular el próximo \textit{pass}, es decir, la siguiente ventana de visibilidad del satélite respecto a una estación concreta, con los instantes de inicio y fin de comunicación previstos.
 
-Además, se proporciona la corrección por \gls{efectodoppler}, calculada en Hz, que permite ajustar las frecuencias de transmisión y recepción de la estación para compensar el desplazamiento de frecuencia durante la ventana de visibilidad.
+Además, se proporciona la corrección por efecto \gls{efectodoppler}, calculada en Hz, que permite ajustar las frecuencias de transmisión y recepción de la estación para compensar el desplazamiento de frecuencia durante la ventana de visibilidad.
 
-La corrección por \gls{efectodoppler} se calcula con la siguiente aproximación (convención: $\dot{\rho}>0$ si el satélite se aleja):
+La corrección por efecto \gls{efectodoppler} se calcula con la siguiente aproximación (convención: $\dot{\rho}>0$ si el satélite se aleja):
 \[
 	{ \textbf{Downlink (recepción en estación):}\quad }
   f_{\mathrm{rx}} \approx f_{\mathrm{tx,sat}}\!\left(1 - \frac{\dot{\rho}}{c}\right)
@@ -40,11 +40,11 @@ donde:
 \subsubsection{Validación}
 Para poder validar que los cálculos de acimut y elevación eran correctos, comparamos nuestros valores con los que provee \gls{orbitron} e intentamos que la diferencia entre los valores sea mínima.
 
-En cuanto a la corrección por \gls{efectodoppler}, comparamos los resultados de nuestros cálculos con una biblioteca de Python llamada \gls{skyfield}.
+En cuanto a la corrección por efecto \gls{efectodoppler}, comparamos los resultados de nuestros cálculos con una biblioteca de Python llamada \gls{skyfield}.
 
 \begin{figure}[ht]
   \centering
   \includegraphics[width=0.85\linewidth]{images/validacion_doppler.png}
-  \caption{Comparación de la corrección Doppler calculada por el módulo y la referencia (Skyfield).}
+  \caption{Comparación de la corrección \gls{efectodoppler} calculada por el módulo y la referencia (\gls{skyfield}).}
   \label{fig:validacion_doppler}
 \end{figure}

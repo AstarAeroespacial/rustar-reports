@@ -1,0 +1,24 @@
+\subsection{AFSK1200}
+\label{sec:afsk1200}
+
+La solución implementada utiliza \gls{afsk}1200, un esquema de modulación ampliamente empleado en comunicaciones satelitales de baja velocidad, como en protocolos tipo AX.25 o misiones educativas. No se ahondará en detalles teóricos de modulación y demodulación ya que escapa al alcance de este documento.
+
+Los esquemas de modulación y demodulación se implementaron en \gls{grc}, que permite implementar de forma gráfica \textit{flowgraphs} de procesamiento de señales. Luego, se pueden exportar a programas en Python, utilizados por la aplicación de la estación terrena para realizar la modulación y demodulación.
+
+A continuación se muestran los flowgraphs de \gls{grc} utilizados durante el desarrollo de este trabajo.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.95\linewidth]{images/afsk1200_mod.png}
+  \caption{Flowgraph de \gls{grc} para modulación AFSK1200.}
+  \label{fig:afsk1200_mod}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.95\linewidth]{images/afsk1200_demod.png}
+  \caption{Flowgraph de \gls{grc} para demodulación AFSK1200.}
+  \label{fig:afsk1200_demod}
+\end{figure}
+
+Para generar los programas en Python utilizables por la aplicación de la estación terrena, es necesario configurar, en el bloque "Options" la opción "Generate Options" en "No GUI" y deshabilitar los bloques gráficos. Luego utilizar la opción "Generate the flow graph".
